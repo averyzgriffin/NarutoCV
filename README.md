@@ -1,3 +1,5 @@
+![alt text](https://github.com/AveryGriffin/NarutoCV/blob/master/extras/mainscreen.PNG)
+
 Here is a machine learning+Pygame joint project.
 
 The aim is to create a pygame version of the classic Naruto Arena online turn-based strategy game....but with a twist.
