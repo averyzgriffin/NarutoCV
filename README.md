@@ -1,4 +1,4 @@
-Here is a machine learning - Pygame joint project.
+Here is a machine learning+Pygame joint project.
 
 The aim is to create a pygame version of the classic Naruto Arena online turn-based strategy game....but with a twist.
 Instead of just clicking on attacks and characters, you perform the jutsus with your hands! Anyone familiar with the show Naruto, knows
