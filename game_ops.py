@@ -6,6 +6,7 @@ import visual_ops
 import jutsu_signs
 import jutsu_videos
 
+
 sequence = []
 
 
@@ -17,24 +18,18 @@ def apply_damage(health, damage):
     return health
 
 
-def success(selected_jutsu):
+def activate_jutsu(selected_jutsu):
     pygame.mixer_music.stop()
-
-    gb.win.fill(gb.orange)
-    success_cue = visual_ops.VisualCue('SUCCESS!', gb.display_width//2, gb.display_height//2, gb.blue,
-                                       'header', sequence, win=gb.win)
-    success_cue.create_cue()
     jutsu_video = selected_jutsu.get_video_string()
     jutsu_videos.play_video(jutsu_video)
 
 
-def failed():
+def skip_jutsu():
     pygame.mixer_music.stop()
-
     gb.win.fill(gb.black)
-    fail_cue = visual_ops.VisualCue('WRONG JUTSU', (gb.display_width*.5), (gb.display_height*.25), gb.red,
+    fail_jutsu_cue = visual_ops.VisualCue('WRONG JUTSU', (gb.display_width*.5), (gb.display_height*.25), gb.red,
                                     'header', sequence, win=gb.win)
-    fail_cue.create_cue()
+    fail_jutsu_cue.create_cue()
     # jt(failure.video)
 
 
@@ -44,11 +39,10 @@ def reset_game():
     accumulated_predictions = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     accumulated_predictions = np.array([accumulated_predictions], dtype='float64')
     sequence, top_signs, select, selected_jutsu, visual_ops.Jutsu_Icon.jutsu_que = [], [], [], [], []
-    game = True
-    jutsu = False
-    time.sleep(3)
+    game_phase = True
+    jutsu_phase = False
 
-    return sequence, num_frames, count, accumulated_predictions, top_signs, select, selected_jutsu, game, jutsu
+    return sequence, num_frames, count, accumulated_predictions, top_signs, select, selected_jutsu, game_phase, jutsu_phase
 
 
 # ---------------------------------------------------------------

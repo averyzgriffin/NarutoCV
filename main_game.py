@@ -1,4 +1,3 @@
-# import time
 import numpy as np
 import imutils
 import pygame
@@ -18,7 +17,6 @@ from keras import models
 # ------------------------------------------------------------------------------------------------
 
 # Camera Variables
-# bg = None
 calibrate = 30
 WIDTH = 165
 HEIGHT = 235
@@ -28,6 +26,7 @@ aWeight = 0.5
 # Model Prediction Variables
 saved_model = "./VGG16_LR_0.0003_EPOCHS1_1571499473.7668839"
 model = models.load_model(saved_model)
+
 num_frames = 0
 count = 0
 mean_cutoff = 70
@@ -48,18 +47,6 @@ pygame.init()
 
 # Jutsu Sign Variables
 signs = ['bird', 'boar', 'dog', 'dragon', 'hare', 'horse', 'monkey', 'ox', 'ram', 'rat', 'serpent', 'tiger']
-bird = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-boar = [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-dog = [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-dragon = [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0]
-hare = [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
-horse = [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0]
-monkey = [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0]
-ox = [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0]
-ram = [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0]
-rat = [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0]
-serpent = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0]
-tiger = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
 
 
 # ----------------------------------------------------------------------------------------
@@ -246,9 +233,9 @@ if __name__ == "__main__":
             gray = cv2.GaussianBlur(gray, (7, 7), 0)  # blur it
 
             if num_frames < calibrate:  # Calibrate the background for 'calibrate' # of frames (30 frames = 1 seconds)
-                camera_ops.run_avg(gray, aWeight)
+                camera_ops.background_run_avg(gray, aWeight)
             else:  # After a background is obtained, threshold/segment the hand/foreground
-                hand = camera_ops.segment(gray)
+                hand = camera_ops.segment_hand_region(gray)
 
                 if hand is not None:
                     (thresholded, segmented) = hand
@@ -302,7 +289,7 @@ if __name__ == "__main__":
                     # RESET / FINISHED
                     if selected_jutsu.get_sequence() in perm:
                         attacked_character.health = game_ops.apply_damage(active_health, active_damage)
-                        game_ops.success(selected_jutsu)
+                        game_ops.activate_jutsu(selected_jutsu)
 
                         sequence, num_frames, count, accumulated_predictions, top_signs, select, selected_jutsu, \
                         game_phase, jutsu_phase= game_ops.reset_game()
@@ -312,7 +299,7 @@ if __name__ == "__main__":
                         break
 
                     elif len(sequence) >= len(selected_jutsu.get_sequence()) and selected_jutsu.get_sequence() not in perm:
-                        game_ops.failed()
+                        game_ops.skip_jutsu()
 
                         sequence, num_frames, count, accumulated_predictions, top_signs, select, selected_jutsu, \
                         game_phase, jutsu_phase= game_ops.reset_game()
@@ -322,7 +309,7 @@ if __name__ == "__main__":
                         break
 
                     elif keypress == ord("n"):
-                        game_ops.failed()
+                        game_ops.skip_jutsu()
 
                         sequence, num_frames, count, accumulated_predictions, top_signs, select, selected_jutsu, \
                         game_phase, jutsu_phase= game_ops.reset_game()

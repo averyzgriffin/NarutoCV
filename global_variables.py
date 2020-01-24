@@ -1,5 +1,8 @@
 import pygame
 
+
+
+
 display_width = 1550  # 1200
 display_height = 835  # 800
 display_area = display_width * display_height
