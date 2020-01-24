@@ -3,7 +3,7 @@ import numpy as np
 import imutils
 import pygame
 import cv2
-import global_variables as gb
+import global_variables as glob_var
 import game_ops
 from game_ops import Jutsu
 import visual_ops
@@ -65,45 +65,45 @@ tiger = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
 # ----------------------------------------------------------------------------------------
 # GAME OBJECTS INSTANTIATION
 # ----------------------------------------------------------------------------------------
-player1_character1_icon = CharacterIcon('kakashi', 1, 1, win=gb.win)
-player1_character2_icon = CharacterIcon('obito', 1, 2, win=gb.win)
-player1_character3_icon = CharacterIcon('guy', 1, 3, win=gb.win)
-player2_character1_icon = CharacterIcon('crow', 2, 1, win=gb.win)
-player2_character2_icon = CharacterIcon('akamaru', 2, 2, win=gb.win)
-player2_character3_icon = CharacterIcon('naruto', 2, 3, win=gb.win)
+player1_character1_icon = CharacterIcon('kakashi', 1, 1, win=glob_var.win)
+player1_character2_icon = CharacterIcon('obito', 1, 2, win=glob_var.win)
+player1_character3_icon = CharacterIcon('guy', 1, 3, win=glob_var.win)
+player2_character1_icon = CharacterIcon('crow', 2, 1, win=glob_var.win)
+player2_character2_icon = CharacterIcon('akamaru', 2, 2, win=glob_var.win)
+player2_character3_icon = CharacterIcon('naruto', 2, 3, win=glob_var.win)
 
-player1_character1_jutsu1_icon = Jutsu_Icon(icon_name='Kakashi Sharingan', player_num=1, icon_num=1, parent_icon=player1_character1_icon, win=gb.win)
-player1_character1_jutsu2_icon = Jutsu_Icon('Ninja Hounds', 1, 2, player1_character1_icon, win=gb.win)
-player1_character1_jutsu3_icon = Jutsu_Icon('Lightning Blade', 1, 3, player1_character1_icon, win=gb.win)
-player1_character1_jutsu4_icon = Jutsu_Icon('Hiding', 1, 4, player1_character1_icon, win=gb.win)
+player1_character1_jutsu1_icon = Jutsu_Icon(icon_name='Kakashi Sharingan', player_num=1, icon_num=1, parent_icon=player1_character1_icon, win=glob_var.win)
+player1_character1_jutsu2_icon = Jutsu_Icon('Ninja Hounds', 1, 2, player1_character1_icon, win=glob_var.win)
+player1_character1_jutsu3_icon = Jutsu_Icon('Lightning Blade', 1, 3, player1_character1_icon, win=glob_var.win)
+player1_character1_jutsu4_icon = Jutsu_Icon('Hiding', 1, 4, player1_character1_icon, win=glob_var.win)
 
-player1_character2_jutsu1_icon = Jutsu_Icon(icon_name='Tobi Chains', player_num=1, icon_num=1, parent_icon=player1_character2_icon, win=gb.win)
-player1_character2_jutsu2_icon = Jutsu_Icon('Tobi Kamui', 1, 2, player1_character2_icon, win=gb.win)
-player1_character2_jutsu3_icon = Jutsu_Icon('Summoning Nine Tails', 1, 3, player1_character2_icon, win=gb.win)
-player1_character2_jutsu4_icon = Jutsu_Icon('Rin', 1, 4, player1_character2_icon, win=gb.win)
+player1_character2_jutsu1_icon = Jutsu_Icon(icon_name='Tobi Chains', player_num=1, icon_num=1, parent_icon=player1_character2_icon, win=glob_var.win)
+player1_character2_jutsu2_icon = Jutsu_Icon('Tobi Kamui', 1, 2, player1_character2_icon, win=glob_var.win)
+player1_character2_jutsu3_icon = Jutsu_Icon('Summoning Nine Tails', 1, 3, player1_character2_icon, win=glob_var.win)
+player1_character2_jutsu4_icon = Jutsu_Icon('Rin', 1, 4, player1_character2_icon, win=glob_var.win)
 
-player1_character3_jutsu1_icon = Jutsu_Icon(icon_name='Guy Leaf Whirl Wind', player_num=1, icon_num=1, parent_icon=player1_character3_icon, win=gb.win)
-player1_character3_jutsu2_icon = Jutsu_Icon('Counter Punch', 1, 2, player1_character3_icon, win=gb.win)
-player1_character3_jutsu3_icon = Jutsu_Icon('6th Gate of Joy', 1, 3, player1_character3_icon, win=gb.win)
-player1_character3_jutsu4_icon = Jutsu_Icon('Guy Dodge', 1, 4, player1_character3_icon, win=gb.win)
+player1_character3_jutsu1_icon = Jutsu_Icon(icon_name='Guy Leaf Whirl Wind', player_num=1, icon_num=1, parent_icon=player1_character3_icon, win=glob_var.win)
+player1_character3_jutsu2_icon = Jutsu_Icon('Counter Punch', 1, 2, player1_character3_icon, win=glob_var.win)
+player1_character3_jutsu3_icon = Jutsu_Icon('6th Gate of Joy', 1, 3, player1_character3_icon, win=glob_var.win)
+player1_character3_jutsu4_icon = Jutsu_Icon('Guy Dodge', 1, 4, player1_character3_icon, win=glob_var.win)
  
-player2_character1_jutsu1_icon = Jutsu_Icon(icon_name='Rasengan', player_num=2, icon_num=1, parent_icon=player2_character3_icon, win=gb.win)
-player2_character1_jutsu2_icon = Jutsu_Icon('Shadow Clone Jutsu', 2, 2, player2_character3_icon, win=gb.win)
-player2_character1_jutsu3_icon = Jutsu_Icon('Chakra Boost', 2, 3, player2_character3_icon, win=gb.win)
-player2_character1_jutsu4_icon = Jutsu_Icon('Shadow Save', 2, 4, player2_character3_icon, win=gb.win)
+player2_character1_jutsu1_icon = Jutsu_Icon(icon_name='Rasengan', player_num=2, icon_num=1, parent_icon=player2_character3_icon, win=glob_var.win)
+player2_character1_jutsu2_icon = Jutsu_Icon('Shadow Clone Jutsu', 2, 2, player2_character3_icon, win=glob_var.win)
+player2_character1_jutsu3_icon = Jutsu_Icon('Chakra Boost', 2, 3, player2_character3_icon, win=glob_var.win)
+player2_character1_jutsu4_icon = Jutsu_Icon('Shadow Save', 2, 4, player2_character3_icon, win=glob_var.win)
 
-player2_character2_jutsu1_icon = Jutsu_Icon(icon_name='Crow Stab', player_num=2, icon_num=1, parent_icon=player2_character1_icon, win=gb.win)
-player2_character2_jutsu2_icon = Jutsu_Icon('Crow Poison Bomb', 2, 2, player2_character1_icon, win=gb.win)
-player2_character2_jutsu3_icon = Jutsu_Icon('Crow Black Ant', 2, 3, player2_character1_icon, win=gb.win)
-player2_character2_jutsu4_icon = Jutsu_Icon('Crow Substitution', 2, 4, player2_character1_icon, win=gb.win)
+player2_character2_jutsu1_icon = Jutsu_Icon(icon_name='Crow Stab', player_num=2, icon_num=1, parent_icon=player2_character1_icon, win=glob_var.win)
+player2_character2_jutsu2_icon = Jutsu_Icon('Crow Poison Bomb', 2, 2, player2_character1_icon, win=glob_var.win)
+player2_character2_jutsu3_icon = Jutsu_Icon('Crow Black Ant', 2, 3, player2_character1_icon, win=glob_var.win)
+player2_character2_jutsu4_icon = Jutsu_Icon('Crow Substitution', 2, 4, player2_character1_icon, win=glob_var.win)
 
-player2_character3_jutsu1_icon = Jutsu_Icon(icon_name='Fang over Fang', player_num=2, icon_num=1, parent_icon=player2_character2_icon, win=gb.win)
-player2_character3_jutsu2_icon = Jutsu_Icon('Dynamic Marking', 2, 2, player2_character2_icon, win=gb.win)
-player2_character3_jutsu3_icon = Jutsu_Icon('Double Headed Wolf', 2, 3, player2_character2_icon, win=gb.win)
-player2_character3_jutsu4_icon = Jutsu_Icon('Puppy mode', 2, 4, player2_character2_icon, win=gb.win)
+player2_character3_jutsu1_icon = Jutsu_Icon(icon_name='Fang over Fang', player_num=2, icon_num=1, parent_icon=player2_character2_icon, win=glob_var.win)
+player2_character3_jutsu2_icon = Jutsu_Icon('Dynamic Marking', 2, 2, player2_character2_icon, win=glob_var.win)
+player2_character3_jutsu3_icon = Jutsu_Icon('Double Headed Wolf', 2, 3, player2_character2_icon, win=glob_var.win)
+player2_character3_jutsu4_icon = Jutsu_Icon('Puppy mode', 2, 4, player2_character2_icon, win=glob_var.win)
 
 background = pygame.image.load("env_icons/background2.jpg")
-background = pygame.transform.scale(background, (gb.display_width, gb.display_height))
+background = pygame.transform.scale(background, (glob_var.display_width, glob_var.display_height))
 
 pygame.mixer.init()
 pygame.mixer.music.load("Sound/Naruto OST 2 - Afternoon of Konoha.mp3")
@@ -115,12 +115,12 @@ pygame.mixer.music.play(-1)
 # -----------------------------------------
 if __name__ == "__main__":
 
-    game = True
-    jutsu = False
+    game_phase = True
+    jutsu_phase = False
 
     while True:
 
-        while game:
+        while game_phase:
 
             # PyGame Events
             for event in pygame.event.get():
@@ -142,8 +142,8 @@ if __name__ == "__main__":
                         attack = not attack
 
             # Background
-            gb.win.fill(gb.orange)
-            gb.win.blit(background, (0,0))
+            glob_var.win.fill(glob_var.orange)
+            glob_var.win.blit(background, (0,0))
 
             player1_character1_icon.display_image()
             player1_character2_icon.display_image()
@@ -176,22 +176,23 @@ if __name__ == "__main__":
             player2_character3_jutsu1_icon.display_image()
             player2_character3_jutsu2_icon.display_image()
             player2_character3_jutsu3_icon.display_image()
+            player2_character3_jutsu4_icon.display_image()
 
             click = pygame.mouse.get_pressed()
 
             if attack and Jutsu_Icon.jutsu_que != [] and CharacterIcon.attacked_queue != []:  # attack was previously attack_button.is_clicked
-                gb.win.fill((255, 255, 255))
+                glob_var.win.fill((255, 255, 255))
                 select = Jutsu_Icon.jutsu_que
                 selected_jutsu = Jutsu(icon=select, parent_icon=select.parent_icon, attacking_player=player_turn)
                 attacked_character = CharacterIcon.attacked_queue
                 active_health = attacked_character.health
                 active_damage = selected_jutsu.get_damage()
                 # attacked_character.health -= active_damage
-                procedure = visual_ops.prepare(selected_jutsu, gb.win)
-                gb.win.fill(gb.white)
+                procedure = visual_ops.prepare(selected_jutsu, glob_var.win)
+                glob_var.win.fill(glob_var.white)
                 camera = camera_ops.setup_camera()
-                jutsu = True
-                game = False
+                jutsu_phase= True
+                game_phase = False
                 attack = False  # attack_button.is_clicked = False
                 pygame.mixer_music.stop()
                 pygame.mixer_music.load("Sound/Naruto OST 1 - Need To Be Strong.mp3")
@@ -215,7 +216,7 @@ if __name__ == "__main__":
         # COMPUTER VISION & HAND SIGNS SECTION
         # -----------------------------------------------------------------------------------------------------------------
         # -----------------------------------------------------------------------------------------------------------------
-        while jutsu:
+        while jutsu_phase:
 
             procedure.create_cue()
 
@@ -275,26 +276,25 @@ if __name__ == "__main__":
                     # -----------------------------
                     # PYGAME VISUAL CUES FOR USER
                     # -----------------------------
-                    begin = VisualCue("GO!", w=gb.display_width*0.166666, h=gb.display_height*0.125,
-                                      text_color=gb.green, typ='header', seq=sequence, win=gb.win)
-                    begin.create_cue()
+                    begin_attack_visual_cue = VisualCue("GO!", w=glob_var.display_width*0.166666, h=glob_var.display_height*0.125,
+                                      text_color=glob_var.green, typ='header', seq=sequence, win=glob_var.win)
+                    begin_attack_visual_cue.create_cue()
 
-                    move_cue = VisualCue(f'SIGN #{str(len(sequence)+1)}', gb.display_width*0.14583334,
-                                         gb.display_height*0.125, gb.green, 'prompt', sequence, gb.win)
-                    move_cue.create_cue()
+                    current_sign_number_visual_cue = VisualCue(f'SIGN #{str(len(sequence)+1)}', glob_var.display_width*0.14583334,
+                                         glob_var.display_height*0.125, glob_var.green, 'prompt', sequence, glob_var.win)
+                    current_sign_number_visual_cue.create_cue()
 
                     # Visual printing of top signs so far
                     if len(sequence) > 0 and top_signs is not None:
-                        prediction_cue = VisualCue(str(top_signs[0]), gb.display_width*0.06666667,
-                                                   gb.display_height*0.05, gb.green, 'jutsu', sequence, gb.win)
-                        prediction_cue.create_cue()
+                        predicted_sign_visual_cue = VisualCue(str(top_signs[0]), glob_var.display_width*0.06666667,
+                                                   glob_var.display_height*0.05, glob_var.green, 'jutsu', sequence, glob_var.win)
+                        predicted_sign_visual_cue.create_cue()
                         for s in top_signs:
                             try:
                                 if s == selected_jutsu.get_sequence()[len(sequence)-1]:
-                                    print("Thumbs up")
-                                    thumbsup = VisualCue(msg=[], w=[], h=[], text_color=(0, 0, 0), typ='image',
-                                                         seq=sequence, image_str='character_icons/mightguythumbsup.jpg', win=gb.win)
-                                    thumbsup.display_image()
+                                    correct_sign_visual_cue = VisualCue(msg=[], w=[], h=[], text_color=(0, 0, 0), typ='image',
+                                                         seq=sequence, image_str='character_icons/mightguythumbsup.jpg', win=glob_var.win)
+                                    correct_sign_visual_cue.display_image()
                                     pygame.display.update()
                             except Exception as e:
                                 print("exception: ", e)
@@ -305,7 +305,7 @@ if __name__ == "__main__":
                         game_ops.success(selected_jutsu)
 
                         sequence, num_frames, count, accumulated_predictions, top_signs, select, selected_jutsu, \
-                        game, jutsu = game_ops.reset_game()
+                        game_phase, jutsu_phase= game_ops.reset_game()
                         player_turn = not player_turn
                         pygame.mixer.music.load("Sound/Naruto OST 2 - Afternoon of Konoha.mp3")
                         pygame.mixer_music.play()
@@ -315,7 +315,7 @@ if __name__ == "__main__":
                         game_ops.failed()
 
                         sequence, num_frames, count, accumulated_predictions, top_signs, select, selected_jutsu, \
-                        game, jutsu = game_ops.reset_game()
+                        game_phase, jutsu_phase= game_ops.reset_game()
                         player_turn = not player_turn
                         pygame.mixer.music.load("Sound/Naruto OST 2 - Afternoon of Konoha.mp3")
                         pygame.mixer_music.play()
@@ -325,7 +325,7 @@ if __name__ == "__main__":
                         game_ops.failed()
 
                         sequence, num_frames, count, accumulated_predictions, top_signs, select, selected_jutsu, \
-                        game, jutsu = game_ops.reset_game()
+                        game_phase, jutsu_phase= game_ops.reset_game()
                         player_turn = not player_turn
                         break
 

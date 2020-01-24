@@ -5,7 +5,6 @@ import jutsu_signs
 
 
 black = (0,0,0)
-fake_sequence = []
 pygame.init()
 
 
@@ -30,7 +29,7 @@ def text_objects(text, font):
 
 def prepare(jutsu, win):
     procedure = VisualCue(msg=str(jutsu.get_sequence()), w=gb.display_width, h=(gb.display_height*0.0625),
-                          text_color=black, typ=[], seq=fake_sequence, x=0, y=gb.display_height * .75, win=win)
+                          text_color=black, typ=[], seq=[], x=0, y=gb.display_height * .75, win=win)
 
     text_ = "You have selected: " + str(jutsu.icon_name)
     font = pygame.font.Font("freesansbold.ttf", int(9.259259259259259e-05 * gb.display_area * .5))
@@ -192,7 +191,6 @@ class CharacterIcon:
                 img.set_alpha(100)
 
                 if self.click_status():
-                    print(" Mouse over character")
                     CharacterIcon.char_highlighted = True
                     click = pygame.mouse.get_pressed()
                     if click[0] == 1:
@@ -260,7 +258,6 @@ class Jutsu_Icon(CharacterIcon):
 
         if self.click_status():
             Jutsu_Icon.class_clickable = True
-            print(f"Mouse is over Icon {self.icon_name}")
 
             img = img.convert()
             img.set_alpha(100)
