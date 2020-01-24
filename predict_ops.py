@@ -4,14 +4,7 @@ import itertools
 # --------------------------------------------------------------------------------------------------------------
 # MODEL + PREDICTION FUNCTIONS
 # --------------------------------------------------------------------------------------------------------------
-def permutations(current_sequence):
-    seq = current_sequence
-    perm = list(itertools.product(*seq))
-
-    return perm
-
-
-def create_sequence(current_sequence, predictions):
+def get_sequence_of_predictions(current_sequence, predictions):
     seq = current_sequence
     pred = predictions
     seq.append(pred)
@@ -19,7 +12,14 @@ def create_sequence(current_sequence, predictions):
     return seq
 
 
-def top_three(labels, predictions):
+def get_permutations_of_predictions(current_sequence):
+    seq = current_sequence
+    perm = list(itertools.product(*seq))
+
+    return perm
+
+
+def get_top3_sign_predictions(labels, predictions):
     dict_pred = dict(zip(labels, predictions[0]))
     order_dict = {}
     top_signs = []
