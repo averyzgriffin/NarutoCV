@@ -1,8 +1,9 @@
 import cv2
 from ffpyplayer.player import MediaPlayer
-import time
+
 
 folder = "jutsu_videos/"
+
 kakashi = {'name': 'kakashi',
            'Kakashi Sharingan': folder+"Kakashi First Time Using Sharingan.mp4",
            'Ninja Hounds': folder+"",
@@ -40,16 +41,15 @@ naruto = {'name': 'naruto',
           'Shadow Save':        folder+""}
 
 
-chars_vids = [kakashi, obito, guy, crow, akamaru, naruto]
+names_of_characters = [kakashi, obito, guy, crow, akamaru, naruto]
 
 
 def play_video(video):
-    print()
     cap = cv2.VideoCapture(video)
-    player = MediaPlayer(video)
+    video_player = MediaPlayer(video)
 
     while True:
-        audio_frame, val = player.get_frame()
+        audio_frame, val = video_player.get_frame()
         ret, frame = cap.read()
 
         if not ret:
@@ -58,12 +58,8 @@ def play_video(video):
             break
 
         if val != 'eof' and audio_frame is not None:
-            # audio
             img, t = audio_frame
         cv2.imshow('frame',frame)
-
-
-
 
     cap.release()
     cv2.destroyAllWindows()

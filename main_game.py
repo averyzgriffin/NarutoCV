@@ -170,7 +170,7 @@ if __name__ == "__main__":
             if attack and Jutsu_Icon.jutsu_que != [] and CharacterIcon.attacked_queue != []:  # attack was previously attack_button.is_clicked
                 glob_var.win.fill((255, 255, 255))
                 select = Jutsu_Icon.jutsu_que
-                selected_jutsu = Jutsu(icon=select, parent_icon=select.parent_icon, attacking_player=player_turn)
+                selected_jutsu = Jutsu(jutsu_icon=select, parent_character_icon=select.parent_icon, attacking_player=player_turn)
                 attacked_character = CharacterIcon.attacked_queue
                 active_health = attacked_character.health
                 active_damage = selected_jutsu.get_damage()
@@ -255,10 +255,10 @@ if __name__ == "__main__":
                     if count % mean_cutoff == 0:
                         average_prediction = accumulated_predictions / mean_cutoff
                         accumulated_predictions = np.zeros_like(prediction)
-                        ordered, top_signs, percents = predict_ops.top_three(signs, average_prediction)
-                        sequence = predict_ops.create_sequence(sequence, top_signs)
+                        ordered, top_signs, percents = predict_ops.get_top3_sign_predictions(signs, average_prediction)
+                        sequence = predict_ops.get_sequence_of_predictions(sequence, top_signs)
 
-                    perm = predict_ops.permutations(sequence)
+                    perm = predict_ops.get_permutations_of_predictions(sequence)
 
                     # -----------------------------
                     # PYGAME VISUAL CUES FOR USER
@@ -278,7 +278,7 @@ if __name__ == "__main__":
                         predicted_sign_visual_cue.create_cue()
                         for s in top_signs:
                             try:
-                                if s == selected_jutsu.get_sequence()[len(sequence)-1]:
+                                if s == selected_jutsu.get_jutsu_signs()[len(sequence)-1]:
                                     correct_sign_visual_cue = VisualCue(msg=[], w=[], h=[], text_color=(0, 0, 0), typ='image',
                                                          seq=sequence, image_str='character_icons/mightguythumbsup.jpg', win=glob_var.win)
                                     correct_sign_visual_cue.display_image()
@@ -287,7 +287,7 @@ if __name__ == "__main__":
                                 print("exception: ", e)
 
                     # RESET / FINISHED
-                    if selected_jutsu.get_sequence() in perm:
+                    if selected_jutsu.get_jutsu_signs() in perm:
                         attacked_character.health = game_ops.apply_damage(active_health, active_damage)
                         game_ops.activate_jutsu(selected_jutsu)
 
@@ -298,7 +298,7 @@ if __name__ == "__main__":
                         pygame.mixer_music.play()
                         break
 
-                    elif len(sequence) >= len(selected_jutsu.get_sequence()) and selected_jutsu.get_sequence() not in perm:
+                    elif len(sequence) >= len(selected_jutsu.get_jutsu_signs()) and selected_jutsu.get_jutsu_signs() not in perm:
                         game_ops.skip_jutsu()
 
                         sequence, num_frames, count, accumulated_predictions, top_signs, select, selected_jutsu, \

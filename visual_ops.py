@@ -28,10 +28,10 @@ def text_objects(text, font):
 
 
 def prepare(jutsu, win):
-    procedure = VisualCue(msg=str(jutsu.get_sequence()), w=gb.display_width, h=(gb.display_height*0.0625),
+    procedure = VisualCue(msg=str(jutsu.get_jutsu_signs()), w=gb.display_width, h=(gb.display_height*0.0625),
                           text_color=black, typ=[], seq=[], x=0, y=gb.display_height * .75, win=win)
 
-    text_ = "You have selected: " + str(jutsu.icon_name)
+    text_ = "You have selected: " + str(jutsu.jutsu_icon_name)
     font = pygame.font.Font("freesansbold.ttf", int(9.259259259259259e-05 * gb.display_area * .5))
 
     textsurf, textRect = text_objects(text_, font)
@@ -301,7 +301,7 @@ class Jutsu_Icon(CharacterIcon):
         self.win.blit(textsurf2, textRect2)
 
     def get_damage(self):
-        for item in jutsu_signs.chars_signs:
+        for item in jutsu_signs.names_of_characters:
             if list(item.values())[0] == self.parent_icon.icon_name:
                 return item[self.icon_name][1]
         else:

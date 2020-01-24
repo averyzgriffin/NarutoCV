@@ -35,4 +35,4 @@ naruto = {'name': 'naruto',
           'Shadow Save':            [('rat', 'serpent'), 0]}
 
 
-chars_signs = [kakashi, obito, guy, crow, akamaru, naruto]
+names_of_characters = [kakashi, obito, guy, crow, akamaru, naruto]
