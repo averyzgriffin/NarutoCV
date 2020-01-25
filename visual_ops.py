@@ -187,14 +187,18 @@ class CharacterIcon:
         img = self.get_image_from_string()
         return img
 
+    def highlight_image(self, img):
+        img = img.convert()
+        img.set_alpha(100)
+        return img
+
     def display_image(self):
         img = self.img
 
         # Click logic
         if Jutsu_Icon.class_isclicked:
             if CharacterIcon.class_turn and self.player_num == 2 or not CharacterIcon.class_turn and self.player_num == 1:
-                img = img.convert()
-                img.set_alpha(100)
+                img = self.highlight_image(img)
 
                 if self.click_status():
                     CharacterIcon.char_highlighted = True
@@ -204,8 +208,6 @@ class CharacterIcon:
                         CharacterIcon.attacked_queue = self
         # Blit image
         self.win.blit(img, (self.get_x(), self.get_y()))
-
-        # Trigger Display bar function
         self.display_bar()
 
     def check_health(self):
@@ -216,20 +218,19 @@ class CharacterIcon:
         input('death' + str(self.icon_name))
 
     def display_bar(self):
-        x, y = self.get_x(), self.get_y() + self.icon_size[1] + (gb.display_height * 0.00625)
+        bar_x, bar_y = self.get_x(), self.get_y() + self.icon_size[1] + (gb.display_height * 0.00625)
         bar_width = int(self.icon_size[0] * (self.health / 100))
-        bar = pygame.Surface((bar_width, 10), pygame.SRCALPHA)  # per-pixel alpha
-        bar.fill((255, 0, 0, 255))  # notice the alpha value in the color
 
-        msg1 = f"Health:  {self.health}"
+        bar = pygame.Surface((bar_width, 10), pygame.SRCALPHA)
+        bar.fill((255, 0, 0, 255))  # includes the alpha value
+
+        bar_message = f"Health:  {self.health}"
         font = pygame.font.Font("freesansbold.ttf", int(1.8518518518518518e-05 * gb.display_area * .5))
-        textsurf, textRect = create_textObject(msg1, font)
-        textRect.center = (x + (self.icon_size[0] / 2), y + (gb.display_height * 0.0225))  # was 18
+        textsurf, textRect = create_textObject(bar_message, font)
+        textRect.center = (bar_x + (self.icon_size[0] / 2), bar_y + (gb.display_height * 0.0225))
 
-        self.win.blit(bar, (x, y))
+        self.win.blit(bar, (bar_x, bar_y))
         self.win.blit(textsurf, textRect)
-
-
 
 
 class Jutsu_Icon(CharacterIcon):
