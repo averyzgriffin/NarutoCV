@@ -175,7 +175,7 @@ if __name__ == "__main__":
                 active_health = attacked_character.health
                 active_damage = selected_jutsu.get_damage()
                 # attacked_character.health -= active_damage
-                procedure = visual_ops.prepare(selected_jutsu, glob_var.win)
+                procedure = visual_ops.get_jutsu_selected_visual(selected_jutsu, glob_var.win)
                 glob_var.win.fill(glob_var.white)
                 camera = camera_ops.setup_camera()
                 jutsu_phase= True
