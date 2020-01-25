@@ -11,14 +11,14 @@ pygame.init()
 # --------------------------------------------------------------------------------------------------------------
 # Visual FUNCTIONS
 # --------------------------------------------------------------------------------------------------------------
-def text_objects(text, font):
+def create_textObject(text, font):
     textsurface = font.render(text, True, black)
     return textsurface, textsurface.get_rect()
 #
 #
 # def message_display(text, location, size, win):
 #     font_text = pygame.font.Font('freesansbold.ttf', size)
-#     textsurf, textrect = text_objects(text, font_text)
+#     textsurf, textrect = create_textObject(text, font_text)
 #     textrect.center = location
 #     win.blit(textsurf, textrect)
 
@@ -27,21 +27,21 @@ def text_objects(text, font):
 #     message_display(text, location, size, win)
 
 
-def prepare(jutsu, win):
-    procedure = VisualCue(msg=str(jutsu.get_jutsu_signs()), w=gb.display_width, h=(gb.display_height*0.0625),
+def get_jutsu_selected_visual(jutsu, win):
+    visual_cue = VisualCue(msg=str(jutsu.get_jutsu_signs()), w=gb.display_width, h=(gb.display_height*0.0625),
                           text_color=black, typ=[], seq=[], x=0, y=gb.display_height * .75, win=win)
 
     text_ = "You have selected: " + str(jutsu.jutsu_icon_name)
     font = pygame.font.Font("freesansbold.ttf", int(9.259259259259259e-05 * gb.display_area * .5))
 
-    textsurf, textRect = text_objects(text_, font)
+    textsurf, textRect = create_textObject(text_, font)
     textRect.center = (gb.display_width/2, (gb.display_height*.25))
     win.blit(textsurf, textRect)
 
     pygame.display.update()
 
     time.sleep(3)
-    return procedure
+    return visual_cue
 
 
 # ------------------------------------------------------------------------------
@@ -65,7 +65,7 @@ class Button:
         self.win = win
 
     def create_text(self):
-        textsurf, textRect = text_objects(self.msg, self.font)
+        textsurf, textRect = create_textObject(self.msg, self.font)
         textRect.center = ((self.x + (self.w/2)), (self.y + (self.h/2)))
         return textsurf, textRect
 
@@ -109,13 +109,13 @@ class Button:
 
 class CharacterIcon:
 
-    p1_x = gb.display_width * .025  # 30 before
+    p1_x = gb.display_width * .025
     p2_x = gb.display_width * (7/8)
     top_y = gb.display_height / 5
     middle_y = gb.display_height * (2 / 5)
     bottom_y = gb.display_height * (3 / 5)
     folder = 'character_icons/'
-    icon_size = (int(gb.display_width * .1), int(gb.display_height * .15))  # 120,120 before
+    icon_size = (int(gb.display_width * .1), int(gb.display_height * .15))
 
     class_clickable = False
     class_isclicked = False
@@ -131,6 +131,7 @@ class CharacterIcon:
         self.win = win
         self.clickable = False
         self.health = 100
+        self.img = self.resize_image()
 
     def get_x(self):
         if self.player_num == 1:
@@ -165,7 +166,7 @@ class CharacterIcon:
         return img
 
     def resize_image(self):
-        img = self.get_image_from_string()
+        img = self.load_image()
         resized = pygame.transform.scale(img, self.icon_size)
         return resized
 
@@ -178,13 +179,18 @@ class CharacterIcon:
         else: self.clickable = False
         return self.clickable
 
-    def display_image(self):
-        if self.health <= 0:
-            self.die()
-
+    def get_position(self):
         x, y = self.get_x(), self.get_y()
-        img = self.resize_image()
+        return x,y
 
+    def load_image(self):
+        img = self.get_image_from_string()
+        return img
+
+    def display_image(self):
+        img = self.img
+
+        # Click logic
         if Jutsu_Icon.class_isclicked:
             if CharacterIcon.class_turn and self.player_num == 2 or not CharacterIcon.class_turn and self.player_num == 1:
                 img = img.convert()
@@ -196,11 +202,15 @@ class CharacterIcon:
                     if click[0] == 1:
                         print('Character Clicked On')
                         CharacterIcon.attacked_queue = self
+        # Blit image
+        self.win.blit(img, (self.get_x(), self.get_y()))
 
-        self.win.blit(img, (x, y))
+        # Trigger Display bar function
         self.display_bar()
 
-
+    def check_health(self):
+        if self.health <= 0:
+            self.die()
 
     def die(self):
         input('death' + str(self.icon_name))
@@ -213,7 +223,7 @@ class CharacterIcon:
 
         msg1 = f"Health:  {self.health}"
         font = pygame.font.Font("freesansbold.ttf", int(1.8518518518518518e-05 * gb.display_area * .5))
-        textsurf, textRect = text_objects(msg1, font)
+        textsurf, textRect = create_textObject(msg1, font)
         textRect.center = (x + (self.icon_size[0] / 2), y + (gb.display_height * 0.0225))  # was 18
 
         self.win.blit(bar, (x, y))
@@ -222,13 +232,10 @@ class CharacterIcon:
 
 
 
-
-
-
 class Jutsu_Icon(CharacterIcon):
 
-    icon_size = (int(gb.display_width * 0.06666666666666667), int(gb.display_height * 0.1))  # was 80,80
-    x_offset = gb.display_width // 12
+    icon_size = (int(gb.display_width * 0.06666666666666667), int(gb.display_height * 0.1))
+    xOffset_from_character_icon = gb.display_width // 12
     jutsu_que = []
     folder = 'jutsu_icons/'
 
@@ -236,13 +243,14 @@ class Jutsu_Icon(CharacterIcon):
         super().__init__(icon_name, player_num, icon_num, win)
         self.parent_icon = parent_icon
 
+
     def get_x(self):
         x_p = self.parent_icon.get_x()
         if self.player_num == 1:
             x_p += (gb.display_width * .025)  # was 30
-            x = x_p + (self.x_offset * self.icon_num)
+            x = x_p + (self.xOffset_from_character_icon * self.icon_num)
         elif self.player_num == 2:
-            x = x_p - (self.x_offset * self.icon_num)  # mirror effect
+            x = x_p - (self.xOffset_from_character_icon * self.icon_num)  # mirror effect
         else:
             return "invalid player number provided to jutsu_get_x"
         return x
@@ -292,8 +300,8 @@ class Jutsu_Icon(CharacterIcon):
         font = pygame.font.Font("freesansbold.ttf", int(2.2222222222222223e-05 * gb.display_area * .5))
         x, y = (self.get_x() + self.icon_size[0] / 2, self.get_y() + self.icon_size[1] + (gb.display_height * 0.0125))
 
-        textsurf, textRect = text_objects(msg1, font)
-        textsurf2, textRect2 = text_objects(msg2, font)
+        textsurf, textRect = create_textObject(msg1, font)
+        textsurf2, textRect2 = create_textObject(msg2, font)
         textRect.center = (x,y)
         textRect2.center = (x, y + (gb.display_height * 0.01875))
 
@@ -343,22 +351,22 @@ class VisualCue:
         if self.typ == 'header':
             self.x = gb.display_width // 2 - (self.w // 2)
         elif self.typ == 'prompt':
-            self.x = gb.display_width * ((len(self.seq) + 1) / 6) - (gb.display_width * 0.125)  # 150
+            self.x = gb.display_width * ((len(self.seq) + 1) / 6) - (gb.display_width * 0.125)
         elif self.typ == 'jutsu':
-            self.x = gb.display_width * (len(self.seq) / 6) - (gb.display_width * 0.083333333333)  # 100
+            self.x = gb.display_width * (len(self.seq) / 6) - (gb.display_width * 0.083333333333)
         elif self.typ == 'image':
-            self.x = gb.display_width * (len(self.seq) / 6) - (gb.display_width * 0.1)  # 120)
+            self.x = gb.display_width * (len(self.seq) / 6) - (gb.display_width * 0.1)
         return self.x
 
     def get_y(self):
         if self.typ == 'header':
-            self.y = (gb.display_height * 0.025)  # 20
+            self.y = (gb.display_height * 0.025)
         elif self.typ == 'prompt':
-            self.y = (gb.display_height * 0.1625)  # 130
+            self.y = (gb.display_height * 0.1625)
         elif self.typ == 'jutsu':
-            self.y = (gb.display_height * 0.3)  # 240
+            self.y = (gb.display_height * 0.3)
         elif self.typ == 'image':
-            self.y = (gb.display_height * 0.3625)  # 290
+            self.y = (gb.display_height * 0.3625)
         return self.y
 
     def text_objects(self):

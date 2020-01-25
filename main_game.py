@@ -289,6 +289,7 @@ if __name__ == "__main__":
                     # RESET / FINISHED
                     if selected_jutsu.get_jutsu_signs() in perm:
                         attacked_character.health = game_ops.apply_damage(active_health, active_damage)
+                        attacked_character.check_health()
                         game_ops.activate_jutsu(selected_jutsu)
 
                         sequence, num_frames, count, accumulated_predictions, top_signs, select, selected_jutsu, \
