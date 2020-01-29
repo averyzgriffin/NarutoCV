@@ -137,33 +137,41 @@ if __name__ == "__main__":
             player2_character3_jutsu4_icon.display_image()
 
             # If using a button instead of keypress for attack, use attack_button.is_clicked instead of just "attack"
-            if attack and Jutsu_Icon.queued_for_attack is not None and CharacterIcon.queued_to_be_attack is not None:
-                glob_var.win.fill((255, 255, 255))
-                select = Jutsu_Icon.queued_for_attack
-                selected_jutsu = Jutsu(jutsu_icon=select, parent_character_icon=select.parent_icon, attacking_player=player_turn)
-                attacked_character = CharacterIcon.queued_to_be_attack
-                active_health = attacked_character.health
-                active_damage = selected_jutsu.get_damage()
-                # attacked_character.health -= active_damage
-                procedure = visual_ops.get_jutsu_selected_visual(selected_jutsu, glob_var.win)
-                glob_var.win.fill(glob_var.white)
-                camera = camera_ops.setup_camera()
-                jutsu_phase= True
-                game_phase = False
-                attack = False  # attack_button.is_clicked = False
-                pygame.mixer_music.stop()
-                pygame.mixer_music.load("Sound/Naruto OST 1 - Need To Be Strong.mp3")
-                pygame.mixer_music.play(-1)
+            if attack:
+                if Jutsu_Icon.queued_for_attack is not None and CharacterIcon.queued_to_be_attack is not None:
+                    glob_var.win.fill((255, 255, 255))
+
+                    select = Jutsu_Icon.queued_for_attack
+                    selected_jutsu = Jutsu(jutsu_icon=select, parent_character_icon=select.parent_icon)
+                    active_damage = selected_jutsu.get_damage()
+
+                    attacked_character = CharacterIcon.queued_to_be_attack
+                    active_health = attacked_character.health
+                    # attacked_character.health -= active_damage
+
+                    procedure = visual_ops.get_jutsu_selected_visual(selected_jutsu, glob_var.win)
+                    glob_var.win.fill(glob_var.white)
+
+                    camera = camera_ops.setup_camera()
+
+                    jutsu_phase= True
+                    game_phase = False
+                    attack = False  # attack_button.is_clicked = False
+
+                    pygame.mixer_music.stop()
+                    pygame.mixer_music.load("Sound/Naruto OST 1 - Need To Be Strong.mp3")
+                    pygame.mixer_music.play(-1)
+
+            print(Jutsu_Icon.queued_for_attack)
 
             # ----------------------------------------------------
             # Final Update
             pygame.display.update()
 
-            # Reset buttons - these all need to happen at the very end as so to reset them every loop. Now, if
+            # Reset in-game variables - these all need to happen at the very end as so to reset them every loop. Now, if
             # we can figure out a way to not need to do it every loop, perhaps we can speed things up.
             # attack_button.is_clicked = False
             Button.class_clickable = False
-
             Jutsu_Icon.class_clickable = False
             CharacterIcon.char_highlighted = False
 
