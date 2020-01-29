@@ -45,12 +45,8 @@ def reset_game():
 # ---------------------------------------------------------------
 class Jutsu:
 
-    def __init__(self, jutsu_icon, parent_character_icon, attacking_player):
-        self.jutsu_icon = jutsu_icon
-        self.parent_character_icon = parent_character_icon
-        
-        self.attacking_player = attacking_player
-        
+    def __init__(self, jutsu_icon, parent_character_icon):
+
         self.jutsu_icon_name = jutsu_icon.icon_name
         self.parent_character_icon_name = parent_character_icon.icon_name
 
