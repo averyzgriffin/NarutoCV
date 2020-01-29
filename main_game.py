@@ -136,12 +136,12 @@ if __name__ == "__main__":
             player2_character3_jutsu3_icon.display_image()
             player2_character3_jutsu4_icon.display_image()
 
-            click = pygame.mouse.get_pressed()
-            if attack and Jutsu_Icon.jutsu_que != [] and CharacterIcon.attacked_queue != []:  # attack was previously attack_button.is_clicked
+            # If using a button instead of keypress for attack, use attack_button.is_clicked instead of just "attack"
+            if attack and Jutsu_Icon.queued_for_attack is not None and CharacterIcon.queued_to_be_attack is not None:
                 glob_var.win.fill((255, 255, 255))
-                select = Jutsu_Icon.jutsu_que
+                select = Jutsu_Icon.queued_for_attack
                 selected_jutsu = Jutsu(jutsu_icon=select, parent_character_icon=select.parent_icon, attacking_player=player_turn)
-                attacked_character = CharacterIcon.attacked_queue
+                attacked_character = CharacterIcon.queued_to_be_attack
                 active_health = attacked_character.health
                 active_damage = selected_jutsu.get_damage()
                 # attacked_character.health -= active_damage
@@ -159,8 +159,8 @@ if __name__ == "__main__":
             # Final Update
             pygame.display.update()
 
-            # Reset buttons
-            # test_button.is_clicked = False
+            # Reset buttons - these all need to happen at the very end as so to reset them every loop. Now, if
+            # we can figure out a way to not need to do it every loop, perhaps we can speed things up.
             # attack_button.is_clicked = False
             Button.class_clickable = False
 

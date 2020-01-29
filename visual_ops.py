@@ -121,7 +121,7 @@ class CharacterIcon:
     class_isclicked = False
 
     char_highlighted = False
-    attacked_queue = []
+    queued_to_be_attack = None
     class_turn = True
 
     def __init__(self, icon_name, player_num, icon_num, win):
@@ -205,7 +205,7 @@ class CharacterIcon:
                     click = pygame.mouse.get_pressed()
                     if click[0] == 1:
                         print('Character Clicked On')
-                        CharacterIcon.attacked_queue = self
+                        CharacterIcon.queued_to_be_attack = self
         # Blit image
         self.win.blit(img, (self.get_x(), self.get_y()))
         self.display_bar()
@@ -237,7 +237,7 @@ class Jutsu_Icon(CharacterIcon):
 
     icon_size = (int(gb.display_width * 0.06666666666666667), int(gb.display_height * 0.1))
     xOffset_from_character_icon = gb.display_width // 12
-    jutsu_que = []
+    queued_for_attack = None
     folder = 'jutsu_icons/'
 
     def __init__(self, icon_name, player_num, icon_num, parent_icon, win):
@@ -276,7 +276,7 @@ class Jutsu_Icon(CharacterIcon):
                 Jutsu_Icon.class_isclicked = True
 
                 # queue up jutsu
-                Jutsu_Icon.jutsu_que = self
+                Jutsu_Icon.queued_for_attack = self
                 print('jutsu icon clicked')
 
         if not Jutsu_Icon.class_clickable:
@@ -290,7 +290,7 @@ class Jutsu_Icon(CharacterIcon):
                 if click[0] == 1:
                     print("CLICKED AWAY")
                     Jutsu_Icon.class_isclicked = False
-                    Jutsu_Icon.jutsu_que = []
+                    Jutsu_Icon.queued_for_attack = None
 
         self.win.blit(img, (x, y))
         self.display_name()
