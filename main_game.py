@@ -2,7 +2,6 @@ import numpy as np
 import imutils
 import pygame
 import cv2
-import global_variables as glob_var
 import game_ops
 from game_ops import Jutsu
 import visual_ops
@@ -10,44 +9,16 @@ from visual_ops import CharacterIcon, Button, VisualCue, Jutsu_Icon
 import predict_ops
 import camera_ops
 from keras import models
+from model import saved_model
+import global_variables as glob_var
+from global_variables import calibrate, WIDTH, HEIGHT, top, right, bottom, left, aWeight,\
+    num_frames, count,mean_cutoff, accumulated_predictions, top_signs, sequence, signs,\
+    player_turn, attack, active_health, active_damage
 
 
-# ------------------------------------------------------------------------------------------------
-# GLOBAL VARIABLES
-# ------------------------------------------------------------------------------------------------
-
-# Camera Variables
-calibrate = 30
-WIDTH = 165
-HEIGHT = 235
-top, right, bottom, left = 195, 255, 430, 420  # far away
-aWeight = 0.5
-
-# Model Prediction Variables
-saved_model = "./VGG16_LR_0.0003_EPOCHS1_1571499473.7668839"
 model = models.load_model(saved_model)
 
-num_frames = 0
-count = 0
-mean_cutoff = 70
-accumulated_predictions = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-accumulated_predictions = np.array([accumulated_predictions], dtype='float64')
-top_signs = []
-sequence = []
-
-# PyGame Variables
-player_turn = True
-clicked_away = False
-attack = False
-active_health = 0
-active_damage = 0
-
 pygame.init()
-
-
-# Jutsu Sign Variables
-signs = ['bird', 'boar', 'dog', 'dragon', 'hare', 'horse', 'monkey', 'ox', 'ram', 'rat', 'serpent', 'tiger']
-
 
 # ----------------------------------------------------------------------------------------
 # GAME OBJECTS INSTANTIATION
@@ -166,7 +137,6 @@ if __name__ == "__main__":
             player2_character3_jutsu4_icon.display_image()
 
             click = pygame.mouse.get_pressed()
-
             if attack and Jutsu_Icon.jutsu_que != [] and CharacterIcon.attacked_queue != []:  # attack was previously attack_button.is_clicked
                 glob_var.win.fill((255, 255, 255))
                 select = Jutsu_Icon.jutsu_que
@@ -293,7 +263,7 @@ if __name__ == "__main__":
                         game_ops.activate_jutsu(selected_jutsu)
 
                         sequence, num_frames, count, accumulated_predictions, top_signs, select, selected_jutsu, \
-                        game_phase, jutsu_phase= game_ops.reset_game()
+                        game_phase, jutsu_phase = game_ops.reset_game()
                         player_turn = not player_turn
                         pygame.mixer.music.load("Sound/Naruto OST 2 - Afternoon of Konoha.mp3")
                         pygame.mixer_music.play()
@@ -303,7 +273,7 @@ if __name__ == "__main__":
                         game_ops.skip_jutsu()
 
                         sequence, num_frames, count, accumulated_predictions, top_signs, select, selected_jutsu, \
-                        game_phase, jutsu_phase= game_ops.reset_game()
+                        game_phase, jutsu_phase = game_ops.reset_game()
                         player_turn = not player_turn
                         pygame.mixer.music.load("Sound/Naruto OST 2 - Afternoon of Konoha.mp3")
                         pygame.mixer_music.play()
@@ -313,7 +283,7 @@ if __name__ == "__main__":
                         game_ops.skip_jutsu()
 
                         sequence, num_frames, count, accumulated_predictions, top_signs, select, selected_jutsu, \
-                        game_phase, jutsu_phase= game_ops.reset_game()
+                        game_phase, jutsu_phase = game_ops.reset_game()
                         player_turn = not player_turn
                         break
 
