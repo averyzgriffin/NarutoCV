@@ -130,13 +130,18 @@ class CharacterIcon:
         self.img = self.resize_image()  # I have no idea how this is being called
         self.health = 100
 
+        self.x = self.get_x()
+        self.y = self.get_y()
+
+        self.bar, self.bar_x, self.bar_y, self.textsurf, self.textRect = self.create_bar()
+
     def get_x(self):
         if self.player_num == 1:
             x_location = glob_var.display_width * .025
         elif self.player_num == 2:
             x_location = glob_var.display_width * (7/8)
         else:
-            return "invalid PLAYER number provided to Class Icon get_x method"
+            return "invalid PLAYER number provided to Class Icon get x method"
         return x_location
 
     def get_y(self):
@@ -150,9 +155,6 @@ class CharacterIcon:
             return "invalid ICON number provided to Class Icon get_y method"
         return y_location
 
-    def get_position(self):
-        x, y = self.get_x(), self.get_y()
-        return x,y
 
     def get_image_from_string(self):
         try:
@@ -177,27 +179,29 @@ class CharacterIcon:
 
     def click_status(self):  # This can be cleaned up
         mouse = pygame.mouse.get_pos()
-        x, y = self.get_x(), self.get_y()
         size = self.icon_size[0]
-        if (x + size) > mouse[0] > x and (y + size) > mouse[1] > y:
+        if (self.x + size) > mouse[0] > self.x and (self.y + size) > mouse[1] > self.y:
             return True
         else:
             return False
 
-    def display_bar(self):
-        bar_x, bar_y = self.get_x(), self.get_y() + self.icon_size[1] + (glob_var.display_height * 0.00625)
-        bar_width = int(self.icon_size[0] * (self.health / 100))
+    def create_bar(self):
+        bar_x, bar_y = self.x, self.y + self.icon_size[1] + (glob_var.display_height * 0.00625)
+        bar_width = int(self.icon_size[0] * (self.health / 100)) #TODO
 
-        bar = pygame.Surface((bar_width, 10), pygame.SRCALPHA)
-        bar.fill((255, 0, 0, 255))  # includes the alpha value
+        bar = pygame.Surface((bar_width, 10), pygame.SRCALPHA) #TODO
+        bar.fill((255, 0, 0, 255))
 
-        bar_message = f"Health:  {self.health}"
+        bar_message = f"Health:  {self.health}"  #TODO
         font = pygame.font.Font("freesansbold.ttf", int(1.8518518518518518e-05 * glob_var.display_area * .5))
-        textsurf, textRect = create_textObject(bar_message, font)
-        textRect.center = (bar_x + (self.icon_size[0] / 2), bar_y + (glob_var.display_height * 0.0225))
+        textsurf, textRect = create_textObject(bar_message, font)  #TODO
+        textRect.center = (bar_x + (self.icon_size[0] / 2), bar_y + (glob_var.display_height * 0.0225))  #TODO
 
-        glob_var.win.blit(bar, (bar_x, bar_y))
-        glob_var.win.blit(textsurf, textRect)
+        return bar, bar_x, bar_y, textsurf, textRect
+
+    def display_bar(self):
+        glob_var.win.blit(self.bar, (self.bar_x, self.bar_y))
+        glob_var.win.blit(self.textsurf, self.textRect)
 
     def display_image(self):
         if Jutsu_Icon.class_isclicked:
@@ -210,8 +214,10 @@ class CharacterIcon:
                     if click[0] == 1:
                         CharacterIcon.queued_to_be_attacked = self
 
-        glob_var.win.blit(self.img, (self.get_x(), self.get_y()))
+        glob_var.win.blit(self.img, (self.x, self.y))
         self.display_bar()
+
+
 
     def check_health(self):
         if self.health <= 0:
@@ -233,18 +239,21 @@ class Jutsu_Icon(CharacterIcon):
     queued_for_attack = None
 
     def __init__(self, icon_name, player_num, icon_num, parent_icon):
-        super().__init__(icon_name, player_num, icon_num)
         self.parent_icon = parent_icon
+        super().__init__(icon_name, player_num, icon_num)
+
+        self.x = self.get_x()
+        self.y = self.get_y()
 
     def get_x(self):
-        x_p = self.parent_icon.get_x()
+        x_p = self.parent_icon.x
         if self.player_num == 1:
             x_p += (glob_var.display_width * .025)  # was 30
             x = x_p + (self.offset_from_character_icon * self.icon_num)
         elif self.player_num == 2:
             x = x_p - (self.offset_from_character_icon * self.icon_num)  # mirror effect
         else:
-            return "invalid player number provided to jutsu_get_x"
+            return "invalid player number provided to jutsu get x"
         return x
 
     def get_y(self):
@@ -256,7 +265,7 @@ class Jutsu_Icon(CharacterIcon):
         msg1 = self.icon_name
         msg2 = f"Damage: {self.get_damage()}"
         font = pygame.font.Font("freesansbold.ttf", int(2.2222222222222223e-05 * glob_var.display_area * .5))
-        x, y = (self.get_x() + self.icon_size[0] / 2, self.get_y() + self.icon_size[1] + (glob_var.display_height * 0.0125))
+        x, y = (self.x + self.icon_size[0] / 2, self.y + self.icon_size[1] + (glob_var.display_height * 0.0125))
 
         textsurf, textRect = create_textObject(msg1, font)
         textsurf2, textRect2 = create_textObject(msg2, font)
@@ -274,7 +283,6 @@ class Jutsu_Icon(CharacterIcon):
             return "Character not found in chars list from damage signs"
 
     def display_image(self):
-        x, y = self.get_x(), self.get_y()
 
         if self.click_status():
             Jutsu_Icon.class_clickable = True
@@ -296,7 +304,7 @@ class Jutsu_Icon(CharacterIcon):
                     Jutsu_Icon.class_isclicked = False
                     print("CLICKED AWAY")
 
-        glob_var.win.blit(self.img, (x, y))
+        glob_var.win.blit(self.img, (self.x, self.y))
         self.display_name()
 
 
@@ -362,7 +370,7 @@ class VisualCue:
 
     def create_text(self):
         if self.x is None:
-            self.x = self.get_x()
+            self.x = self.x
         if self.y is None:
             self.y = self.get_y()
         textsurf, textRect = self.text_objects()
