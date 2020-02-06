@@ -217,8 +217,6 @@ class CharacterIcon:
         glob_var.win.blit(self.img, (self.x, self.y))
         self.display_bar()
 
-
-
     def check_health(self):
         if self.health <= 0:
             self.die()
@@ -245,6 +243,9 @@ class Jutsu_Icon(CharacterIcon):
         self.x = self.get_x()
         self.y = self.get_y()
 
+        self.textsurf, self.textRect, self.textsurf2, self.textRect2 = self.create_name()
+
+
     def get_x(self):
         x_p = self.parent_icon.x
         if self.player_num == 1:
@@ -261,7 +262,7 @@ class Jutsu_Icon(CharacterIcon):
         y = y_p + (glob_var.display_height * 0.025)
         return y
 
-    def display_name(self):
+    def create_name(self):
         msg1 = self.icon_name
         msg2 = f"Damage: {self.get_damage()}"
         font = pygame.font.Font("freesansbold.ttf", int(2.2222222222222223e-05 * glob_var.display_area * .5))
@@ -272,8 +273,11 @@ class Jutsu_Icon(CharacterIcon):
         textRect.center = (x,y)
         textRect2.center = (x, y + (glob_var.display_height * 0.01875))
 
-        glob_var.win.blit(textsurf, textRect)
-        glob_var.win.blit(textsurf2, textRect2)
+        return textsurf, textRect, textsurf2, textRect2
+
+    def display_name(self):
+        glob_var.win.blit(self.textsurf, self.textRect)
+        glob_var.win.blit(self.textsurf2, self.textRect2)
 
     def get_damage(self):
         for item in jutsu_signs.names_of_characters:
