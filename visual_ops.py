@@ -45,6 +45,12 @@ def get_jutsu_selected_visual(jutsu, win):
     return visual_cue
 
 
+
+
+
+
+
+
 # ------------------------------------------------------------------------------
 # GAME LOOP CLASSES
 # ------------------------------------------------------------------------------
@@ -152,11 +158,11 @@ class CharacterIcon:
         try:
             path = self._folder + self.icon_name + ".jpg"
             img = pygame.image.load(path)
-        except Exception as e:
+        except Exception:
             try:
                 path = self._folder + self.icon_name + ".png"
                 img = pygame.image.load(path)
-            except Exception as e:
+            except Exception:
                 return f"Couldn't find jpg nor png for icon {self.icon_name}."
         return img
 
@@ -166,13 +172,8 @@ class CharacterIcon:
 
     def resize_image(self):
         img = self.load_image()
-        resized = pygame.transform.scale(img, self.icon_size)
+        resized = pygame.transform.scale(img, self.icon_size).convert()
         return resized
-
-    def highlight_image(self, img):
-        img = img.convert()
-        img.set_alpha(100)
-        return img
 
     def click_status(self):  # This can be cleaned up
         mouse = pygame.mouse.get_pos()
@@ -199,10 +200,9 @@ class CharacterIcon:
         glob_var.win.blit(textsurf, textRect)
 
     def display_image(self):
-        img = self.img
         if Jutsu_Icon.class_isclicked:
             if GameManager.player1_turn and self.player_num == 2 or not GameManager.player1_turn and self.player_num == 1:
-                img = self.highlight_image(img)
+                self.img.set_alpha(100)
 
                 if self.click_status():
                     CharacterIcon.class_clickable = True
@@ -210,7 +210,7 @@ class CharacterIcon:
                     if click[0] == 1:
                         CharacterIcon.queued_to_be_attacked = self
 
-        glob_var.win.blit(img, (self.get_x(), self.get_y()))
+        glob_var.win.blit(self.img, (self.get_x(), self.get_y()))
         self.display_bar()
 
     def check_health(self):
@@ -225,12 +225,11 @@ class CharacterIcon:
 class Jutsu_Icon(CharacterIcon):
 
     _folder = 'jutsu_icons/'
-    icon_size = (int(glob_var.display_width * 0.06666666666666667), int(glob_var.display_height * 0.1))
+    icon_size = (int(glob_var.display_width * (1/15)), int(glob_var.display_height * 0.1))
+    offset_from_character_icon = glob_var.display_width // 12
 
     class_clickable = False
     class_isclicked = False
-
-    xOffset_from_character_icon = glob_var.display_width // 12
     queued_for_attack = None
 
     def __init__(self, icon_name, player_num, icon_num, parent_icon):
@@ -241,9 +240,9 @@ class Jutsu_Icon(CharacterIcon):
         x_p = self.parent_icon.get_x()
         if self.player_num == 1:
             x_p += (glob_var.display_width * .025)  # was 30
-            x = x_p + (self.xOffset_from_character_icon * self.icon_num)
+            x = x_p + (self.offset_from_character_icon * self.icon_num)
         elif self.player_num == 2:
-            x = x_p - (self.xOffset_from_character_icon * self.icon_num)  # mirror effect
+            x = x_p - (self.offset_from_character_icon * self.icon_num)  # mirror effect
         else:
             return "invalid player number provided to jutsu_get_x"
         return x
@@ -252,34 +251,6 @@ class Jutsu_Icon(CharacterIcon):
         y_p = self.parent_icon.get_y()
         y = y_p + (glob_var.display_height * 0.025)
         return y
-
-    def display_image(self):
-        x, y = self.get_x(), self.get_y()
-        img = self.resize_image()
-
-        if self.click_status():
-            Jutsu_Icon.class_clickable = True
-
-            img = img.convert()
-            img.set_alpha(100)
-
-            click = pygame.mouse.get_pressed()
-            if click[0] == 1:
-                Jutsu_Icon.class_isclicked = True
-                Jutsu_Icon.queued_for_attack = self
-
-        if not Jutsu_Icon.class_clickable:
-            click = pygame.mouse.get_pressed()
-            if click[0] == 1:
-                if CharacterIcon.class_clickable:
-                    Jutsu_Icon.class_isclicked = False
-                if not CharacterIcon.class_clickable:
-                    Jutsu_Icon.queued_for_attack = None
-                    Jutsu_Icon.class_isclicked = False
-                    print("CLICKED AWAY")
-
-        glob_var.win.blit(img, (x, y))
-        self.display_name()
 
     def display_name(self):
         msg1 = self.icon_name
@@ -301,6 +272,35 @@ class Jutsu_Icon(CharacterIcon):
                 return item[self.icon_name][1]
         else:
             return "Character not found in chars list from damage signs"
+
+    def display_image(self):
+        x, y = self.get_x(), self.get_y()
+
+        if self.click_status():
+            Jutsu_Icon.class_clickable = True
+
+            self.img.set_alpha(100)
+
+            click = pygame.mouse.get_pressed()
+            if click[0] == 1:
+                Jutsu_Icon.class_isclicked = True
+                Jutsu_Icon.queued_for_attack = self
+
+        if not Jutsu_Icon.class_clickable:
+            click = pygame.mouse.get_pressed()
+            if click[0] == 1:
+                if CharacterIcon.class_clickable:
+                    Jutsu_Icon.class_isclicked = False
+                if not CharacterIcon.class_clickable:
+                    Jutsu_Icon.queued_for_attack = None
+                    Jutsu_Icon.class_isclicked = False
+                    print("CLICKED AWAY")
+
+        glob_var.win.blit(self.img, (x, y))
+        self.display_name()
+
+
+
 
 
 
@@ -371,7 +371,7 @@ class VisualCue:
 
     def display_image(self):
         location = (self.get_x(), self.get_y())
-        img = pygame.image.load(self.image_str)
+        img = pygame.image.load(self.image_str).convert()
         self.win.blit(img, location)
 
     def create_cue(self):

@@ -13,13 +13,16 @@ from model import saved_model
 from game_manager import GameManager
 
 import global_variables as glob_var
-from global_variables import calibrate, WIDTH, HEIGHT, top, right, bottom, left, aWeight,\
-    num_frames, count,mean_cutoff, accumulated_predictions, top_signs, sequence, signs,\
-    attack, active_health, active_damage
+from global_variables import calibrate, WIDTH, HEIGHT, top, right, bottom, left, aWeight, num_frames, count,\
+    mean_cutoff, accumulated_predictions, top_signs, sequence, signs, attack, active_health, active_damage
 
 
 model = models.load_model(saved_model)
+
 pygame.init()
+
+
+clock = pygame.time.Clock()
 
 # ----------------------------------------------------------------------------------------
 # GAME OBJECTS INSTANTIATION
@@ -61,7 +64,7 @@ player2_character3_jutsu2_icon = Jutsu_Icon('Dynamic Marking', 2, 2, player2_cha
 player2_character3_jutsu3_icon = Jutsu_Icon('Double Headed Wolf', 2, 3, player2_character2_icon)
 player2_character3_jutsu4_icon = Jutsu_Icon('Puppy mode', 2, 4, player2_character2_icon)
 
-background = pygame.image.load("env_icons/background2.jpg")
+background = pygame.image.load("env_icons/background2.jpg").convert()
 background = pygame.transform.scale(background, (glob_var.display_width, glob_var.display_height))
 
 pygame.mixer.init()
@@ -163,7 +166,10 @@ if __name__ == "__main__":
                     pygame.mixer_music.play(-1)
 
 
-            print(CharacterIcon.class_clickable)
+            fps = clock.get_fps()
+            clock.tick()
+            print("FPS ", fps)
+
 
             # ----------------------------------------------------
             # Final Update
