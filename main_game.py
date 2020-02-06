@@ -24,7 +24,7 @@ pygame.init()
 # ----------------------------------------------------------------------------------------
 # GAME OBJECTS INSTANTIATION
 # ----------------------------------------------------------------------------------------
-player1_character1_icon = CharacterIcon('kakashi', 1, 1)
+player1_character1_icon = CharacterIcon('kakashi', player_num=1, icon_num=1)
 player1_character2_icon = CharacterIcon('obito', 1, 2)
 player1_character3_icon = CharacterIcon('guy', 1, 3)
 player2_character1_icon = CharacterIcon('crow', 2, 1)
@@ -139,23 +139,22 @@ if __name__ == "__main__":
 
             # If using a button instead of keypress for attack, use attack_button.is_clicked instead of just "attack"
             if attack:
-                if Jutsu_Icon.queued_for_attack is not None and CharacterIcon.queued_to_be_attack is not None:
+                if Jutsu_Icon.queued_for_attack is not None and CharacterIcon.queued_to_be_attacked is not None:
                     glob_var.win.fill((255, 255, 255))
 
                     select = Jutsu_Icon.queued_for_attack
                     selected_jutsu = Jutsu(jutsu_icon=select, parent_character_icon=select.parent_icon)
                     active_damage = selected_jutsu.get_damage()
 
-                    attacked_character = CharacterIcon.queued_to_be_attack
+                    attacked_character = CharacterIcon.queued_to_be_attacked
                     active_health = attacked_character.health
-                    # attacked_character.health -= active_damage
 
                     procedure = visual_ops.get_jutsu_selected_visual(selected_jutsu, glob_var.win)
                     glob_var.win.fill(glob_var.white)
 
                     camera = camera_ops.setup_camera()
 
-                    jutsu_phase= True
+                    jutsu_phase = True
                     game_phase = False
                     attack = False  # attack_button.is_clicked = False
 
@@ -163,7 +162,8 @@ if __name__ == "__main__":
                     pygame.mixer_music.load("Sound/Naruto OST 1 - Need To Be Strong.mp3")
                     pygame.mixer_music.play(-1)
 
-            print("Player 1 Turn: ", GameManager.player_turn)
+
+            print(CharacterIcon.class_clickable)
 
             # ----------------------------------------------------
             # Final Update
@@ -174,7 +174,7 @@ if __name__ == "__main__":
             # attack_button.is_clicked = False
             Button.class_clickable = False
             Jutsu_Icon.class_clickable = False
-            CharacterIcon.char_highlighted = False
+            CharacterIcon.class_clickable = False
 
         # -----------------------------------------------------------------------------------------------------------------
         # -----------------------------------------------------------------------------------------------------------------
