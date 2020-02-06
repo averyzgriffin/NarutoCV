@@ -1,4 +1,5 @@
 import pygame
+from pygame.locals import *
 import numpy as np
 
 
@@ -22,7 +23,8 @@ top, right, bottom, left = 195, 255, 430, 420  # far away
 aWeight = 0.5
 
 # PyGame variables
-win = pygame.display.set_mode((display_width, display_height))
+flags = DOUBLEBUF
+win = pygame.display.set_mode((display_width, display_height), flags)
 pygame.display.set_caption('NARUTO: THE COMPUTER-VISION GAME')
 
 player_turn = True
