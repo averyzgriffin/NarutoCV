@@ -143,33 +143,11 @@ if __name__ == "__main__":
             # If using a button instead of keypress for attack, use attack_button.is_clicked instead of just "attack"
             if attack:
                 if Jutsu_Icon.queued_for_attack is not None and CharacterIcon.queued_to_be_attacked is not None:
-                    glob_var.win.fill((255, 255, 255))
-
-                    select = Jutsu_Icon.queued_for_attack
-                    selected_jutsu = Jutsu(jutsu_icon=select, parent_character_icon=select.parent_icon)
-                    active_damage = selected_jutsu.get_damage()
-
-                    attacked_character = CharacterIcon.queued_to_be_attacked
-                    active_health = attacked_character.health
-
-                    procedure = visual_ops.get_jutsu_selected_visual(selected_jutsu, glob_var.win)
-                    glob_var.win.fill(glob_var.white)
-
-                    camera = camera_ops.setup_camera()
-
-                    jutsu_phase = True
-                    game_phase = False
-                    attack = False  # attack_button.is_clicked = False
-
-                    pygame.mixer_music.stop()
-                    pygame.mixer_music.load("Sound/Naruto OST 1 - Need To Be Strong.mp3")
-                    pygame.mixer_music.play(-1)
-
+                    selected_jutsu, attacked_character, procedure, camera, jutsu_phase, game_phase, attack = game_ops.change_phase(Jutsu_Icon, CharacterIcon)
 
             fps = clock.get_fps()
             clock.tick()
             print("FPS ", fps)
-
 
             # ----------------------------------------------------
             # Final Update
@@ -273,7 +251,7 @@ if __name__ == "__main__":
 
                     # RESET / FINISHED
                     if selected_jutsu.get_jutsu_signs() in perm:
-                        attacked_character.health = game_ops.apply_damage(active_health, active_damage)
+                        attacked_character.health = game_ops.apply_damage(attacked_character.health, selected_jutsu.get_damage())
                         attacked_character.check_health()
                         game_ops.activate_jutsu(selected_jutsu)
 
