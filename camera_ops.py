@@ -1,5 +1,8 @@
 import cv2
 import global_variables as glob_var
+import imutils
+from global_variables import top, right, bottom, left
+
 
 
 # --------------------------------------------------
@@ -38,3 +41,13 @@ def segment_hand_region(image, threshold=25):
         # based on contour area, get the maximum contour which is the hand
         segmented = max(cnts, key=cv2.contourArea)
         return thresholded, segmented
+
+
+def process_frame(frame):
+    resize_frame = imutils.resize(frame, width=700)
+    flip_frame = cv2.flip(resize_frame, 1)
+    color_frame = flip_frame.copy()
+    roi_frame = flip_frame[top:bottom, right:left]
+    gray_frame = cv2.cvtColor(roi_frame, cv2.COLOR_BGR2GRAY)
+    blur_frame = cv2.GaussianBlur(gray_frame, (7, 7), 0)
+    return blur_frame, color_frame

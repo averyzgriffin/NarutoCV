@@ -183,7 +183,7 @@ if __name__ == "__main__":
         gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)  # convert the roi to grayscale
         gray = cv2.GaussianBlur(gray, (7, 7), 0)  # blur it
 
-        # For the first "calibrate" # of frames, obtain background via a running average
+        # For the first "calibrate_frames" # of frames, obtain background via a running average
         if num_frames < calibrate:  # 30 = 1 seconds
             run_avg(gray, aWeight)
         # After a background is obtained, threshold/segment the hand/foreground

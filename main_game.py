@@ -13,7 +13,7 @@ from model import saved_model
 from game_manager import GameManager
 
 import global_variables as glob_var
-from global_variables import calibrate, WIDTH, HEIGHT, top, right, bottom, left, aWeight, num_frames, count,\
+from global_variables import calibrate_frames, WIDTH, HEIGHT, aWeight, num_frames, count,\
     mean_cutoff, accumulated_predictions, top_signs, sequence, signs, attack, active_health, active_damage
 
 
@@ -178,7 +178,7 @@ if __name__ == "__main__":
             (grabbed, frame) = camera.read()
 
             # -------------------------
-            # BUTTON CONTROLS (MOSTLY)
+            # CAMERA BUTTON CONTROLS
             # -------------------------
             keypress = cv2.waitKey(1) & 0xFF
             if keypress == ord("q"):
@@ -187,18 +187,12 @@ if __name__ == "__main__":
             # ------------------------------------
             # COMPUTER VISION OPERATIONS ON FRAME
             # ------------------------------------
-            frame = imutils.resize(frame, width=700)  # resize the frame
-            frame = cv2.flip(frame, 1)  # flip the frame so that it is not the mirror view
-            clone = frame.copy()  # clone the frame
-            (height, width) = frame.shape[:2]  # get the height and width of the frame
-            roi = frame[top:bottom, right:left]  # get the ROI
-            gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)  # convert the roi to grayscale
-            gray = cv2.GaussianBlur(gray, (7, 7), 0)  # blur it
+            processed_frame, color_frame = camera_ops.process_frame(frame)
 
-            if num_frames < calibrate:  # Calibrate the background for 'calibrate' # of frames (30 frames = 1 seconds)
-                camera_ops.background_run_avg(gray, aWeight)
-            else:  # After a background is obtained, threshold/segment the hand/foreground
-                hand = camera_ops.segment_hand_region(gray)
+            if num_frames < calibrate_frames:  # 30 frames = 1 seconds ..... I think
+                camera_ops.background_run_avg(processed_frame, aWeight)
+            else:  # After background is obtained, threshold/segment the hand/foreground
+                hand = camera_ops.segment_hand_region(processed_frame)
 
                 if hand is not None:
                     (thresholded, segmented) = hand
@@ -290,7 +284,7 @@ if __name__ == "__main__":
             # ----------------------------------
             # AFTER THRESHOLD-PREDICTION PART
             # ----------------------------------
-            cv2.rectangle(clone, (left, top), (right, bottom), (0, 255, 0), 2)  # draws the box
+            # cv2.rectangle(color_frame, (left, top), (right, bottom), (0, 255, 0), 2)  # draws the box
             num_frames += 1
             # display the original camera frame (with red outline if applicable)
             # cv2.imshow("Video Feed", clone)

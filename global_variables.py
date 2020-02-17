@@ -16,7 +16,7 @@ orange = (255,165,0)
 
 # Camera Variables
 bg = None
-calibrate = 30
+calibrate_frames = 30
 WIDTH = 165
 HEIGHT = 235
 top, right, bottom, left = 195, 255, 430, 420  # far away
