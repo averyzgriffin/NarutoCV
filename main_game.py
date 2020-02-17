@@ -147,7 +147,7 @@ if __name__ == "__main__":
 
             fps = clock.get_fps()
             clock.tick()
-            print("FPS ", fps)
+            #print("FPS ", fps)
 
             # ----------------------------------------------------
             # Final Update
@@ -204,6 +204,9 @@ if __name__ == "__main__":
                         accumulated_predictions, sequence, top_signs = predict_ops.get_predictions(accumulated_predictions, prediction, sequence)
 
                     perm = predict_ops.get_permutations_of_predictions(sequence)
+
+
+
 
                     # -----------------------------
                     # PYGAME VISUAL CUES FOR USER
