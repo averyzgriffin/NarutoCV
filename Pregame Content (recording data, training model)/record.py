@@ -62,9 +62,9 @@ def segment(image, threshold=25):
     # threshold the diff image so that we get the foreground
     thresholded = cv2.threshold(diff, threshold, 255, cv2.THRESH_BINARY)[1]
 
-    # get the contours in the thresholded image
+    # get the contours in the threshold image
     (cnts, _) = cv2.findContours(thresholded.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    # (_, cnts, _) = cv2.findContours(thresholded.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    # (_, cnts, _) = cv2.findContours(threshold.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     # return None, if no contours detected
     if len(cnts) == 0:
@@ -144,7 +144,7 @@ if __name__ == "__main__":
 
             # check whether hand region is segmented
             if hand is not None:
-                # if yes, unpack the thresholded image and
+                # if yes, unpack the threshold image and
                 # segmented region
                 (thresholded, segmented) = hand
 

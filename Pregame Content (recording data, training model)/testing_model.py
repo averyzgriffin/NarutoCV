@@ -111,7 +111,7 @@ def segment(image, threshold=25):
     diff = cv2.absdiff(bg.astype("uint8"), image)  # find absolute difference between background and current frame
     # threshold the diff image so that we get the foreground
     thresholded = cv2.threshold(diff, threshold, 255, cv2.THRESH_BINARY)[1]
-    # get the contours in the thresholded image
+    # get the contours in the threshold image
     (cnts, _) = cv2.findContours(thresholded.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     # return None, if no contours detected
@@ -195,7 +195,7 @@ if __name__ == "__main__":
             # MAIN THRESHOLD AND PREDICTION PART
             # ------------------------------------
             if hand is not None:
-                # if yes, unpack the thresholded image and segmented region
+                # if yes, unpack the threshold image and segmented region
                 (thresholded, segmented) = hand
 
                 # display the threshold frame
@@ -213,7 +213,7 @@ if __name__ == "__main__":
                     # METHOD 1: PREDICTION EVERY 35 FRAMES
                     # -------------------------------------
                     # if num_frames % 35 == 0:  # 35ish frames per second
-                    #     prediction = model.predict([np.reshape(thresholded, (1,HEIGHT,WIDTH,3))])
+                    #     prediction = model.predict([np.reshape(threshold, (1,HEIGHT,WIDTH,3))])
                     #     print("Prediction: ", prediction)
 
                     if len(sequence) > 10 or keypress == ord("n"):  # Reset sequence if too long or if n key is pressed

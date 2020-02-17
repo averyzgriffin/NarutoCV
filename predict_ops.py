@@ -1,4 +1,6 @@
 import itertools
+import global_variables as glob_var
+import numpy as np
 
 
 # --------------------------------------------------------------------------------------------------------------
@@ -26,3 +28,13 @@ def get_top3_sign_predictions(labels, predictions):
         top_signs_confidence_percents.append(list(order_dict.values())[-(i+1)])
 
     return order_dict, top_signs, top_signs_confidence_percents
+
+
+def get_predictions(accumulated_predictions, prediction, sequence):
+    average_prediction = accumulated_predictions / glob_var.mean_cutoff
+    accumulated_predictions = np.zeros_like(prediction)
+    ordered, top_signs, percents = get_top3_sign_predictions(glob_var.signs, average_prediction)
+    sequence = get_sequence_of_predictions(sequence, top_signs)
+
+    return accumulated_predictions, sequence, top_signs
+

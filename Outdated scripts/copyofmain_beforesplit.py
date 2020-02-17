@@ -187,9 +187,9 @@ tiger = [0,0,0,0,0,0,0,0,0,0,0,1]
 #     global bg
 #     diff = cv2.absdiff(bg.astype("uint8"), image)  # find absolute difference between background and current frame
 #     # threshold the diff image so that we get the foreground
-#     thresholded = cv2.threshold(diff, threshold, 255, cv2.THRESH_BINARY)[1]
-#     # get the contours in the thresholded image
-#     (cnts, _) = cv2.findContours(thresholded.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+#     threshold = cv2.threshold(diff, threshold, 255, cv2.THRESH_BINARY)[1]
+#     # get the contours in the threshold image
+#     (cnts, _) = cv2.findContours(threshold.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 #
 #     # return None, if no contours detected
 #     if len(cnts) == 0:
@@ -197,7 +197,7 @@ tiger = [0,0,0,0,0,0,0,0,0,0,0,1]
 #     else:
 #         # based on contour area, get the maximum contour which is the hand
 #         segmented = max(cnts, key=cv2.contourArea)
-#         return thresholded, segmented
+#         return threshold, segmented
 
 
 # # ------------------------------------------------------------------------------

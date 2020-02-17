@@ -13,7 +13,7 @@ from model import saved_model
 from game_manager import GameManager
 
 import global_variables as glob_var
-from global_variables import calibrate_frames, WIDTH, HEIGHT, aWeight, num_frames, count,\
+from global_variables import calibrate_frames, aWeight, num_frames, count,\
     mean_cutoff, accumulated_predictions, top_signs, sequence, signs, attack, active_health, active_damage
 
 
@@ -177,43 +177,31 @@ if __name__ == "__main__":
 
             (grabbed, frame) = camera.read()
 
-            # -------------------------
             # CAMERA BUTTON CONTROLS
-            # -------------------------
             keypress = cv2.waitKey(1) & 0xFF
             if keypress == ord("q"):
                 break
 
-            # ------------------------------------
             # COMPUTER VISION OPERATIONS ON FRAME
-            # ------------------------------------
             processed_frame, color_frame = camera_ops.process_frame(frame)
+            (height, width) = processed_frame.shape[:2]
 
             if num_frames < calibrate_frames:  # 30 frames = 1 seconds ..... I think
                 camera_ops.background_run_avg(processed_frame, aWeight)
-            else:  # After background is obtained, threshold/segment the hand/foreground
-                hand = camera_ops.segment_hand_region(processed_frame)
+            else:
+                threshold = camera_ops.segment_hand_region(processed_frame)
 
-                if hand is not None:
-                    (thresholded, segmented) = hand
-                    cv2.imshow("Threshold", thresholded)  # display the threshold frame
-                    thresholded = np.stack((thresholded,) * 3,
-                                           axis=-1)  # Give the binary frame 3 channels for the model
+                if threshold is not None:
+                    cv2.imshow("Threshold", threshold)
+                    threshold = np.stack((threshold,) * 3, axis=-1)  # Expand frame to 3 channels for the model
 
-                    # -------------------------
-                    # MODEL PREDICTION SECTION
-                    # -------------------------
-
-                    # OBTAINING AVERAGE PREDICTIONS, SEQUENCES, AND PERMUTATIONS
-                    prediction = model.predict([np.reshape(thresholded, (1, HEIGHT, WIDTH, 3))])
+                    # MODEL PREDICTION - OBTAINING AVERAGE PREDICTIONS, SEQUENCES, AND PERMUTATIONS
+                    prediction = model.predict([np.reshape(threshold, (1, height, width, 3))])
                     count += 1
                     accumulated_predictions += prediction
 
                     if count % mean_cutoff == 0:
-                        average_prediction = accumulated_predictions / mean_cutoff
-                        accumulated_predictions = np.zeros_like(prediction)
-                        ordered, top_signs, percents = predict_ops.get_top3_sign_predictions(signs, average_prediction)
-                        sequence = predict_ops.get_sequence_of_predictions(sequence, top_signs)
+                        accumulated_predictions, sequence, top_signs = predict_ops.get_predictions(accumulated_predictions, prediction, sequence)
 
                     perm = predict_ops.get_permutations_of_predictions(sequence)
 

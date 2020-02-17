@@ -31,7 +31,7 @@ def segment_hand_region(image, threshold=25):
     # threshold the diff image so that we get the foreground
     thresholded = cv2.threshold(diff, threshold, 255, cv2.THRESH_BINARY)[1]
 
-    # get the contours in the thresholded image
+    # get the contours in the threshold image
     (cnts, _) = cv2.findContours(thresholded.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     # return None, if no contours detected
@@ -40,7 +40,7 @@ def segment_hand_region(image, threshold=25):
     else:
         # based on contour area, get the maximum contour which is the hand
         segmented = max(cnts, key=cv2.contourArea)
-        return thresholded, segmented
+        return thresholded
 
 
 def process_frame(frame):
