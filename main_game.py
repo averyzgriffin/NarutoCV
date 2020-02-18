@@ -228,10 +228,11 @@ if __name__ == "__main__":
                         for s in top_signs:
                             try:
                                 if s == selected_jutsu.get_jutsu_signs()[len(sequence)-1]:
-                                    correct_sign_visual_cue = VisualCue(msg=[], w=[], h=[], text_color=(0, 0, 0), typ='image',
-                                                         seq=sequence, image_str='character_icons/mightguythumbsup.jpg')
-                                    correct_sign_visual_cue.display_image()
-                                    pygame.display.update()
+                                    print("GOOD JOB")
+                                    #correct_sign_visual_cue = VisualCue(msg=[], w=[], h=[], text_color=(0, 0, 0), typ='image',
+                                    #                     seq=sequence, image_str='character_icons/mightguythumbsup.jpg')
+                                    #correct_sign_visual_cue.display_image()
+                                    #pygame.display.update()
                             except Exception as e:
                                 print("exception: ", e)
 

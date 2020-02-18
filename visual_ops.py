@@ -326,7 +326,7 @@ class VisualCue:
     box_outline = (200, 200, 200)
 
     # TODO I think we can remove win,
-    def __init__(self, msg, w, h, text_color, typ, seq, x=None, y=None, image_str=None):
+    def __init__(self, msg, w, h, text_color, typ, seq, x=None, y=None):
         self.msg = msg
         self.x = x
         self.y = y
@@ -335,7 +335,6 @@ class VisualCue:
         self.r, self.g, self.b = text_color
         self.typ = typ
         self.seq = seq
-        self.image_str = image_str
 
         if self.typ == 'header':
             self.font = pygame.font.Font("freesansbold.ttf", int(0.00014814814814814815 * glob_var.display_area * .5))
@@ -381,11 +380,6 @@ class VisualCue:
         textRect.center = ((self.x + (self.w / 2)), (self.y + (self.h / 2)))
         return textsurf, textRect
 
-    def display_image(self):
-        location = (self.get_x(), self.get_y())
-        img = pygame.image.load(self.image_str).convert()
-        glob_var.win.blit(img, location)
-
     def create_cue(self):
         if self.x is None:
             self.x = self.get_x()
@@ -394,3 +388,14 @@ class VisualCue:
         button = pygame.draw.rect(glob_var.win, self.box_color, (self.x, self.y, self.w, self.h))
         text, rect = self.create_text()
         glob_var.win.blit(text, rect)
+
+
+# class ImageCue(VisualCue):
+#     def __init__(self, image_str):
+#         self.image_str = image_str
+#
+#     def display_image(self):
+#         location = (self.get_x(), self.get_y())
+#         img = pygame.image.load(self.image_str).convert()
+#         glob_var.win.blit(img, location)
+
