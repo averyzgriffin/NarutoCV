@@ -212,23 +212,24 @@ if __name__ == "__main__":
                     # PYGAME VISUAL CUES FOR USER
                     # -----------------------------
                     begin_attack_visual_cue = VisualCue("GO!", w=glob_var.display_width*0.166666, h=glob_var.display_height*0.125,
-                                      text_color=glob_var.green, typ='header', seq=sequence, win=glob_var.win)
+                                      text_color=glob_var.green, typ='header', seq=sequence)
                     begin_attack_visual_cue.create_cue()
 
                     current_sign_number_visual_cue = VisualCue(f'SIGN #{str(len(sequence)+1)}', glob_var.display_width*0.14583334,
-                                         glob_var.display_height*0.125, glob_var.green, 'prompt', sequence, glob_var.win)
+                                         glob_var.display_height*0.125, glob_var.green, 'prompt', sequence)
                     current_sign_number_visual_cue.create_cue()
 
                     # Visual printing of top signs so far
                     if len(sequence) > 0 and top_signs is not None:
                         predicted_sign_visual_cue = VisualCue(str(top_signs[0]), glob_var.display_width*0.06666667,
-                                                   glob_var.display_height*0.05, glob_var.green, 'jutsu', sequence, glob_var.win)
+                                                   glob_var.display_height*0.05, glob_var.green, 'jutsu', sequence)
                         predicted_sign_visual_cue.create_cue()
+
                         for s in top_signs:
                             try:
                                 if s == selected_jutsu.get_jutsu_signs()[len(sequence)-1]:
                                     correct_sign_visual_cue = VisualCue(msg=[], w=[], h=[], text_color=(0, 0, 0), typ='image',
-                                                         seq=sequence, image_str='character_icons/mightguythumbsup.jpg', win=glob_var.win)
+                                                         seq=sequence, image_str='character_icons/mightguythumbsup.jpg')
                                     correct_sign_visual_cue.display_image()
                                     pygame.display.update()
                             except Exception as e:

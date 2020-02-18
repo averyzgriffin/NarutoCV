@@ -28,16 +28,16 @@ def create_textObject(text, font):
 #     message_display(text, location, size, win)
 
 
-def get_jutsu_selected_visual(jutsu, win):
+def get_jutsu_selected_visual(jutsu):
     visual_cue = VisualCue(msg=str(jutsu.get_jutsu_signs()), w=glob_var.display_width, h=(glob_var.display_height*0.0625),
-                          text_color=black, typ=[], seq=[], x=0, y=glob_var.display_height * .75, win=win)
+                          text_color=black, typ=[], seq=[], x=0, y=glob_var.display_height * .75)
 
     text_ = "You have selected: " + str(jutsu.jutsu_icon_name)
     font = pygame.font.Font("freesansbold.ttf", int(9.259259259259259e-05 * glob_var.display_area * .5))
 
     textsurf, textRect = create_textObject(text_, font)
     textRect.center = (glob_var.display_width/2, (glob_var.display_height*.25))
-    win.blit(textsurf, textRect)
+    glob_var.win.blit(textsurf, textRect)
 
     pygame.display.update()
 
@@ -325,7 +325,8 @@ class VisualCue:
     box_color = (150, 150, 150)
     box_outline = (200, 200, 200)
 
-    def __init__(self, msg, w, h, text_color, typ, seq, win, x=None, y=None, image_str=None):
+    # TODO I think we can remove win,
+    def __init__(self, msg, w, h, text_color, typ, seq, x=None, y=None, image_str=None):
         self.msg = msg
         self.x = x
         self.y = y
@@ -334,7 +335,6 @@ class VisualCue:
         self.r, self.g, self.b = text_color
         self.typ = typ
         self.seq = seq
-        self.win = win
         self.image_str = image_str
 
         if self.typ == 'header':
@@ -384,13 +384,13 @@ class VisualCue:
     def display_image(self):
         location = (self.get_x(), self.get_y())
         img = pygame.image.load(self.image_str).convert()
-        self.win.blit(img, location)
+        glob_var.win.blit(img, location)
 
     def create_cue(self):
         if self.x is None:
             self.x = self.get_x()
         if self.y is None:
             self.y = self.get_y()
-        button = pygame.draw.rect(self.win, self.box_color, (self.x, self.y, self.w, self.h))
+        button = pygame.draw.rect(glob_var.win, self.box_color, (self.x, self.y, self.w, self.h))
         text, rect = self.create_text()
-        self.win.blit(text, rect)
+        glob_var.win.blit(text, rect)

@@ -20,7 +20,7 @@ def change_phase(jutsu_icon, character_icon):
     fill_screen(glob_var.win, glob_var.white)
     selected_jutsu = get_jutsu(jutsu_queued=jutsu_icon.queued_for_attack)
     attacked_character = character_icon.queued_to_be_attacked
-    procedure = visual_ops.get_jutsu_selected_visual(selected_jutsu, glob_var.win)
+    procedure = visual_ops.get_jutsu_selected_visual(selected_jutsu)
     fill_screen(glob_var.win, glob_var.white)
     camera = camera_ops.setup_camera()
     jutsu_phase = True
@@ -60,7 +60,7 @@ def skip_jutsu():
     pygame.mixer_music.stop()
     glob_var.win.fill(glob_var.black)
     fail_jutsu_cue = visual_ops.VisualCue('WRONG JUTSU', (glob_var.display_width*.5), (glob_var.display_height*.25), glob_var.red,
-                                    'header', [], win=glob_var.win)
+                                    'header', [])
     fail_jutsu_cue.create_cue()
 
 
