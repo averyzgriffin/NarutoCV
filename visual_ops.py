@@ -29,8 +29,8 @@ def create_textObject(text, font):
 
 
 def get_jutsu_selected_visual(jutsu):
-    visual_cue = VisualCue(msg=str(jutsu.get_jutsu_signs()), w=glob_var.display_width, h=(glob_var.display_height*0.0625),
-                          text_color=black, typ=[], seq=[], x=0, y=glob_var.display_height * .75)
+    # visual_cue = VisualCue(msg=str(jutsu.get_jutsu_signs()), w=glob_var.display_width, h=(glob_var.display_height*0.0625), text_color=black, typ=[], seq=[], x=0, y=glob_var.display_height * .75)
+    visual_cue = HeaderText(str(jutsu.get_jutsu_signs()), black, 50)
 
     text_ = "You have selected: " + str(jutsu.jutsu_icon_name)
     font = pygame.font.Font("freesansbold.ttf", int(9.259259259259259e-05 * glob_var.display_area * .5))
@@ -312,6 +312,64 @@ class Jutsu_Icon(CharacterIcon):
         self.display_name()
 
 
+class TextCue:
+
+    width_factor = .1
+    height_factor = .1
+
+    def __init__(self, msg, text_color, size):
+        self.msg = msg
+        self.r, self.g, self.b = text_color
+        self.size = size
+
+        self.font = pygame.font.Font("freesansbold.ttf", int(self.size))
+        self.w = glob_var.display_width * size * TextCue.width_factor
+        self.h = glob_var.display_height * size * TextCue.height_factor
+
+    def create_text(self):
+        textsurface = self.font.render(self.msg, True, (self.r, self.g, self.b))
+        return textsurface, textsurface.get_rect()
+
+    def display_text(self):
+        text, rect = self.create_text()
+        rect.center = ((self.x + (self.w / 2)), (self.y + (self.h / 2)))
+        glob_var.win.blit(text, rect)
+
+
+class HeaderText(TextCue):
+
+    def __init__(self, msg, text_color, size):
+        super().__init__(msg, text_color, size)
+
+        self.x = glob_var.display_width // 2 - (self.w // 2)
+        self.y = (glob_var.display_height * 0.025)
+
+        self.font = pygame.font.Font("freesansbold.ttf", int(self.size))
+
+
+class PromptText(TextCue):
+
+    def __init__(self, msg, text_color, size, seq):
+        self.seq = seq
+        super().__init__(msg, text_color, size)
+
+        self.x = glob_var.display_width * ((len(self.seq) + 1) / 6) - (glob_var.display_width * 0.125)
+        self.y = (glob_var.display_height * 0.1625)
+
+        self.font = pygame.font.Font("freesansbold.ttf", int(self.size))
+
+
+class JutsuText(TextCue):
+
+    def __init__(self, msg, text_color, size, seq):
+        self.seq = seq
+        super().__init__(msg, text_color, size)
+
+        self.x = glob_var.display_width * (len(self.seq) / 6) - (glob_var.display_width * 0.083333333333)
+        self.y = (glob_var.display_height * 0.1625)
+
+        self.font = pygame.font.Font("freesansbold.ttf", int(self.size))
+
 
 
 
@@ -320,74 +378,69 @@ class Jutsu_Icon(CharacterIcon):
 # -----------------------------------------------------------------------------------------------
 # WEAVING LOOP CLASSES
 # -----------------------------------------------------------------------------------------------
-class VisualCue:
-
-    box_color = (150, 150, 150)
-    box_outline = (200, 200, 200)
-
-    # TODO I think we can remove win,
-    def __init__(self, msg, w, h, text_color, typ, seq, x=None, y=None):
-        self.msg = msg
-        self.x = x
-        self.y = y
-        self.w = w
-        self.h = h
-        self.r, self.g, self.b = text_color
-        self.typ = typ
-        self.seq = seq
-
-        if self.typ == 'header':
-            self.font = pygame.font.Font("freesansbold.ttf", int(0.00014814814814814815 * glob_var.display_area * .5))
-        elif self.typ == 'prompt':
-            self.font = pygame.font.Font("freesansbold.ttf", int(7.407407407407407e-05 * glob_var.display_area * .5))
-        elif self.typ == 'jutsu':
-            self.font = pygame.font.Font("freesansbold.ttf", int(5.555555555555556e-05 * glob_var.display_area * .5))
-        else:
-            self.font = pygame.font.Font("freesansbold.ttf", int(9.259259259259259e-05 * glob_var.display_area * .5))
-
-    def get_x(self):
-        if self.typ == 'header':
-            self.x = glob_var.display_width // 2 - (self.w // 2)
-        elif self.typ == 'prompt':
-            self.x = glob_var.display_width * ((len(self.seq) + 1) / 6) - (glob_var.display_width * 0.125)
-        elif self.typ == 'jutsu':
-            self.x = glob_var.display_width * (len(self.seq) / 6) - (glob_var.display_width * 0.083333333333)
-        elif self.typ == 'image':
-            self.x = glob_var.display_width * (len(self.seq) / 6) - (glob_var.display_width * 0.1)
-        return self.x
-
-    def get_y(self):
-        if self.typ == 'header':
-            self.y = (glob_var.display_height * 0.025)
-        elif self.typ == 'prompt':
-            self.y = (glob_var.display_height * 0.1625)
-        elif self.typ == 'jutsu':
-            self.y = (glob_var.display_height * 0.3)
-        elif self.typ == 'image':
-            self.y = (glob_var.display_height * 0.3625)
-        return self.y
-
-    def text_objects(self):
-        textsurface = self.font.render(self.msg, True, (self.r, self.g, self.b))
-        return textsurface, textsurface.get_rect()
-
-    def create_text(self):
-        if self.x is None:
-            self.x = self.x
-        if self.y is None:
-            self.y = self.get_y()
-        textsurf, textRect = self.text_objects()
-        textRect.center = ((self.x + (self.w / 2)), (self.y + (self.h / 2)))
-        return textsurf, textRect
-
-    def create_cue(self):
-        if self.x is None:
-            self.x = self.get_x()
-        if self.y is None:
-            self.y = self.get_y()
-        button = pygame.draw.rect(glob_var.win, self.box_color, (self.x, self.y, self.w, self.h))
-        text, rect = self.create_text()
-        glob_var.win.blit(text, rect)
+# class VisualCue:
+#
+#     box_color = (150, 150, 150)
+#     box_outline = (200, 200, 200)
+#
+#     def __init__(self, msg, w, h, text_color, typ, seq, x=None, y=None):
+#         self.msg = msg
+#         self.x = x
+#         self.y = y
+#         self.w = w
+#         self.h = h
+#         self.r, self.g, self.b = text_color
+#         self.typ = typ
+#         self.seq = seq
+#
+#         if self.typ == 'header':
+#             self.font = pygame.font.Font("freesansbold.ttf", int(0.00014814814814814815 * glob_var.display_area * .5))
+#         elif self.typ == 'prompt':
+#             self.font = pygame.font.Font("freesansbold.ttf", int(7.407407407407407e-05 * glob_var.display_area * .5))
+#         elif self.typ == 'jutsu':
+#             self.font = pygame.font.Font("freesansbold.ttf", int(5.555555555555556e-05 * glob_var.display_area * .5))
+#         else:
+#             self.font = pygame.font.Font("freesansbold.ttf", int(9.259259259259259e-05 * glob_var.display_area * .5))
+#
+#     def get_x(self):
+#         if self.typ == 'header':
+#             self.x = glob_var.display_width // 2 - (self.w // 2)
+#         elif self.typ == 'prompt':
+#             self.x = glob_var.display_width * ((len(self.seq) + 1) / 6) - (glob_var.display_width * 0.125)
+#         elif self.typ == 'jutsu':
+#             self.x = glob_var.display_width * (len(self.seq) / 6) - (glob_var.display_width * 0.083333333333)
+#         return self.x
+#
+#     def get_y(self):
+#         if self.typ == 'header':
+#             self.y = (glob_var.display_height * 0.025)
+#         elif self.typ == 'prompt':
+#             self.y = (glob_var.display_height * 0.1625)
+#         elif self.typ == 'jutsu':
+#             self.y = (glob_var.display_height * 0.3)
+#         return self.y
+#
+#     def text_objects(self):
+#         textsurface = self.font.render(self.msg, True, (self.r, self.g, self.b))
+#         return textsurface, textsurface.get_rect()
+#
+#     def create_text(self):
+#         if self.x is None:
+#             self.x = self.x
+#         if self.y is None:
+#             self.y = self.get_y()
+#         textsurf, textRect = self.text_objects()
+#         textRect.center = ((self.x + (self.w / 2)), (self.y + (self.h / 2)))
+#         return textsurf, textRect
+#
+#     def create_cue(self):
+#         if self.x is None:
+#             self.x = self.get_x()
+#         if self.y is None:
+#             self.y = self.get_y()
+#         button = pygame.draw.rect(glob_var.win, self.box_color, (self.x, self.y, self.w, self.h))
+#         text, rect = self.create_text()
+#         glob_var.win.blit(text, rect)
 
 
 # class ImageCue(VisualCue):
@@ -398,4 +451,10 @@ class VisualCue:
 #         location = (self.get_x(), self.get_y())
 #         img = pygame.image.load(self.image_str).convert()
 #         glob_var.win.blit(img, location)
+#
+#         elif self.typ == 'image':
+#             self.x = glob_var.display_width * (len(self.seq) / 6) - (glob_var.display_width * 0.1)
+#
+#         elif self.typ == 'image':
+#             self.y = (glob_var.display_height * 0.3625)
 

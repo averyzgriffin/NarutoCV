@@ -5,7 +5,7 @@ import cv2
 import game_ops
 from game_ops import Jutsu
 import visual_ops
-from visual_ops import CharacterIcon, Button, VisualCue, Jutsu_Icon 
+from visual_ops import CharacterIcon, Button, Jutsu_Icon
 import predict_ops
 import camera_ops
 from keras import models
@@ -168,7 +168,7 @@ if __name__ == "__main__":
         # -----------------------------------------------------------------------------------------------------------------
         while jutsu_phase:
 
-            procedure.create_cue()
+            procedure.display_text()
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -211,19 +211,28 @@ if __name__ == "__main__":
                     # -----------------------------
                     # PYGAME VISUAL CUES FOR USER
                     # -----------------------------
-                    begin_attack_visual_cue = VisualCue("GO!", w=glob_var.display_width*0.166666, h=glob_var.display_height*0.125,
-                                      text_color=glob_var.green, typ='header', seq=sequence)
-                    begin_attack_visual_cue.create_cue()
+                    # begin_attack_visual_cue = VisualCue("GO!", w=glob_var.display_width*0.166666, h=glob_var.display_height*0.125,
+                    #                   text_color=glob_var.green, typ='header', seq=sequence)
+                    # begin_attack_visual_cue.create_cue()
+                    #
+                    # sign_num_cue = VisualCue(f'SIGN #{str(len(sequence)+1)}', glob_var.display_width*0.14583334,
+                    #                      glob_var.display_height*0.125, glob_var.green, 'prompt', sequence)
+                    # sign_num_cue.create_cue()
 
-                    current_sign_number_visual_cue = VisualCue(f'SIGN #{str(len(sequence)+1)}', glob_var.display_width*0.14583334,
-                                         glob_var.display_height*0.125, glob_var.green, 'prompt', sequence)
-                    current_sign_number_visual_cue.create_cue()
+                    begin_attack_visual_cue = visual_ops.HeaderText("GO!", glob_var.green, 50)
+                    begin_attack_visual_cue.display_text()
+
+                    sign_num_cue = visual_ops.PromptText(f'SIGN #{str(len(sequence)+1)}', glob_var.green, 20, sequence)
+                    sign_num_cue.display_text()
 
                     # Visual printing of top signs so far
                     if len(sequence) > 0 and top_signs is not None:
-                        predicted_sign_visual_cue = VisualCue(str(top_signs[0]), glob_var.display_width*0.06666667,
-                                                   glob_var.display_height*0.05, glob_var.green, 'jutsu', sequence)
-                        predicted_sign_visual_cue.create_cue()
+                        # predicted_sign_cue = VisualCue(str(top_signs[0]), glob_var.display_width*0.06666667,
+                        #                            glob_var.display_height*0.05, glob_var.green, 'jutsu', sequence)
+                        # predicted_sign_cue.create_cue()
+                        
+                        predicted_sign_cue = visual_ops.JutsuText(str(top_signs[0]), glob_var.green, 10, sequence)
+                        predicted_sign_cue.display_text()
 
                         for s in top_signs:
                             try:
