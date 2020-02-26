@@ -5,15 +5,17 @@ import os
 import time
 
 
-count = 0+25+25+25+25+25+25+25+25+25+25+25+25  # TODO
+count = 600   # TODO
 sign = 'bird'   # TODO
 user = 'avery'  # TODO
+folder_avery = 'C:/Users/Avery/Desktop/data-2-26-20/avery/'  # TODO
+folder_jared = ''
 
 sign_path = sign + r'/'
 if user.lower() == 'avery':
-    dir_output = 'E:/naruto/data-10-13/avery/' + sign_path
+    dir_output = folder_avery + sign_path
 elif user.lower() == 'jared':
-    dir_output = 'E:/naruto/data-10-13/jared/' + sign
+    dir_output = folder_jared + sign
 
 bg = None
 record = False
@@ -24,7 +26,7 @@ calibrate = 300
 # top, right, bottom, left = 235, 255, 470, 420  # far away
 top, right, bottom, left = 195, 255, 430, 420  # far away
 
-print('---GET READY---')
+print('---CAMERA STARTING UP---')
 for i in list(range(3))[::-1]:
     print(i+1)
     time.sleep(1)
@@ -108,7 +110,7 @@ if __name__ == "__main__":
             break
 
         if keypress == ord("r"):
-            print('---GET READY---')
+            print('---RECORDING STARTING---')
             for i in list(range(3))[::-1]:
                 print(i+1)
                 time.sleep(1)
@@ -164,6 +166,12 @@ if __name__ == "__main__":
                         print('FILE ', count, ' SAVED')
                         data = []
                         count += 1
+
+                    if len(os.listdir(dir_output)) >= 25:
+                        record = False
+                        print("---Limit reached. Shutting down.---")
+                        break
+
 
                 # draw the segmented region and display the frame
                 cv2.drawContours(clone, [segmented + (right, top)], -1, (0, 0, 255))
