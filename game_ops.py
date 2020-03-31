@@ -5,6 +5,7 @@ import visual_ops
 import jutsu_signs
 import jutsu_videos
 import camera_ops
+from game_manager import GameManager
 
 
 # --------------------------------------------------------------------------------------------------------------
@@ -60,11 +61,9 @@ def skip_jutsu():
     pygame.mixer_music.stop()
     glob_var.win.fill(glob_var.black)
 
-    # fail_jutsu_cue = visual_ops.VisualCue('WRONG JUTSU', (glob_var.display_width*.5), (glob_var.display_height*.25), glob_var.red,'header', [])
-    # fail_jutsu_cue.create_cue()
-
     fail_jutsu_cue = visual_ops.HeaderText('WRONG JUTSU', glob_var.red, 100, None, None)
     fail_jutsu_cue.display_text()
+
 
 
 def reset_game():
@@ -75,8 +74,15 @@ def reset_game():
     sequence, top_signs, select, selected_jutsu, visual_ops.Jutsu_Icon.jutsu_que = [], [], [], [], []
     game_phase = True
     jutsu_phase = False
+    change_turn()
 
     return sequence, num_frames, count, accumulated_predictions, top_signs, select, selected_jutsu, game_phase, jutsu_phase
+
+
+def change_turn():
+    GameManager.change_turn()
+    pygame.mixer.music.load("Sound/Naruto OST 2 - Afternoon of Konoha.mp3")
+    pygame.mixer_music.play()
 
 
 # ---------------------------------------------------------------

@@ -141,6 +141,8 @@ if __name__ == "__main__":
             player2_character3_jutsu3_icon.display_image()
             player2_character3_jutsu4_icon.display_image()
 
+            print("Health: ", player2_character1_icon.health)
+
             # If using a button instead of keypress for attack, use attack_button.is_clicked instead of just "attack"
             if attack:
                 if Jutsu_Icon.queued_for_attack is not None and CharacterIcon.queued_to_be_attacked is not None:
@@ -148,7 +150,7 @@ if __name__ == "__main__":
 
             fps = clock.get_fps()
             clock.tick()
-            #print("FPS ", fps)
+            # print("FPS ", fps)
 
             # ----------------------------------------------------
             # Final Update
@@ -226,6 +228,8 @@ if __name__ == "__main__":
                             try:
                                 if s == selected_jutsu.get_jutsu_signs()[len(sequence)-1]:
                                     print("GOOD JOB")
+                                else:
+                                    print("INCORRECT SIGN")
                             except Exception as e:
                                 print("exception: ", e)
 
@@ -233,36 +237,17 @@ if __name__ == "__main__":
                     if selected_jutsu.get_jutsu_signs() in perm:
                         attacked_character.health = game_ops.apply_damage(attacked_character.health, selected_jutsu.get_damage())
                         attacked_character.check_health()
+                        attacked_character.bar, attacked_character.bar_x, attacked_character.bar_y,\
+                        attacked_character.bar_message = attacked_character.create_bar()
                         game_ops.activate_jutsu(selected_jutsu)
-
-                        sequence, num_frames, count, accumulated_predictions, top_signs, select, selected_jutsu, \
-                        game_phase, jutsu_phase = game_ops.reset_game()
-
-                        GameManager.change_turn()
-
-                        pygame.mixer.music.load("Sound/Naruto OST 2 - Afternoon of Konoha.mp3")
-                        pygame.mixer_music.play()
                         break
 
                     elif len(sequence) >= len(selected_jutsu.get_jutsu_signs()) and selected_jutsu.get_jutsu_signs() not in perm:
                         game_ops.skip_jutsu()
-
-                        sequence, num_frames, count, accumulated_predictions, top_signs, select, selected_jutsu, \
-                        game_phase, jutsu_phase = game_ops.reset_game()
-
-                        GameManager.change_turn()
-
-                        pygame.mixer.music.load("Sound/Naruto OST 2 - Afternoon of Konoha.mp3")
-                        pygame.mixer_music.play()
                         break
 
                     elif keypress == ord("n"):
                         game_ops.skip_jutsu()
-
-                        sequence, num_frames, count, accumulated_predictions, top_signs, select, selected_jutsu, \
-                        game_phase, jutsu_phase = game_ops.reset_game()
-
-                        GameManager.change_turn()
                         break
 
                     pygame.display.update()
@@ -274,6 +259,9 @@ if __name__ == "__main__":
             num_frames += 1
             # display the original camera frame (with red outline if applicable)
             # cv2.imshow("Video Feed", clone)
+
+        sequence, num_frames, count, accumulated_predictions, top_signs, select, selected_jutsu, \
+        game_phase, jutsu_phase = game_ops.reset_game()
 
         print("Released")
         camera.release()
