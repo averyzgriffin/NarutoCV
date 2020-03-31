@@ -238,7 +238,7 @@ if __name__ == "__main__":
                         attacked_character.health = game_ops.apply_damage(attacked_character.health, selected_jutsu.get_damage())
                         attacked_character.check_health()
                         attacked_character.bar, attacked_character.bar_x, attacked_character.bar_y,\
-                        attacked_character.bar_message = attacked_character.create_bar()
+                        attacked_character.bar_message = attacked_character.create_bar()  # TODO this should be reducable
                         game_ops.activate_jutsu(selected_jutsu)
                         break
 
