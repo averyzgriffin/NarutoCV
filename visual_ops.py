@@ -29,26 +29,15 @@ def create_textObject(text, font):
 
 
 def get_jutsu_selected_visual(jutsu):
-    # visual_cue = VisualCue(msg=str(jutsu.get_jutsu_signs()), w=glob_var.display_width, h=(glob_var.display_height*0.0625), text_color=black, typ=[], seq=[], x=0, y=glob_var.display_height * .75)
-    visual_cue = HeaderText(str(jutsu.get_jutsu_signs()), black, 50)
+    visual_cue = TextCue(str(jutsu.get_jutsu_signs()), black, 50, glob_var.display_width // 2, glob_var.display_height * 7/8)
 
-    text_ = "You have selected: " + str(jutsu.jutsu_icon_name)
-    font = pygame.font.Font("freesansbold.ttf", int(9.259259259259259e-05 * glob_var.display_area * .5))
-
-    textsurf, textRect = create_textObject(text_, font)
-    textRect.center = (glob_var.display_width/2, (glob_var.display_height*.25))
-    glob_var.win.blit(textsurf, textRect)
+    selection_text = HeaderText(msg="You have selected: " + str(jutsu.jutsu_icon_name), text_color=black, size=50, x=None, y=None)
+    selection_text.display_text()
 
     pygame.display.update()
 
     time.sleep(3)
     return visual_cue
-
-
-
-
-
-
 
 
 # ------------------------------------------------------------------------------
@@ -108,12 +97,6 @@ class Button:
     #     self.win.blit(text, rect)
 
 
-
-
-
-
-
-
 class CharacterIcon:
 
     _folder = 'character_icons/'
@@ -133,7 +116,7 @@ class CharacterIcon:
         self.x = self.get_x()
         self.y = self.get_y()
 
-        self.bar, self.bar_x, self.bar_y, self.textsurf, self.textRect = self.create_bar()
+        self.bar, self.bar_x, self.bar_y, self.bar_message = self.create_bar()
 
     def get_x(self):
         if self.player_num == 1:
@@ -187,21 +170,17 @@ class CharacterIcon:
 
     def create_bar(self):
         bar_x, bar_y = self.x, self.y + self.icon_size[1] + (glob_var.display_height * 0.00625)
-        bar_width = int(self.icon_size[0] * (self.health / 100)) #TODO
+        bar_width = int(self.icon_size[0] * (self.health / 100))
 
-        bar = pygame.Surface((bar_width, 10), pygame.SRCALPHA) #TODO
+        bar = pygame.Surface((bar_width, 10), pygame.SRCALPHA)
         bar.fill((255, 0, 0, 255))
+        bar_message = TextCue(f"Health:  {self.health}", black, (glob_var.display_area // 86283),(bar_x + (self.icon_size[0] / 2)), bar_y + (glob_var.display_height * 0.0225))
 
-        bar_message = f"Health:  {self.health}"  #TODO
-        font = pygame.font.Font("freesansbold.ttf", int(1.8518518518518518e-05 * glob_var.display_area * .5))
-        textsurf, textRect = create_textObject(bar_message, font)  #TODO
-        textRect.center = (bar_x + (self.icon_size[0] / 2), bar_y + (glob_var.display_height * 0.0225))  #TODO
-
-        return bar, bar_x, bar_y, textsurf, textRect
+        return bar, bar_x, bar_y, bar_message
 
     def display_bar(self):
         glob_var.win.blit(self.bar, (self.bar_x, self.bar_y))
-        glob_var.win.blit(self.textsurf, self.textRect)
+        self.bar_message.display_text()
 
     def display_image(self):
         if Jutsu_Icon.class_isclicked:
@@ -243,7 +222,7 @@ class Jutsu_Icon(CharacterIcon):
         self.x = self.get_x()
         self.y = self.get_y()
 
-        self.textsurf, self.textRect, self.textsurf2, self.textRect2 = self.create_name()
+        self.msg1, self.msg2 = self.create_name()
 
 
     def get_x(self):
@@ -263,21 +242,16 @@ class Jutsu_Icon(CharacterIcon):
         return y
 
     def create_name(self):
-        msg1 = self.icon_name
-        msg2 = f"Damage: {self.get_damage()}"
-        font = pygame.font.Font("freesansbold.ttf", int(2.2222222222222223e-05 * glob_var.display_area * .5))
         x, y = (self.x + self.icon_size[0] / 2, self.y + self.icon_size[1] + (glob_var.display_height * 0.0125))
+        msg1 = TextCue(self.icon_name, black, 14, x, y)
+        msg2 = TextCue(f"Damage: {self.get_damage()}", black, 14, x, y + (glob_var.display_height * 0.01875))
 
-        textsurf, textRect = create_textObject(msg1, font)
-        textsurf2, textRect2 = create_textObject(msg2, font)
-        textRect.center = (x,y)
-        textRect2.center = (x, y + (glob_var.display_height * 0.01875))
-
-        return textsurf, textRect, textsurf2, textRect2
+        return msg1, msg2
 
     def display_name(self):
-        glob_var.win.blit(self.textsurf, self.textRect)
-        glob_var.win.blit(self.textsurf2, self.textRect2)
+        self.msg1.display_text()
+        self.msg2.display_text()
+
 
     def get_damage(self):
         for item in jutsu_signs.names_of_characters:
@@ -314,17 +288,14 @@ class Jutsu_Icon(CharacterIcon):
 
 class TextCue:
 
-    width_factor = .1
-    height_factor = .1
-
-    def __init__(self, msg, text_color, size):
+    def __init__(self, msg, text_color, size, x, y):
         self.msg = msg
         self.r, self.g, self.b = text_color
         self.size = size
+        self.x = x
+        self.y = y
 
         self.font = pygame.font.Font("freesansbold.ttf", int(self.size))
-        self.w = glob_var.display_width * size * TextCue.width_factor
-        self.h = glob_var.display_height * size * TextCue.height_factor
 
     def create_text(self):
         textsurface = self.font.render(self.msg, True, (self.r, self.g, self.b))
@@ -332,41 +303,41 @@ class TextCue:
 
     def display_text(self):
         text, rect = self.create_text()
-        rect.center = ((self.x + (self.w / 2)), (self.y + (self.h / 2)))
+        rect.center = (self.x, self.y)
         glob_var.win.blit(text, rect)
 
 
 class HeaderText(TextCue):
 
-    def __init__(self, msg, text_color, size):
-        super().__init__(msg, text_color, size)
+    def __init__(self, msg, text_color, size, x, y):
+        super().__init__(msg, text_color, size, x, y)
 
-        self.x = glob_var.display_width // 2 - (self.w // 2)
-        self.y = (glob_var.display_height * 0.025)
+        self.x = glob_var.display_width // 2
+        self.y = glob_var.display_height / 8.35
 
         self.font = pygame.font.Font("freesansbold.ttf", int(self.size))
 
 
 class PromptText(TextCue):
 
-    def __init__(self, msg, text_color, size, seq):
-        self.seq = seq
-        super().__init__(msg, text_color, size)
+    def __init__(self, msg, text_color, size, seq, x, y):
+        super().__init__(msg, text_color, size, x, y)
 
-        self.x = glob_var.display_width * ((len(self.seq) + 1) / 6) - (glob_var.display_width * 0.125)
-        self.y = (glob_var.display_height * 0.1625)
+        self.seq = seq
+        self.x = ((len(self.seq) + 1) / 8) * glob_var.display_width
+        self.y = (glob_var.display_height // 4.175)
 
         self.font = pygame.font.Font("freesansbold.ttf", int(self.size))
 
 
 class JutsuText(TextCue):
 
-    def __init__(self, msg, text_color, size, seq):
+    def __init__(self, msg, text_color, size, seq, x, y):
         self.seq = seq
-        super().__init__(msg, text_color, size)
+        super().__init__(msg, text_color, size, x, y)
 
-        self.x = glob_var.display_width * (len(self.seq) / 6) - (glob_var.display_width * 0.083333333333)
-        self.y = (glob_var.display_height * 0.1625)
+        self.x = ((len(self.seq)) / 8) * glob_var.display_width
+        self.y = (glob_var.display_height // 3.25)
 
         self.font = pygame.font.Font("freesansbold.ttf", int(self.size))
 

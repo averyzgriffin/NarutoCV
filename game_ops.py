@@ -63,7 +63,7 @@ def skip_jutsu():
     # fail_jutsu_cue = visual_ops.VisualCue('WRONG JUTSU', (glob_var.display_width*.5), (glob_var.display_height*.25), glob_var.red,'header', [])
     # fail_jutsu_cue.create_cue()
 
-    fail_jutsu_cue = visual_ops.HeaderText('WRONG JUTSU', glob_var.red, 100)
+    fail_jutsu_cue = visual_ops.HeaderText('WRONG JUTSU', glob_var.red, 100, None, None)
     fail_jutsu_cue.display_text()
 
 

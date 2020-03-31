@@ -84,6 +84,7 @@ if __name__ == "__main__":
 
         while game_phase:
 
+
             # PyGame Events
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -206,42 +207,25 @@ if __name__ == "__main__":
                     perm = predict_ops.get_permutations_of_predictions(sequence)
 
 
-
-
                     # -----------------------------
                     # PYGAME VISUAL CUES FOR USER
                     # -----------------------------
-                    # begin_attack_visual_cue = VisualCue("GO!", w=glob_var.display_width*0.166666, h=glob_var.display_height*0.125,
-                    #                   text_color=glob_var.green, typ='header', seq=sequence)
-                    # begin_attack_visual_cue.create_cue()
-                    #
-                    # sign_num_cue = VisualCue(f'SIGN #{str(len(sequence)+1)}', glob_var.display_width*0.14583334,
-                    #                      glob_var.display_height*0.125, glob_var.green, 'prompt', sequence)
-                    # sign_num_cue.create_cue()
-
-                    begin_attack_visual_cue = visual_ops.HeaderText("GO!", glob_var.green, 50)
+                    begin_attack_visual_cue = visual_ops.HeaderText("GO!", glob_var.green, 75, None, None)
                     begin_attack_visual_cue.display_text()
 
-                    sign_num_cue = visual_ops.PromptText(f'SIGN #{str(len(sequence)+1)}', glob_var.green, 20, sequence)
+                    sign_num_cue = visual_ops.PromptText(f'SIGN #{str(len(sequence)+1)}', glob_var.green, 30, sequence, None, None)
                     sign_num_cue.display_text()
 
                     # Visual printing of top signs so far
                     if len(sequence) > 0 and top_signs is not None:
-                        # predicted_sign_cue = VisualCue(str(top_signs[0]), glob_var.display_width*0.06666667,
-                        #                            glob_var.display_height*0.05, glob_var.green, 'jutsu', sequence)
-                        # predicted_sign_cue.create_cue()
                         
-                        predicted_sign_cue = visual_ops.JutsuText(str(top_signs[0]), glob_var.green, 10, sequence)
+                        predicted_sign_cue = visual_ops.JutsuText(str(top_signs[0]), glob_var.green, 45, sequence, None, None)
                         predicted_sign_cue.display_text()
 
                         for s in top_signs:
                             try:
                                 if s == selected_jutsu.get_jutsu_signs()[len(sequence)-1]:
                                     print("GOOD JOB")
-                                    #correct_sign_visual_cue = VisualCue(msg=[], w=[], h=[], text_color=(0, 0, 0), typ='image',
-                                    #                     seq=sequence, image_str='character_icons/mightguythumbsup.jpg')
-                                    #correct_sign_visual_cue.display_image()
-                                    #pygame.display.update()
                             except Exception as e:
                                 print("exception: ", e)
 
