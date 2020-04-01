@@ -21,29 +21,39 @@ def change_music(song):
     pygame.mixer_music.play(-1)
 
 
-def change_phase(jutsu_icon, character_icon):
+def start_jutsu_phase(jutsu_icon, character_icon):
     glob_var.win.fill(glob_var.white)
+
     selected_jutsu = get_jutsu(jutsu_queued=jutsu_icon.queued_for_attack)
     attacked_character = character_icon.queued_to_be_attacked
+
     procedure = visual_ops.get_jutsu_selected_visual(selected_jutsu)
+
     glob_var.win.fill(glob_var.white)
+
     camera = camera_ops.setup_camera()
-    jutsu_phase = True
+
     game_phase = False
+    jutsu_phase = True
     attack = False  # attack_button.is_clicked = False
+
     change_music('jutsu')
 
     return selected_jutsu, attacked_character, procedure, camera, jutsu_phase, game_phase, attack
     
 
-def reset_game():
+def start_game_phase():
     pygame.display.update()
+
     num_frames, count = 0, 0
+
     accumulated_predictions = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     accumulated_predictions = np.array([accumulated_predictions], dtype='float64')
     sequence, top_signs, select, selected_jutsu, visual_ops.Jutsu_Icon.jutsu_que = [], [], [], [], []
+
     game_phase = True
     jutsu_phase = False
+
     change_turn()
     change_music('game')
 

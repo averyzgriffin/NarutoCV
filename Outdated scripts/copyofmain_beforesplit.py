@@ -118,7 +118,7 @@ tiger = [0,0,0,0,0,0,0,0,0,0,0,1]
 #     # jt(failure.video)
 #
 #
-# def reset_game():
+# def start_game_phase():
 #     pygame.display.update()
 #     num_frames, count = 0, 0
 #     accumulated_predictions = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -683,21 +683,21 @@ if __name__ == "__main__":
                     if selected_jutsu.get_sequence() in perm:
                         game_ops.success(selected_jutsu)
                         sequence, num_frames, count, accumulated_predictions, top_signs, select, selected_jutsu,\
-                        game, jutsu, player_turn = game_ops.reset_game()
+                        game, jutsu, player_turn = game_ops.start_game_phase()
                         break
 
                     elif len(sequence) >= len(selected_jutsu.get_sequence()) and selected_jutsu.get_sequence() not in perm:
                         game_ops.failed()
                         player_turn = False
                         sequence, num_frames, count, accumulated_predictions, top_signs, select, selected_jutsu,\
-                        game, jutsu, player_turn = game_ops.reset_game()
+                        game, jutsu, player_turn = game_ops.start_game_phase()
                         break
 
                     elif keypress == ord("n"):
                         game_ops.failed()
                         player_turn = False
                         sequence, num_frames, count, accumulated_predictions, top_signs, select, selected_jutsu,\
-                        game, jutsu, player_turn = game_ops.reset_game()
+                        game, jutsu, player_turn = game_ops.start_game_phase()
                         break
 
                     pygame.display.update()
