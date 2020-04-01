@@ -1,7 +1,7 @@
 import pygame
 import time
 import global_variables as glob_var
-import jutsu_signs
+import jutsu_signs_damage
 from game_manager import GameManager
 
 
@@ -15,20 +15,9 @@ pygame.init()
 def create_textObject(text, font):
     textsurface = font.render(text, True, black)
     return textsurface, textsurface.get_rect()
-#
-#
-# def message_display(text, location, size, win):
-#     font_text = pygame.font.Font('freesansbold.ttf', size)
-#     textsurf, textrect = create_textObject(text, font_text)
-#     textrect.center = location
-#     win.blit(textsurf, textrect)
 
 
-# def track(text, location, size):
-#     message_display(text, location, size, win)
-
-
-def get_jutsu_selected_visual(jutsu):
+def get_selected_jutsu_prompt(jutsu):  # TODO I don't like the name of this function.
     visual_cue = TextCue(str(jutsu.get_jutsu_signs()), black, 50, glob_var.display_width // 2, glob_var.display_height * 7/8)
 
     selection_text = HeaderText(msg="You have selected: " + str(jutsu.jutsu_icon_name), text_color=black, size=50, x=None, y=None)
@@ -201,7 +190,7 @@ class Jutsu_Icon(CharacterIcon):
 
 
     def get_damage(self):
-        for item in jutsu_signs.names_of_characters:
+        for item in jutsu_signs_damage.names_of_characters:
             if list(item.values())[0] == self.parent_icon.icon_name:
                 return item[self.icon_name][1]
         else:
