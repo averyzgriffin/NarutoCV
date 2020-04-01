@@ -6,36 +6,52 @@ import jutsu_signs
 import jutsu_videos
 import camera_ops
 from game_manager import GameManager
+import time
 
 
 # --------------------------------------------------------------------------------------------------------------
 # GAME FUNCTIONS
 # --------------------------------------------------------------------------------------------------------------
-def change_music():
+def change_music(song):
     pygame.mixer_music.stop()
-    pygame.mixer_music.load("Sound/Naruto OST 1 - Need To Be Strong.mp3")
+    if song == 'game':
+        pygame.mixer_music.load("Sound/Naruto OST 2 - Afternoon of Konoha.mp3")
+    elif song == 'jutsu':
+        pygame.mixer_music.load("Sound/Naruto OST 1 - Need To Be Strong.mp3")
     pygame.mixer_music.play(-1)
 
 
 def change_phase(jutsu_icon, character_icon):
-    fill_screen(glob_var.win, glob_var.white)
+    glob_var.win.fill(glob_var.white)
     selected_jutsu = get_jutsu(jutsu_queued=jutsu_icon.queued_for_attack)
     attacked_character = character_icon.queued_to_be_attacked
     procedure = visual_ops.get_jutsu_selected_visual(selected_jutsu)
-    fill_screen(glob_var.win, glob_var.white)
+    glob_var.win.fill(glob_var.white)
     camera = camera_ops.setup_camera()
     jutsu_phase = True
     game_phase = False
     attack = False  # attack_button.is_clicked = False
-    change_music()
+    change_music('jutsu')
+
     return selected_jutsu, attacked_character, procedure, camera, jutsu_phase, game_phase, attack
     
 
-# --------------------------------------------------------------------------------------------------------------
-# VISUAL FUNCTIONS
-# --------------------------------------------------------------------------------------------------------------
-def fill_screen(win, color):
-    win.fill(color)
+def reset_game():
+    pygame.display.update()
+    num_frames, count = 0, 0
+    accumulated_predictions = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    accumulated_predictions = np.array([accumulated_predictions], dtype='float64')
+    sequence, top_signs, select, selected_jutsu, visual_ops.Jutsu_Icon.jutsu_que = [], [], [], [], []
+    game_phase = True
+    jutsu_phase = False
+    change_turn()
+    change_music('game')
+
+    return sequence, num_frames, count, accumulated_predictions, top_signs, select, selected_jutsu, game_phase, jutsu_phase
+
+
+def change_turn():
+    GameManager.change_turn()
 
 
 # --------------------------------------------------------------------------------------------------------------
@@ -52,37 +68,20 @@ def apply_damage(health, damage):
 
 
 def activate_jutsu(selected_jutsu):
-    pygame.mixer_music.stop()
+    pygame.mixer_music.stop()  # TODO PUT THIS SOMEWHERE ELSE TOGETHER WITH THE SKIP_JUTSU ONE
+
     jutsu_video = selected_jutsu.get_video_string()
     jutsu_videos.play_video(jutsu_video)
 
 
 def skip_jutsu():
-    pygame.mixer_music.stop()
+    pygame.mixer_music.stop()  # TODO PUT THIS SOMEWHERE ELSE TOGETHER WITH THE ACTIVATE_JUTSU ONE
+
     glob_var.win.fill(glob_var.black)
-
-    fail_jutsu_cue = visual_ops.HeaderText('WRONG JUTSU', glob_var.red, 100, None, None)
+    fail_jutsu_cue = visual_ops.HeaderText('FAILURE', glob_var.red, 100, None, None)
     fail_jutsu_cue.display_text()
-
-
-
-def reset_game():
-    pygame.display.update()
-    num_frames, count = 0, 0
-    accumulated_predictions = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    accumulated_predictions = np.array([accumulated_predictions], dtype='float64')
-    sequence, top_signs, select, selected_jutsu, visual_ops.Jutsu_Icon.jutsu_que = [], [], [], [], []
-    game_phase = True
-    jutsu_phase = False
-    change_turn()
-
-    return sequence, num_frames, count, accumulated_predictions, top_signs, select, selected_jutsu, game_phase, jutsu_phase
-
-
-def change_turn():
-    GameManager.change_turn()
-    pygame.mixer.music.load("Sound/Naruto OST 2 - Afternoon of Konoha.mp3")
-    pygame.mixer_music.play()
+    pygame.display.update()  # TODO I wonder if we can move this to the HeaderText class; maybe cause fps issues?
+    time.sleep(2)
 
 
 # ---------------------------------------------------------------

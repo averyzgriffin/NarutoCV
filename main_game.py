@@ -68,8 +68,7 @@ background = pygame.image.load("env_icons/background2.jpg").convert()
 background = pygame.transform.scale(background, (glob_var.display_width, glob_var.display_height))
 
 pygame.mixer.init()
-pygame.mixer.music.load("Sound/Naruto OST 2 - Afternoon of Konoha.mp3")
-pygame.mixer.music.play(-1)
+game_ops.change_music('game')
 
 
 # ----------------------------------------
@@ -236,6 +235,7 @@ if __name__ == "__main__":
                         attacked_character.check_health()
                         attacked_character.bar, attacked_character.bar_x, attacked_character.bar_y,\
                         attacked_character.bar_message = attacked_character.create_bar()  # TODO this should be reducable
+
                         game_ops.activate_jutsu(selected_jutsu)
                         break
 
