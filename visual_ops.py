@@ -212,8 +212,10 @@ class Jutsu_Icon(CharacterIcon):
             click = pygame.mouse.get_pressed()
             if click[0] == 1:
                 if not Jutsu_Icon.class_clickable:
-                    Jutsu_Icon.queued_for_attack = None
                     Jutsu_Icon.class_isclicked = False
+                if not Jutsu_Icon.class_clickable and not CharacterIcon.class_clickable:
+                    Jutsu_Icon.queued_for_attack = None
+
 
         glob_var.win.blit(self.img, (self.x, self.y))
         self.display_name()
