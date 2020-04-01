@@ -2,7 +2,7 @@ import pygame
 import numpy as np
 import global_variables as glob_var
 import visual_ops
-import jutsu_signs
+import jutsu_signs_damage
 import jutsu_videos
 import camera_ops
 from game_manager import GameManager
@@ -23,7 +23,7 @@ def start_jutsu_phase(jutsu_icon, character_icon):
 
     selected_jutsu = get_jutsu(jutsu_queued=jutsu_icon.queued_for_attack)
     attacked_character = character_icon.queued_to_be_attacked
-    procedure = visual_ops.get_jutsu_selected_visual(selected_jutsu)
+    procedure = visual_ops.get_selected_jutsu_prompt(selected_jutsu)
 
     glob_var.win.fill(glob_var.white)
 
@@ -93,30 +93,27 @@ class Jutsu:
         self.parent_character_icon_name = parent_character_icon.icon_name
 
     def get_jutsu_signs(self):
-        attacking_character_name = self.parent_character_icon_name
-        for character in jutsu_signs.names_of_characters:
+        for character in jutsu_signs_damage.names_of_characters:
             character_name = list(character.values())[0]
-            if character_name == attacking_character_name:
+            if character_name == self.parent_character_icon_name:
                 the_jutsu_signs = character[self.jutsu_icon_name][0]
                 return the_jutsu_signs
         else:
             return "Character not found in chars list from jutsu_signs"
 
     def get_video_string(self):
-        attacking_character_name = self.parent_character_icon_name
         for character in jutsu_videos.names_of_characters:
             character_name = list(character.values())[0]
-            if character_name == attacking_character_name:
+            if character_name == self.parent_character_icon_name:
                 the_video_name = character[self.jutsu_icon_name]
                 return the_video_name
         else:
             return "Character not found in chars dictionary from jutsu_videos"
 
     def get_damage(self):
-        attacking_character_name = self.parent_character_icon_name
-        for character in jutsu_signs.names_of_characters:
+        for character in jutsu_signs_damage.names_of_characters:
             character_name = list(character.values())[0]
-            if character_name == attacking_character_name:
+            if character_name == self.parent_character_icon_name:
                 the_jutsu_damage = character[self.jutsu_icon_name][1]
                 return the_jutsu_damage
         else:
