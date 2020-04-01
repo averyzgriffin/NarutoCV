@@ -26,38 +26,29 @@ def start_jutsu_phase(jutsu_icon, character_icon):
 
     selected_jutsu = get_jutsu(jutsu_queued=jutsu_icon.queued_for_attack)
     attacked_character = character_icon.queued_to_be_attacked
-
     procedure = visual_ops.get_jutsu_selected_visual(selected_jutsu)
 
     glob_var.win.fill(glob_var.white)
 
     camera = camera_ops.setup_camera()
-
-    game_phase = False
-    jutsu_phase = True
-    attack = False  # attack_button.is_clicked = False
-
     change_music('jutsu')
 
-    return selected_jutsu, attacked_character, procedure, camera, jutsu_phase, game_phase, attack
+    # rtn  gamephase, jutsuphase, attack
+    return False, True, False, selected_jutsu, attacked_character, procedure, camera
     
 
 def start_game_phase():
     pygame.display.update()
 
     num_frames, count = 0, 0
-
-    accumulated_predictions = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    accumulated_predictions = np.array([accumulated_predictions], dtype='float64')
+    accumulated_predictions = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], dtype='float64')
     sequence, top_signs, select, selected_jutsu, visual_ops.Jutsu_Icon.jutsu_que = [], [], [], [], []
-
-    game_phase = True
-    jutsu_phase = False
 
     change_turn()
     change_music('game')
 
-    return sequence, num_frames, count, accumulated_predictions, top_signs, select, selected_jutsu, game_phase, jutsu_phase
+    # rtn gamephase, attack phase
+    return True, False, sequence, num_frames, count, accumulated_predictions, top_signs, select, selected_jutsu
 
 
 def change_turn():

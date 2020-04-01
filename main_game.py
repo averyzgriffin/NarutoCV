@@ -143,7 +143,7 @@ if __name__ == "__main__":
             # If using a button instead of keypress for attack, use attack_button.is_clicked instead of just "attack"
             if attack:
                 if Jutsu_Icon.queued_for_attack is not None and CharacterIcon.queued_to_be_attacked is not None:
-                    selected_jutsu, attacked_character, procedure, camera, jutsu_phase, game_phase, attack = game_ops.start_jutsu_phase(Jutsu_Icon, CharacterIcon)
+                    game_phase, jutsu_phase, attack, selected_jutsu, attacked_character, procedure, camera = game_ops.start_jutsu_phase(Jutsu_Icon, CharacterIcon)
 
             fps = clock.get_fps()
             clock.tick()
@@ -257,8 +257,7 @@ if __name__ == "__main__":
             # display the original camera frame (with red outline if applicable)
             # cv2.imshow("Video Feed", clone)
 
-        sequence, num_frames, count, accumulated_predictions, top_signs, select, selected_jutsu, \
-        game_phase, jutsu_phase = game_ops.start_game_phase()
+        game_phase, jutsu_phase, sequence, num_frames, count, accumulated_predictions, top_signs, select, selected_jutsu = game_ops.start_game_phase()
 
         print("Released")
         camera.release()
