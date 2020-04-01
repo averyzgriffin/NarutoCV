@@ -43,59 +43,6 @@ def get_jutsu_selected_visual(jutsu):
 # ------------------------------------------------------------------------------
 # GAME LOOP CLASSES
 # ------------------------------------------------------------------------------
-class Button:
-
-    font = pygame.font.Font("freesansbold.ttf", int(3.7037037037037037e-05 * glob_var.display_area * .5))
-    is_clicked = False
-    clickable = False
-    class_clickable = False
-
-    def __init__(self, msg, x, y, w, h, color, alpha, win):
-        self.msg = msg
-        self.x = x
-        self.y = y
-        self.w = w
-        self.h = h
-        self.r, self.g, self.b = color
-        self.alpha = alpha
-        self.win = win
-
-    def create_text(self):
-        textsurf, textRect = create_textObject(self.msg, self.font)
-        textRect.center = ((self.x + (self.w/2)), (self.y + (self.h/2)))
-        return textsurf, textRect
-
-    def create_button(self):
-        # clickable = self.click_status()
-        # if self.clickable:
-        mouse = pygame.mouse.get_pos()
-        click = pygame.mouse.get_pressed()
-        if (self.x + self.w) > mouse[0] > self.x and (self.y + self.h) > mouse[1] > self.y:
-            self.clickable = True
-            Button.class_clickable = True
-
-            button = pygame.Surface((self.w, self.h), pygame.SRCALPHA)  # per-pixel alpha
-            button.fill((self.r, self.g, self.b, self.alpha))  # notice the alpha value in the color
-            self.win.blit(button, (self.x, self.y))
-
-            if click[0] == 1:
-                print('clicked')
-                self.is_clicked = True
-        else:
-            self.clickable = False
-            # Button.class_clickable = False
-            button = pygame.draw.rect(self.win, (self.r, self.g, self.b), (self.x, self.y, self.w, self.h))
-
-        text, rect = self.create_text()
-        self.win.blit(text, rect)
-
-    # else:
-    #     button = pygame.Surface((self.w, self.h), pygame.SRCALPHA)  # per-pixel alpha
-    #     button.fill((self.r, self.g, self.b, self.alpha))  # notice the alpha value in the color
-    #     self.win.blit(button, (self.x, self.y))
-    #     text, rect = self.create_text()
-    #     self.win.blit(text, rect)
-
 
 class CharacterIcon:
 

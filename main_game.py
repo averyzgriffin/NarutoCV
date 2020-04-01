@@ -5,7 +5,7 @@ import cv2
 import game_ops
 from game_ops import Jutsu
 import visual_ops
-from visual_ops import CharacterIcon, Button, Jutsu_Icon
+from visual_ops import CharacterIcon, Jutsu_Icon
 import predict_ops
 import camera_ops
 from keras import models
@@ -141,8 +141,6 @@ if __name__ == "__main__":
             player2_character3_jutsu3_icon.display_image()
             player2_character3_jutsu4_icon.display_image()
 
-            print("Health: ", player2_character1_icon.health)
-
             # If using a button instead of keypress for attack, use attack_button.is_clicked instead of just "attack"
             if attack:
                 if Jutsu_Icon.queued_for_attack is not None and CharacterIcon.queued_to_be_attacked is not None:
@@ -150,7 +148,7 @@ if __name__ == "__main__":
 
             fps = clock.get_fps()
             clock.tick()
-            # print("FPS ", fps)
+            print("FPS ", fps)
 
             # ----------------------------------------------------
             # Final Update
@@ -159,7 +157,6 @@ if __name__ == "__main__":
             # Reset in-game variables - these all need to happen at the very end as so to reset them every loop. Now, if
             # we can figure out a way to not need to do it every loop, perhaps we can speed things up.
             # attack_button.is_clicked = False
-            Button.class_clickable = False
             Jutsu_Icon.class_clickable = False
             CharacterIcon.class_clickable = False
 
