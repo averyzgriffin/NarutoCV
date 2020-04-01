@@ -14,10 +14,7 @@ import time
 # --------------------------------------------------------------------------------------------------------------
 def change_music(song):
     pygame.mixer_music.stop()
-    if song == 'game':
-        pygame.mixer_music.load("Sound/Naruto OST 2 - Afternoon of Konoha.mp3")
-    elif song == 'jutsu':
-        pygame.mixer_music.load("Sound/Naruto OST 1 - Need To Be Strong.mp3")
+    pygame.mixer_music.load(song)
     pygame.mixer_music.play(-1)
 
 
@@ -31,7 +28,7 @@ def start_jutsu_phase(jutsu_icon, character_icon):
     glob_var.win.fill(glob_var.white)
 
     camera = camera_ops.setup_camera()
-    change_music('jutsu')
+    change_music("Sound/Naruto OST 1 - Need To Be Strong.mp3")
 
     # rtn  gamephase, jutsuphase, attack
     return False, True, False, selected_jutsu, attacked_character, procedure, camera
@@ -45,7 +42,7 @@ def start_game_phase():
     sequence, top_signs, select, selected_jutsu, visual_ops.Jutsu_Icon.jutsu_que = [], [], [], [], []
 
     change_turn()
-    change_music('game')
+    change_music("Sound/Naruto OST 2 - Afternoon of Konoha.mp3")
 
     # rtn gamephase, attack phase
     return True, False, sequence, num_frames, count, accumulated_predictions, top_signs, select, selected_jutsu
@@ -69,19 +66,19 @@ def apply_damage(health, damage):
 
 
 def activate_jutsu(selected_jutsu):
-    pygame.mixer_music.stop()  # TODO PUT THIS SOMEWHERE ELSE TOGETHER WITH THE SKIP_JUTSU ONE
+    pygame.mixer_music.stop()  # TODO PUT THIS ELSEWHERE TOGETHER WITH THE SKIP_JUTSU ONE. Not sure what to do.
 
     jutsu_video = selected_jutsu.get_video_string()
     jutsu_videos.play_video(jutsu_video)
 
 
 def skip_jutsu():
-    pygame.mixer_music.stop()  # TODO PUT THIS SOMEWHERE ELSE TOGETHER WITH THE ACTIVATE_JUTSU ONE
+    pygame.mixer_music.stop()  # TODO PUT THIS ELSEWHERE TOGETHER WITH THE ACTIVATE_JUTSU ONE. Not sure what to do.
 
     glob_var.win.fill(glob_var.black)
     fail_jutsu_cue = visual_ops.HeaderText('FAILURE', glob_var.red, 100, None, None)
     fail_jutsu_cue.display_text()
-    pygame.display.update()  # TODO I wonder if we can move this to the HeaderText class; maybe cause fps issues?
+    pygame.display.update()
     time.sleep(2)
 
 

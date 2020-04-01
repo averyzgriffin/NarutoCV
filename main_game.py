@@ -68,7 +68,7 @@ background = pygame.image.load("env_icons/background2.jpg").convert()
 background = pygame.transform.scale(background, (glob_var.display_width, glob_var.display_height))
 
 pygame.mixer.init()
-game_ops.change_music('game')
+game_ops.change_music("Sound/Naruto OST 2 - Afternoon of Konoha.mp3")
 
 
 # ----------------------------------------
