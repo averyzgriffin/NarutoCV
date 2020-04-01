@@ -1,9 +1,7 @@
 import numpy as np
-import imutils
 import pygame
 import cv2
 import game_ops
-from game_ops import Jutsu
 import visual_ops
 from visual_ops import CharacterIcon, Jutsu_Icon
 import predict_ops
@@ -145,9 +143,9 @@ if __name__ == "__main__":
                 if Jutsu_Icon.queued_for_attack is not None and CharacterIcon.queued_to_be_attacked is not None:
                     game_phase, jutsu_phase, attack, selected_jutsu, attacked_character, procedure, camera = game_ops.start_jutsu_phase(Jutsu_Icon, CharacterIcon)
 
-            fps = clock.get_fps()
-            clock.tick()
-            print("FPS ", fps)
+            # fps = clock.get_fps()
+            # clock.tick()
+            # print("FPS ", fps)
 
             # ----------------------------------------------------
             # Final Update
@@ -196,9 +194,9 @@ if __name__ == "__main__":
 
                     # MODEL PREDICTION - OBTAINING AVERAGE PREDICTIONS, SEQUENCES, AND PERMUTATIONS
                     prediction = model.predict([np.reshape(threshold, (1, height, width, 3))])
-                    count += 1
                     accumulated_predictions += prediction
 
+                    count += 1
                     if count % mean_cutoff == 0:
                         accumulated_predictions, sequence, top_signs = predict_ops.get_predictions(accumulated_predictions, prediction, sequence)
 

@@ -140,7 +140,6 @@ class CharacterIcon:
         input('death' + str(self.icon_name))
 
 
-
 class Jutsu_Icon(CharacterIcon):
 
     _folder = 'jutsu_icons/'
@@ -188,8 +187,7 @@ class Jutsu_Icon(CharacterIcon):
         self.msg1.display_text()
         self.msg2.display_text()
 
-
-    def get_damage(self):
+    def get_damage(self):  # TODO I think I can eventually merge this with the same function in game_ops. Not sure.
         for item in jutsu_signs_damage.names_of_characters:
             if list(item.values())[0] == self.parent_icon.icon_name:
                 return item[self.icon_name][1]
