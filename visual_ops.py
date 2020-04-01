@@ -128,6 +128,8 @@ class CharacterIcon:
                     click = pygame.mouse.get_pressed()
                     if click[0] == 1:
                         CharacterIcon.queued_to_be_attacked = self
+        else:
+            self.img.set_alpha(255)
 
         glob_var.win.blit(self.img, (self.x, self.y))
         self.display_bar()
@@ -195,26 +197,23 @@ class Jutsu_Icon(CharacterIcon):
             return "Character not found in chars list from damage signs"
 
     def display_image(self):
-
         if self.click_status():
             Jutsu_Icon.class_clickable = True
-
             self.img.set_alpha(100)
 
             click = pygame.mouse.get_pressed()
             if click[0] == 1:
-                Jutsu_Icon.class_isclicked = True
                 Jutsu_Icon.queued_for_attack = self
+                Jutsu_Icon.class_isclicked = True
 
-        if not Jutsu_Icon.class_clickable:
+        if not self.click_status():
+            self.img.set_alpha(255)
+
             click = pygame.mouse.get_pressed()
             if click[0] == 1:
-                if CharacterIcon.class_clickable:
-                    Jutsu_Icon.class_isclicked = False
-                if not CharacterIcon.class_clickable:
+                if not Jutsu_Icon.class_clickable:
                     Jutsu_Icon.queued_for_attack = None
                     Jutsu_Icon.class_isclicked = False
-                    print("CLICKED AWAY")
 
         glob_var.win.blit(self.img, (self.x, self.y))
         self.display_name()
