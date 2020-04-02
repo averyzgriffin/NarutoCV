@@ -7,11 +7,17 @@ import jutsu_videos
 import camera_ops
 from game_manager import GameManager
 import time
-
+import cv2
 
 # --------------------------------------------------------------------------------------------------------------
 # GAME FUNCTIONS
 # --------------------------------------------------------------------------------------------------------------
+def release_camera(cam):
+    print("Released")
+    cam.release()
+    cv2.destroyAllWindows()
+
+
 def change_music(song):
     pygame.mixer_music.stop()
     pygame.mixer_music.load(song)
@@ -56,8 +62,6 @@ def start_game_phase():
 
 
 def end_game(winner):
-    game_phase = False
-    jutsu_phase = False
     GameManager.end_game = True
 
     glob_var.win.fill(glob_var.white)
