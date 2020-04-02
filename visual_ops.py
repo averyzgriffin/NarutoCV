@@ -54,6 +54,8 @@ class CharacterIcon:
 
         self.bar, self.bar_x, self.bar_y, self.bar_message = self.create_bar()
 
+        self.dead = False
+
     def get_x(self):
         if self.player_num == 1:
             x_location = glob_var.display_width * .025
@@ -106,7 +108,7 @@ class CharacterIcon:
 
     def create_bar(self):
         bar_x, bar_y = self.x, self.y + self.icon_size[1] + (glob_var.display_height * 0.00625)
-        bar_width = int(self.icon_size[0] * (self.health / 100))
+        bar_width = abs(int(self.icon_size[0] * (self.health / 100)))
 
         bar = pygame.Surface((bar_width, 10), pygame.SRCALPHA)
         bar.fill((255, 0, 0, 255))
@@ -119,17 +121,18 @@ class CharacterIcon:
         self.bar_message.display_text()
 
     def display_image(self):
-        if Jutsu_Icon.class_isclicked:
-            if GameManager.player1_turn and self.player_num == 2 or not GameManager.player1_turn and self.player_num == 1:
-                self.img.set_alpha(100)
+        if not self.dead:
+            if Jutsu_Icon.class_isclicked:
+                if GameManager.player1_turn and self.player_num == 2 or not GameManager.player1_turn and self.player_num == 1:
+                    self.img.set_alpha(100)
 
-                if self.click_status():
-                    CharacterIcon.class_clickable = True
-                    click = pygame.mouse.get_pressed()
-                    if click[0] == 1:
-                        CharacterIcon.queued_to_be_attacked = self
-        else:
-            self.img.set_alpha(255)
+                    if self.click_status():
+                        CharacterIcon.class_clickable = True
+                        click = pygame.mouse.get_pressed()
+                        if click[0] == 1:
+                            CharacterIcon.queued_to_be_attacked = self
+            else:
+                self.img.set_alpha(255)
 
         glob_var.win.blit(self.img, (self.x, self.y))
         self.display_bar()
@@ -139,7 +142,10 @@ class CharacterIcon:
             self.die()
 
     def die(self):
-        input('death' + str(self.icon_name))
+        print('DEAD: ' + str(self.icon_name))
+        self.health = 0
+        self.dead = True
+        self.img = pygame.transform.scale(pygame.image.load('character_icons/silverbox.jpg'), self.icon_size).convert()
 
 
 class Jutsu_Icon(CharacterIcon):
@@ -197,28 +203,28 @@ class Jutsu_Icon(CharacterIcon):
             return "Character not found in chars list from damage signs"
 
     def display_image(self):
-        if self.click_status():
-            Jutsu_Icon.class_clickable = True
-            self.img.set_alpha(100)
+        if not self.parent_icon.dead:
+            if self.click_status():
+                Jutsu_Icon.class_clickable = True
+                self.img.set_alpha(100)
 
-            click = pygame.mouse.get_pressed()
-            if click[0] == 1:
-                Jutsu_Icon.queued_for_attack = self
-                Jutsu_Icon.class_isclicked = True
+                click = pygame.mouse.get_pressed()
+                if click[0] == 1:
+                    Jutsu_Icon.queued_for_attack = self
+                    Jutsu_Icon.class_isclicked = True
 
-        if not self.click_status():
-            self.img.set_alpha(255)
+            if not self.click_status():
+                self.img.set_alpha(255)
 
-            click = pygame.mouse.get_pressed()
-            if click[0] == 1:
-                if not Jutsu_Icon.class_clickable:
-                    Jutsu_Icon.class_isclicked = False
-                if not Jutsu_Icon.class_clickable and not CharacterIcon.class_clickable:
-                    Jutsu_Icon.queued_for_attack = None
+                click = pygame.mouse.get_pressed()
+                if click[0] == 1:
+                    if not Jutsu_Icon.class_clickable:
+                        Jutsu_Icon.class_isclicked = False
+                    if not Jutsu_Icon.class_clickable and not CharacterIcon.class_clickable:
+                        Jutsu_Icon.queued_for_attack = None
 
-
-        glob_var.win.blit(self.img, (self.x, self.y))
-        self.display_name()
+            glob_var.win.blit(self.img, (self.x, self.y))
+            self.display_name()
 
 
 class TextCue:
