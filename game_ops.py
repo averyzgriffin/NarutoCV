@@ -37,6 +37,9 @@ def start_jutsu_phase(jutsu_icon, character_icon):
 def start_game_phase():
     pygame.display.update()
 
+    visual_ops.CharacterIcon.queued_to_be_attacked = None
+    visual_ops.Jutsu_Icon.queued_for_attack = None
+
     num_frames, count = 0, 0
     accumulated_predictions = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], dtype='float64')
     sequence, top_signs, select, selected_jutsu, visual_ops.Jutsu_Icon.jutsu_que = [], [], [], [], []
