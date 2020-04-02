@@ -19,7 +19,6 @@ model = models.load_model(saved_model)
 
 pygame.init()
 
-
 clock = pygame.time.Clock()
 
 # ----------------------------------------------------------------------------------------
@@ -31,6 +30,9 @@ player1_character3_icon = CharacterIcon('guy', 1, 3)
 player2_character1_icon = CharacterIcon('crow', 2, 1)
 player2_character2_icon = CharacterIcon('akamaru', 2, 2)
 player2_character3_icon = CharacterIcon('naruto', 2, 3)
+
+all_characters = [player1_character1_icon, player1_character2_icon, player1_character3_icon,
+                  player2_character1_icon, player2_character2_icon, player2_character3_icon]
 
 player1_character1_jutsu1_icon = Jutsu_Icon(icon_name='Kakashi Sharingan', player_num=1, icon_num=1, parent_icon=player1_character1_icon)
 player1_character1_jutsu2_icon = Jutsu_Icon('Ninja Hounds', 1, 2, player1_character1_icon)
@@ -76,10 +78,18 @@ if __name__ == "__main__":
 
     game_phase = True
     jutsu_phase = False
+    end_phase = False
 
     while True:
 
+        if GameManager.end_game:
+            print("Status check")
+            game_phase = False
+            jutsu_phase = False
+
         while game_phase:
+            if GameManager.end_game:
+                break
 
 
             # PyGame Events
@@ -100,6 +110,16 @@ if __name__ == "__main__":
                     if event.key == pygame.K_RETURN:
                         print("Enter")
                         attack = not attack
+
+                    if event.key == pygame.K_1:
+                        all_characters[3].dead = True
+                    if event.key == pygame.K_2:
+                        all_characters[4].dead = True
+                    if event.key == pygame.K_3:
+                        all_characters[5].dead = True
+                    if event.key == pygame.K_g:
+                        GameManager.check_characters(all_characters)
+
 
             # Background
             glob_var.win.fill(glob_var.orange)
@@ -146,6 +166,9 @@ if __name__ == "__main__":
             # fps = clock.get_fps()
             # clock.tick()
             # print("FPS ", fps)
+
+            # print("jutsu: ", Jutsu_Icon.queued_for_attack)
+            # print("character: ", CharacterIcon.queued_to_be_attacked)
 
             # ----------------------------------------------------
             # Final Update
@@ -221,9 +244,9 @@ if __name__ == "__main__":
                         for s in top_signs:
                             try:
                                 if s == selected_jutsu.get_jutsu_signs()[len(sequence)-1]:
-                                    print("GOOD JOB")
+                                    pass  # print("GOOD JOB")
                                 else:
-                                    print("INCORRECT SIGN")
+                                    pass  # print("INCORRECT SIGN")
                             except Exception as e:
                                 print("exception: ", e)
 
@@ -256,8 +279,8 @@ if __name__ == "__main__":
             # cv2.imshow("Video Feed", clone)
 
         game_phase, jutsu_phase, sequence, num_frames, count, accumulated_predictions, top_signs, select, selected_jutsu = game_ops.start_game_phase()
+        GameManager.check_characters(all_characters)
 
         print("Released")
         camera.release()
         cv2.destroyAllWindows()
-

@@ -17,8 +17,6 @@ orange = (255,165,0)
 # Camera Variables
 bg = None
 calibrate_frames = 30
-# WIDTH = 165 I don't think this is needed
-# HEIGHT = 235 I don't think this is needed
 top, right, bottom, left = 195, 255, 430, 420  # far away
 aWeight = 0.5
 
@@ -32,7 +30,6 @@ player_turn = True
 attack = False
 active_health = 0
 active_damage = 0
-
 
 # Model Variables
 num_frames = 0

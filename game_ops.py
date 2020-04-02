@@ -18,6 +18,10 @@ def change_music(song):
     pygame.mixer_music.play(-1)
 
 
+def change_turn():
+    GameManager.change_turn()
+
+
 def start_jutsu_phase(jutsu_icon, character_icon):
     glob_var.win.fill(glob_var.white)
 
@@ -32,7 +36,7 @@ def start_jutsu_phase(jutsu_icon, character_icon):
 
     # rtn  gamephase, jutsuphase, attack
     return False, True, False, selected_jutsu, attacked_character, procedure, camera
-    
+
 
 def start_game_phase():
     pygame.display.update()
@@ -51,8 +55,21 @@ def start_game_phase():
     return True, False, sequence, num_frames, count, accumulated_predictions, top_signs, select, selected_jutsu
 
 
-def change_turn():
-    GameManager.change_turn()
+def end_game(winner):
+    game_phase = False
+    jutsu_phase = False
+    GameManager.end_game = True
+
+    glob_var.win.fill(glob_var.white)
+    winner_text1 = visual_ops.TextCue(f"PLAYER {winner}", glob_var.black, 100,
+                                      glob_var.display_width//2, (glob_var.display_height//2) - 200)
+    winner_text2 = visual_ops.TextCue("YOU WIN", glob_var.black, 150,
+                                      glob_var.display_width // 2, (glob_var.display_height // 2))
+    winner_text1.display_text()
+    winner_text2.display_text()
+    pygame.display.update()
+
+
 
 
 # --------------------------------------------------------------------------------------------------------------
