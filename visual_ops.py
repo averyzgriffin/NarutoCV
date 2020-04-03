@@ -18,7 +18,14 @@ def create_textObject(text, font):
 
 
 def get_selected_jutsu_prompt(jutsu):  # TODO I don't like the name of this function.
-    visual_cue = TextCue(str(jutsu.get_jutsu_signs()), black, 50, glob_var.display_width // 2, glob_var.display_height * 7/8)
+    jutsu_string = str(jutsu.get_jutsu_signs())
+    jutsu_string = jutsu_string.replace("'", "")
+    jutsu_string = jutsu_string.replace("(", "")
+    jutsu_string = jutsu_string.replace(")", "")
+    jutsu_string = jutsu_string.replace(",", " -")
+    jutsu_string = jutsu_string.upper()
+
+    visual_cue = TextCue(jutsu_string, black, 50, glob_var.display_width // 2, glob_var.display_height * 7/8)
 
     selection_text = HeaderText(msg="You have selected: " + str(jutsu.jutsu_icon_name), text_color=black, size=50, x=None, y=None)
     selection_text.display_text()
@@ -239,7 +246,7 @@ class Button:
         self.boxcolor = glob_var.gray
         self.boxoutline = glob_var.black
         self.textcolor = glob_var.white
-        self.textsize = (self.w*self.h) // 750
+        self.textsize = self.w // 7
 
         self.text = self.create_text()
 
