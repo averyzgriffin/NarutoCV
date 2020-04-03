@@ -3,7 +3,7 @@ import pygame
 import cv2
 import game_ops
 import visual_ops
-from visual_ops import CharacterIcon, Jutsu_Icon
+from visual_ops import CharacterIcon, Jutsu_Icon, Button
 import predict_ops
 import camera_ops
 from keras import models
@@ -12,8 +12,7 @@ from game_manager import GameManager
 from game_manager import CharacterManager
 from game_manager import JutsuManager
 import global_variables as glob_var
-from global_variables import calibrate_frames, aWeight,\
-    mean_cutoff, signs, active_health, active_damage
+from global_variables import calibrate_frames, aWeight, mean_cutoff, signs, active_health, active_damage
 
 
 model = models.load_model(saved_model)
@@ -26,6 +25,31 @@ pygame.mixer.init()
 # MAIN
 # -----------------------------------------
 if __name__ == "__main__":
+
+    def main_menu():
+
+        play_button = Button((glob_var.display_width//3), (glob_var.display_height//2), 200, 100, "ENTER", character_select)
+        quit_button = Button((glob_var.display_width//3 * 2), (glob_var.display_height//2), 200, 100, "QUIT", quit)
+
+        background = pygame.image.load("env_icons/background2.jpg").convert()
+        background = pygame.transform.scale(background, (glob_var.display_width, glob_var.display_height))
+
+        while True:
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+
+            glob_var.win.blit(background, (0,0))
+
+            play_button.display_button()
+            quit_button.display_button()
+
+
+
+            pygame.display.update()
+
 
     def character_select():
         player1_character1_icon = CharacterIcon('kakashi', player_num=1, icon_num=1)
@@ -115,7 +139,6 @@ if __name__ == "__main__":
     def game():
 
         attack = False
-
         visual_ops.CharacterIcon.queued_to_be_attacked = None
         visual_ops.Jutsu_Icon.queued_for_attack = None
 
@@ -158,7 +181,6 @@ if __name__ == "__main__":
 
 
             # Background
-            glob_var.win.fill(glob_var.orange)
             glob_var.win.blit(background, (0,0))
 
             CharacterManager.player1_character1_icon.display_image()
@@ -202,13 +224,11 @@ if __name__ == "__main__":
             # clock.tick()
             # print("FPS ", fps)
 
-
             # ----------------------------------------------------
             # Final Update
             pygame.display.update()
 
-            # Reset in-game variables - these all need to happen at the very end as so to reset them every loop. Now, if
-            # we can figure out a way to not need to do it every loop, perhaps we can speed things up.
+            # Reset in-game variables - these need to be reset at the end of every loop.
             Jutsu_Icon.class_clickable = False
             CharacterIcon.class_clickable = False
 
@@ -219,7 +239,6 @@ if __name__ == "__main__":
         num_frames, count = 0, 0
         accumulated_predictions = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], dtype='float64')
         sequence, top_signs, select, selected_jutsu, visual_ops.Jutsu_Icon.jutsu_que = [], [], [], [], []
-
 
         glob_var.win.fill(glob_var.white)
 
@@ -308,13 +327,14 @@ if __name__ == "__main__":
                         attacked_character.bar_message = attacked_character.create_bar()  # TODO this should be reducable
 
                         game_ops.activate_jutsu(selected_jutsu)
-                        GameManager.change_turn()
+
                         game_ops.release_camera(camera)
 
                         GameManager.check_characters()
                         if GameManager.end_game:
                             end_game(GameManager.winner)
 
+                        GameManager.change_turn()
                         game()
 
 
@@ -338,8 +358,17 @@ if __name__ == "__main__":
 
     def end_game(winner):
 
+        background = pygame.image.load("env_icons/background2.jpg").convert()
+        background = pygame.transform.scale(background, (glob_var.display_width, glob_var.display_height))
+
         while True:
-            glob_var.win.fill(glob_var.white)
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+
+            glob_var.win.blit(background, (0,0))
             winner_text1 = visual_ops.TextCue(f"PLAYER {winner}", glob_var.black, 100,
                                               glob_var.display_width // 2, (glob_var.display_height // 2) - 200)
             winner_text2 = visual_ops.TextCue("YOU WIN", glob_var.black, 150,
@@ -347,6 +376,39 @@ if __name__ == "__main__":
             winner_text1.display_text()
             winner_text2.display_text()
             pygame.display.update()
+            pygame.time.wait(3000)
+            end_game2()
 
 
-    character_select()
+    def end_game2():
+
+        playagain_button = Button((glob_var.display_width//3), (glob_var.display_height//2), 200, 100, "PLAY AGAIN", character_select)
+        mainmenu_button = Button((glob_var.display_width//2), (glob_var.display_height//2), 200, 100, "MAIN MENU", main_menu)
+        quit_button = Button((glob_var.display_width//3 * 2), (glob_var.display_height//2), 200, 100, "EXIT GAME", quit)
+
+        background = pygame.image.load("env_icons/background2.jpg").convert()
+        background = pygame.transform.scale(background, (glob_var.display_width, glob_var.display_height))
+
+        while True:
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+
+            glob_var.win.blit(background, (0,0))
+
+            playagain_button.display_button()
+            mainmenu_button.display_button()
+            quit_button.display_button()
+
+
+            pygame.display.update()
+
+
+
+
+
+
+
+    main_menu()
