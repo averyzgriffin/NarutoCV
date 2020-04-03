@@ -28,8 +28,8 @@ if __name__ == "__main__":
 
     def main_menu():
 
-        play_button = Button((glob_var.display_width//3), (glob_var.display_height//2), 200, 100, "ENTER", character_select)
-        quit_button = Button((glob_var.display_width//3 * 2), (glob_var.display_height//2), 200, 100, "QUIT", quit)
+        play_button = Button((glob_var.display_width//3), (glob_var.display_height//2), 200, 100, "ENTER DOJO", character_select)
+        quit_button = Button((glob_var.display_width//3 * 2), (glob_var.display_height//2), 200, 100, "WALK AWAY", quit)
 
         background = pygame.image.load("env_icons/background2.jpg").convert()
         background = pygame.transform.scale(background, (glob_var.display_width, glob_var.display_height))
@@ -146,6 +146,11 @@ if __name__ == "__main__":
         background = pygame.image.load("env_icons/background2.jpg").convert()
         background = pygame.transform.scale(background, (glob_var.display_width, glob_var.display_height))
 
+        attack_button = Button((glob_var.display_width//2), (glob_var.display_height//8), 160, 80, "ATTACK")
+        menu_button = Button((glob_var.display_width//10 * 8), (glob_var.display_height//10 * 9), 70, 35, "MENU", main_menu)
+        quit_button = Button((glob_var.display_width//10 * 9), (glob_var.display_height//10 * 9), 70, 35, "QUIT", quit)
+
+
         game_phase = True
         while game_phase:
 
@@ -215,14 +220,26 @@ if __name__ == "__main__":
             JutsuManager.player2_character3_jutsu3_icon.display_image()
             JutsuManager.player2_character3_jutsu4_icon.display_image()
 
+            attack_button.display_button()
+            menu_button.display_button()
+            quit_button.display_button()
+
             # If using a button instead of keypress for attack, use attack_button.is_clicked instead of just "attack"
-            if attack:
+            click = pygame.mouse.get_pressed()
+            if click[0] == 1 and attack_button.click_status():
                 if Jutsu_Icon.queued_for_attack is not None and CharacterIcon.queued_to_be_attacked is not None:
                     jutsu(Jutsu_Icon, CharacterIcon)
+
+            # if attack:
+            #     if Jutsu_Icon.queued_for_attack is not None and CharacterIcon.queued_to_be_attacked is not None:
+            #         jutsu(Jutsu_Icon, CharacterIcon)
 
             # fps = clock.get_fps()
             # clock.tick()
             # print("FPS ", fps)
+
+            print("Character: ", CharacterIcon.queued_to_be_attacked)
+            print("Jutsu: ", Jutsu_Icon.queued_for_attack)
 
             # ----------------------------------------------------
             # Final Update
