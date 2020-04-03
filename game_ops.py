@@ -84,9 +84,13 @@ def activate_jutsu(selected_jutsu):
 def skip_jutsu():
     pygame.mixer_music.stop()  # TODO PUT THIS ELSEWHERE TOGETHER WITH THE ACTIVATE_JUTSU ONE. Not sure what to do.
 
-    glob_var.win.fill(glob_var.black)
-    fail_jutsu_cue = visual_ops.HeaderText('FAILURE', glob_var.red, 100, None, None)
-    fail_jutsu_cue.display_text()
+    background = pygame.image.load("env_icons/failed_jutsu.jpeg").convert()
+    background = pygame.transform.scale(background, (glob_var.display_width, glob_var.display_height))
+
+    glob_var.win.blit(background, (0, 0))
+
+    # fail_jutsu_cue = visual_ops.HeaderText('FAILURE', glob_var.black, 100, None, None)
+    # fail_jutsu_cue.display_text()
     pygame.display.update()
     time.sleep(2)
 
