@@ -61,21 +61,6 @@ def start_game_phase():
     return True, False, sequence, num_frames, count, accumulated_predictions, top_signs, select, selected_jutsu
 
 
-def end_game(winner):
-    GameManager.end_game = True
-
-    glob_var.win.fill(glob_var.white)
-    winner_text1 = visual_ops.TextCue(f"PLAYER {winner}", glob_var.black, 100,
-                                      glob_var.display_width//2, (glob_var.display_height//2) - 200)
-    winner_text2 = visual_ops.TextCue("YOU WIN", glob_var.black, 150,
-                                      glob_var.display_width // 2, (glob_var.display_height // 2))
-    winner_text1.display_text()
-    winner_text2.display_text()
-    pygame.display.update()
-
-
-
-
 # --------------------------------------------------------------------------------------------------------------
 # JUTSU FUNCTIONS
 # --------------------------------------------------------------------------------------------------------------
