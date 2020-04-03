@@ -76,7 +76,6 @@ class CharacterIcon:
             return "invalid ICON number provided to Class Icon get_y method"
         return y_location
 
-
     def get_image_from_string(self):
         try:
             path = self._folder + self.icon_name + ".jpg"
@@ -227,6 +226,53 @@ class Jutsu_Icon(CharacterIcon):
             self.display_name()
 
 
+class Button:
+
+    def __init__(self, x, y, w, h, msg='', destination=None):
+        self.x = x - w // 2
+        self.y = y - h // 2
+        self.w = w
+        self.h = h
+        self.msg = msg
+        self.destination = destination
+
+        self.boxcolor = glob_var.gray
+        self.boxoutline = glob_var.black
+        self.textcolor = glob_var.white
+        self.textsize = (self.w*self.h) // 750
+
+        self.text = self.create_text()
+
+    def create_text(self):
+        text = TextCue(self.msg, self.textcolor, self.textsize, self.x + self.w // 2, self.y + self.h // 2)
+        return text
+
+    def click_status(self):  # This can be cleaned up
+        mouse = pygame.mouse.get_pos()
+        if (self.x + self.w) > mouse[0] > self.x and (self.y + self.h) > mouse[1] > self.y:
+            return True
+        else:
+            return False
+
+    def display_button(self):
+
+        pygame.draw.rect(glob_var.win, self.boxoutline, (self.x-3, self.y-3, self.w+6, self.h+6), 0)
+
+        if self.click_status():
+            pygame.draw.rect(glob_var.win, (200,200,200), (self.x, self.y, self.w, self.h), 0)
+
+            click = pygame.mouse.get_pressed()
+            if click[0] == 1 and self.destination is not None:
+                self.destination()
+
+        elif not self.click_status():
+            pygame.draw.rect(glob_var.win, self.boxcolor, (self.x, self.y, self.w, self.h), 0)
+
+        if self.msg != '':
+            self.text.display_text()
+
+
+
 class TextCue:
 
     def __init__(self, msg, text_color, size, x, y):
@@ -238,14 +284,15 @@ class TextCue:
 
         self.font = pygame.font.Font("freesansbold.ttf", int(self.size))
 
+        self.text, self.rect = self.create_text()
+
     def create_text(self):
         textsurface = self.font.render(self.msg, True, (self.r, self.g, self.b))
         return textsurface, textsurface.get_rect()
 
     def display_text(self):
-        text, rect = self.create_text()
-        rect.center = (self.x, self.y)
-        glob_var.win.blit(text, rect)
+        self.rect.center = (self.x, self.y)
+        glob_var.win.blit(self.text, self.rect)
 
 
 class HeaderText(TextCue):
