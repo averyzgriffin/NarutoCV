@@ -51,6 +51,20 @@ if __name__ == "__main__":
             pygame.display.update()
 
 
+    def choose_character():
+        while True:
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+
+
+
+
+            pygame.display.update()
+
+
     def character_select():
         player1_character1_icon = CharacterIcon('kakashi', player_num=1, icon_num=1)
         player1_character2_icon = CharacterIcon('obito', 1, 2)
@@ -225,21 +239,21 @@ if __name__ == "__main__":
             quit_button.display_button()
 
             # If using a button instead of keypress for attack, use attack_button.is_clicked instead of just "attack"
-            click = pygame.mouse.get_pressed()
-            if click[0] == 1 and attack_button.click_status():
-                if Jutsu_Icon.queued_for_attack is not None and CharacterIcon.queued_to_be_attacked is not None:
-                    jutsu(Jutsu_Icon, CharacterIcon)
-
-            # if attack:
+            # click = pygame.mouse.get_pressed()
+            # if click[0] == 1 and attack_button.click_status():
             #     if Jutsu_Icon.queued_for_attack is not None and CharacterIcon.queued_to_be_attacked is not None:
             #         jutsu(Jutsu_Icon, CharacterIcon)
 
-            # fps = clock.get_fps()
-            # clock.tick()
-            # print("FPS ", fps)
+            if attack:
+                if Jutsu_Icon.queued_for_attack is not None and CharacterIcon.queued_to_be_attacked is not None:
+                    jutsu(Jutsu_Icon, CharacterIcon)
 
-            print("Character: ", CharacterIcon.queued_to_be_attacked)
-            print("Jutsu: ", Jutsu_Icon.queued_for_attack)
+            fps = clock.get_fps()
+            clock.tick()
+            print("FPS ", fps)
+
+            # print("Character: ", CharacterIcon.queued_to_be_attacked)
+            # print("Jutsu: ", Jutsu_Icon.queued_for_attack)
 
             # ----------------------------------------------------
             # Final Update
@@ -257,16 +271,20 @@ if __name__ == "__main__":
         accumulated_predictions = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], dtype='float64')
         sequence, top_signs, select, selected_jutsu, visual_ops.Jutsu_Icon.jutsu_que = [], [], [], [], []
 
-        glob_var.win.fill(glob_var.white)
+        background = pygame.image.load("env_icons/naruto_background_5_by_pungpp_dcsgik3-fullview.jpg").convert()
+        background = pygame.transform.scale(background, (glob_var.display_width, glob_var.display_height))
+
+        glob_var.win.blit(background, (0, 0))
 
         selected_jutsu = game_ops.get_jutsu(jutsu_queued=jutsu_icon.queued_for_attack)
         attacked_character = character_icon.queued_to_be_attacked
         procedure = visual_ops.get_selected_jutsu_prompt(selected_jutsu)
 
-        glob_var.win.fill(glob_var.white)
-
         camera = camera_ops.setup_camera()
         game_ops.change_music("Sound/Naruto OST 1 - Need To Be Strong.mp3")
+
+
+        glob_var.win.blit(background, (0, 0))
 
         jutsu_phase = True
         while jutsu_phase:
@@ -312,17 +330,17 @@ if __name__ == "__main__":
                     # -----------------------------
                     # PYGAME VISUAL CUES FOR USER
                     # -----------------------------
-                    begin_attack_visual_cue = visual_ops.HeaderText("GO!", glob_var.green, 75, None, None)
+                    begin_attack_visual_cue = visual_ops.HeaderText("GO!", glob_var.black, 75, None, None)
                     begin_attack_visual_cue.display_text()
 
-                    sign_num_cue = visual_ops.PromptText(f'SIGN #{str(len(sequence) + 1)}', glob_var.green, 30,
+                    sign_num_cue = visual_ops.PromptText(f'SIGN #{str(len(sequence) + 1)}', glob_var.black, 30,
                                                          sequence, None, None)
                     sign_num_cue.display_text()
 
                     # Visual printing of top signs so far
                     if len(sequence) > 0 and top_signs is not None:
 
-                        predicted_sign_cue = visual_ops.JutsuText(str(top_signs[0]), glob_var.green, 45, sequence, None,
+                        predicted_sign_cue = visual_ops.JutsuText(str(top_signs[0]), glob_var.black, 45, sequence, None,
                                                                   None)
                         predicted_sign_cue.display_text()
 
