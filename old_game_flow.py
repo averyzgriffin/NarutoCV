@@ -1,28 +1,3 @@
-# import pygame
-#
-#
-# def main_menu():
-#     choose_characters()  # when characters are selected and enter is pressed, the character objects are instantiated
-#     pass
-#
-#
-# def game_loop():
-#     pass
-#
-#
-# def jutsu_loop():
-#     pass
-#
-#
-# def end_game():
-#     pass
-#
-#
-# def pause_menu():
-#     pass
-
-
-# --------------------------
 import numpy as np
 import pygame
 import cv2
