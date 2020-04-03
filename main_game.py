@@ -248,9 +248,9 @@ if __name__ == "__main__":
                 if Jutsu_Icon.queued_for_attack is not None and CharacterIcon.queued_to_be_attacked is not None:
                     jutsu(Jutsu_Icon, CharacterIcon)
 
-            fps = clock.get_fps()
-            clock.tick()
-            print("FPS ", fps)
+            # fps = clock.get_fps()
+            # clock.tick()
+            # print("FPS ", fps)
 
             # print("Character: ", CharacterIcon.queued_to_be_attacked)
             # print("Jutsu: ", Jutsu_Icon.queued_for_attack)
@@ -284,12 +284,16 @@ if __name__ == "__main__":
         game_ops.change_music("Sound/Naruto OST 1 - Need To Be Strong.mp3")
 
 
-        glob_var.win.blit(background, (0, 0))
+        # glob_var.win.blit(background, (0, 0))
+
+        # START TIMER
+        start = pygame.time.get_ticks()
 
         jutsu_phase = True
         while jutsu_phase:
 
             procedure.display_text()
+            glob_var.win.blit(background, (0, 0))
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -316,8 +320,40 @@ if __name__ == "__main__":
                     cv2.imshow("Threshold", threshold)
                     threshold = np.stack((threshold,) * 3, axis=-1)  # Expand frame to 3 channels for the model
 
-                    # MODEL PREDICTION - OBTAINING AVERAGE PREDICTIONS, SEQUENCES, AND PERMUTATIONS
+
+                    now = (pygame.time.get_ticks() - start - 10000) / 1000
+                    # print("TIME: ", now)
+
+                    timer = visual_ops.TextCue(str(int(5-now)), glob_var.black, 75, 1300, 100)
+                    timer.display_text()
+
                     prediction = model.predict([np.reshape(threshold, (1, height, width, 3))])
+
+                    # print(selected_jutsu.get_jutsu_signs()[0])
+                    # print(signs)
+                    # print("Labeled Arg Max: ", signs[np.argmax(prediction)])
+                    # print("ARG MAX: ", np.argmax(prediction))
+
+                    n = len(selected_jutsu.get_jutsu_signs())
+                    for i in range(n):
+                        if signs[np.argmax(prediction)] == selected_jutsu.get_jutsu_signs()[i]:
+                            print("MATCH at: ", i)
+                            # do_something_indicating_sign_was_correct()
+                        else:
+                            print("break")
+                            break
+                        if i+1 == n:
+                            print("reached limit, activate jutsu")
+                            # activate_jutsu()
+
+                    if now <= 0:
+                        print("Times Up! Skip Jutsu")
+                        # skip_jutsu()
+
+
+
+                    # MODEL PREDICTION - OBTAINING AVERAGE PREDICTIONS, SEQUENCES, AND PERMUTATIONS
+                    # prediction = model.predict([np.reshape(threshold, (1, height, width, 3))])
                     accumulated_predictions += prediction
 
                     count += 1

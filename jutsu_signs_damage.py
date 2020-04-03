@@ -1,5 +1,5 @@
 kakashi = {'name': 'kakashi',
-           'Kakashi Sharingan':        [('tiger', 'tiger'), 120],
+           'Kakashi Sharingan':        [('tiger', 'tiger', 'tiger', 'tiger', 'tiger'), 120],
            'Ninja Hounds':             [('dog', 'dog', 'dog', 'dog', 'dog', 'dog', 'dog', 'dog'), 20],
            'Lightning Blade':          [('ox', 'hare', 'monkey'), 40],
            'Hiding':                   [('rat', 'serpent'), 0]}
