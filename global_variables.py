@@ -35,7 +35,7 @@ active_damage = 0
 # Model Variables
 num_frames = 0
 count = 0
-mean_cutoff = 70
+mean_cutoff = 6
 accumulated_predictions = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], dtype='float64')
 top_signs = []
 sequence = []
