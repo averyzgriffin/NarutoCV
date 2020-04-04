@@ -224,13 +224,14 @@ class Jutsu_Icon(CharacterIcon):
 
 class Button:
 
-    def __init__(self, x, y, w, h, msg='', destination=None):
+    def __init__(self, x, y, w, h, msg='', destination=None, highlight=True):
         self.x = x - w // 2
         self.y = y - h // 2
         self.w = w
         self.h = h
         self.msg = msg
         self.destination = destination
+        self.highlight = highlight
 
         self.boxcolor = glob_var.gray
         self.boxoutline = glob_var.black
@@ -254,14 +255,14 @@ class Button:
 
         pygame.draw.rect(glob_var.win, self.boxoutline, (self.x-3, self.y-3, self.w+6, self.h+6), 0)
 
-        if self.click_status():
+        if self.click_status() and self.highlight:
             pygame.draw.rect(glob_var.win, (200,200,200), (self.x, self.y, self.w, self.h), 0)
 
             click = pygame.mouse.get_pressed()
             if click[0] == 1 and self.destination is not None:
                 self.destination()
 
-        elif not self.click_status():
+        else:
             pygame.draw.rect(glob_var.win, self.boxcolor, (self.x, self.y, self.w, self.h), 0)
 
         if self.msg != '':
