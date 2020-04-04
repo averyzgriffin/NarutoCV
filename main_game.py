@@ -267,8 +267,6 @@ if __name__ == "__main__":
 
 
     def jutsu(jutsu_icon, character_icon):
-        num_frames, count = 0, 0
-        accumulated_predictions = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], dtype='float64')
         sequence, top_signs, select, selected_jutsu, visual_ops.Jutsu_Icon.jutsu_que = [], [], [], [], []
 
         background = pygame.image.load("env_icons/naruto_background_5_by_pungpp_dcsgik3-fullview.jpg").convert()
@@ -279,6 +277,14 @@ if __name__ == "__main__":
         selected_jutsu = game_ops.get_jutsu(jutsu_queued=jutsu_icon.queued_for_attack)
         attacked_character = character_icon.queued_to_be_attacked
         procedure = visual_ops.get_selected_jutsu_prompt(selected_jutsu)
+
+        num_frames, count = 0, 0
+        accumulated_predictions = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], dtype='float64')
+        correct_predictions = np.zeros((len(selected_jutsu.get_jutsu_signs())), dtype='O')
+        average_prediction = None
+        top_predictions = None
+        easymode = True
+        hardmode = False
 
         camera = camera_ops.setup_camera()
         game_ops.change_music("Sound/Naruto OST 1 - Need To Be Strong.mp3")
@@ -322,107 +328,170 @@ if __name__ == "__main__":
 
 
                     now = (pygame.time.get_ticks() - start - 10000) / 1000
-                    # print("TIME: ", now)
-
                     timer = visual_ops.TextCue(str(int(5-now)), glob_var.black, 75, 1300, 100)
                     timer.display_text()
 
-                    prediction = model.predict([np.reshape(threshold, (1, height, width, 3))])
+                    # if 5-now <= 0:
+                    #     print("Times Up! Skip Jutsu")
 
-                    # print(selected_jutsu.get_jutsu_signs()[0])
-                    # print(signs)
-                    # print("Labeled Arg Max: ", signs[np.argmax(prediction)])
-                    # print("ARG MAX: ", np.argmax(prediction))
-
-                    n = len(selected_jutsu.get_jutsu_signs())
-                    for i in range(n):
-                        if signs[np.argmax(prediction)] == selected_jutsu.get_jutsu_signs()[i]:
-                            print("MATCH at: ", i)
-                            # do_something_indicating_sign_was_correct()
-                        else:
-                            print("break")
-                            break
-                        if i+1 == n:
-                            print("reached limit, activate jutsu")
-                            # activate_jutsu()
-
-                    if now <= 0:
-                        print("Times Up! Skip Jutsu")
-                        # skip_jutsu()
-
-
-
-                    # MODEL PREDICTION - OBTAINING AVERAGE PREDICTIONS, SEQUENCES, AND PERMUTATIONS
-                    # prediction = model.predict([np.reshape(threshold, (1, height, width, 3))])
-                    accumulated_predictions += prediction
 
                     count += 1
+
+                    prediction = model.predict([np.reshape(threshold, (1, height, width, 3))])
+                    accumulated_predictions += prediction
                     if count % mean_cutoff == 0:
-                        accumulated_predictions, sequence, top_signs = predict_ops.get_predictions(
-                            accumulated_predictions, prediction, sequence)
+                        average_prediction, accumulated_predictions = predict_ops.get_avererage_prediction(accumulated_predictions)
+                        top_predictions = predict_ops.get_top_signs(signs, average_prediction)
 
-                    perm = predict_ops.get_permutations_of_predictions(sequence)
+                    if average_prediction is not None:
+                        for n in range(len(selected_jutsu.get_jutsu_signs())):
+                            if correct_predictions[n-1] != 0 or n == 0:
 
-                    # -----------------------------
-                    # PYGAME VISUAL CUES FOR USER
-                    # -----------------------------
-                    begin_attack_visual_cue = visual_ops.HeaderText("GO!", glob_var.black, 75, None, None)
-                    begin_attack_visual_cue.display_text()
+                                if correct_predictions[n] == selected_jutsu.get_jutsu_signs()[n]:
+                                    correct.display_text()
+                                    if n + 1 == len(selected_jutsu.get_jutsu_signs()):
+                                        print("-------- WE DID IT ----------")
 
-                    sign_num_cue = visual_ops.PromptText(f'SIGN #{str(len(sequence) + 1)}', glob_var.black, 30,
-                                                         sequence, None, None)
-                    sign_num_cue.display_text()
+                                elif signs[np.argmax(average_prediction)] == selected_jutsu.get_jutsu_signs()[n] and hardmode:
+                                    print('correct sign')
+                                    correct = visual_ops.TextCue('CORRECT', glob_var.black, 50, 100*(n+1), 400)
+                                    correct.display_text()
+                                    correct_predictions[n] = signs[np.argmax(average_prediction)]
 
-                    # Visual printing of top signs so far
-                    if len(sequence) > 0 and top_signs is not None:
-
-                        predicted_sign_cue = visual_ops.JutsuText(str(top_signs[0]), glob_var.black, 45, sequence, None,
-                                                                  None)
-                        predicted_sign_cue.display_text()
-
-                        for s in top_signs:
-                            try:
-                                if s == selected_jutsu.get_jutsu_signs()[len(sequence) - 1]:
-                                    pass  # print("GOOD JOB")
-                                else:
-                                    pass  # print("INCORRECT SIGN")
-                            except Exception as e:
-                                print("exception: ", e)
-
-                    # RESET / FINISHED
-                    if selected_jutsu.get_jutsu_signs() in perm:
-                        attacked_character.health = game_ops.apply_damage(attacked_character.health,
-                                                                          selected_jutsu.get_damage())
-                        attacked_character.check_health()
-                        attacked_character.bar, attacked_character.bar_x, attacked_character.bar_y, \
-                        attacked_character.bar_message = attacked_character.create_bar()  # TODO this should be reducable
-
-                        game_ops.activate_jutsu(selected_jutsu)
-
-                        game_ops.release_camera(camera)
-
-                        GameManager.check_characters()
-                        if GameManager.end_game:
-                            end_game(GameManager.winner)
-
-                        GameManager.change_turn()
-                        game()
+                                elif selected_jutsu.get_jutsu_signs()[n] in top_predictions and easymode:
+                                    print('correct sign')
+                                    correct = visual_ops.TextCue('CORRECT', glob_var.black, 50, 100 * (n + 1), 400)
+                                    correct.display_text()
+                                    correct_predictions[n] = selected_jutsu.get_jutsu_signs()[n]
 
 
-                    elif len(sequence) >= len(
-                            selected_jutsu.get_jutsu_signs()) and selected_jutsu.get_jutsu_signs() not in perm:
-                        game_ops.skip_jutsu()
-                        GameManager.change_turn()
-                        game_ops.release_camera(camera)
-                        game()
 
-                    elif keypress == ord("n"):
-                        game_ops.skip_jutsu()
-                        GameManager.change_turn()
-                        game_ops.release_camera(camera)
-                        game()
+                    print("Correct Predictions: ", correct_predictions)
+                    # print("Prediction: ", signs[np.argmax(prediction)])
+                    # print("Average Pred:      ", signs[np.argmax(average_prediction)])
+                    print("Top Predictions:            ", top_predictions)
 
-                    pygame.display.update()
+
+
+                    # if correct_predictions[-1] == 0:
+                    #     if correct_predictions[0] == selected_jutsu.get_jutsu_signs()[0]:
+                    #         if correct_predictions[1] == selected_jutsu.get_jutsu_signs()[1]:
+                    #             if correct_predictions[2] == selected_jutsu.get_jutsu_signs()[2]:
+                    #                 if correct_predictions[3] == selected_jutsu.get_jutsu_signs()[3]:
+                    #                     if correct_predictions[4] == selected_jutsu.get_jutsu_signs()[4]:
+                    #                         if correct_predictions[5] == selected_jutsu.get_jutsu_signs()[5]:
+                    #                             if correct_predictions[6] == selected_jutsu.get_jutsu_signs()[6]:
+                    #                                 if correct_predictions[7] == selected_jutsu.get_jutsu_signs()[7]:
+                    #                                     if correct_predictions[8] == selected_jutsu.get_jutsu_signs()[8]:
+                    #                                         if correct_predictions[9] == selected_jutsu.get_jutsu_signs()[9]:
+                    #                                             if correct_predictions[10] == selected_jutsu.get_jutsu_signs()[10]:
+                    #
+                    #                                             elif signs[np.argmax(prediction)] == selected_jutsu.get_jutsu_signs()[10]:
+                    #                                                 correct_predictions[10] = signs[np.argmax(prediction)]
+                    #                                         elif signs[np.argmax(prediction)] == selected_jutsu.get_jutsu_signs()[9]:
+                    #                                             correct_predictions[9] = signs[np.argmax(prediction)]
+                    #                                     elif signs[np.argmax(prediction)] == selected_jutsu.get_jutsu_signs()[8]:
+                    #                                         correct_predictions[8] = signs[np.argmax(prediction)]
+                    #                                 elif signs[np.argmax(prediction)] == selected_jutsu.get_jutsu_signs()[7]:
+                    #                                     correct_predictions[7] = signs[np.argmax(prediction)]
+                    #                             elif signs[np.argmax(prediction)] == selected_jutsu.get_jutsu_signs()[6]:
+                    #                                 correct_predictions[6] = signs[np.argmax(prediction)]
+                    #                         elif signs[np.argmax(prediction)] == selected_jutsu.get_jutsu_signs()[5]:
+                    #                             correct_predictions[5] = signs[np.argmax(prediction)]
+                    #
+                    #                     elif signs[np.argmax(prediction)] == selected_jutsu.get_jutsu_signs()[4]:
+                    #                         correct_predictions[4] = signs[np.argmax(prediction)]
+                    #
+                    #                 elif signs[np.argmax(prediction)] == selected_jutsu.get_jutsu_signs()[3]:
+                    #                     correct_predictions[3] = signs[np.argmax(prediction)]
+                    #
+                    #             elif signs[np.argmax(prediction)] == selected_jutsu.get_jutsu_signs()[2]:
+                    #                 correct_predictions[2] = signs[np.argmax(prediction)]
+                    #
+                    #         elif signs[np.argmax(prediction)] == selected_jutsu.get_jutsu_signs()[1]:
+                    #             correct_predictions[1] = signs[np.argmax(prediction)]
+                    #
+                    #     elif signs[np.argmax(prediction)] == selected_jutsu.get_jutsu_signs()[0]:
+                    #         correct_predictions[0] = signs[np.argmax(prediction)]
+                    # else:
+                    #     print('WE DID IT')
+
+
+
+
+
+
+
+                    # # MODEL PREDICTION - OBTAINING AVERAGE PREDICTIONS, SEQUENCES, AND PERMUTATIONS
+                    # accumulated_predictions += prediction
+                    #
+                    # count += 1
+                    # if count % mean_cutoff == 0:
+                    #     accumulated_predictions, sequence, top_signs = predict_ops.get_predictions(
+                    #         accumulated_predictions, prediction, sequence)
+                    #
+                    # perm = predict_ops.get_permutations_of_predictions(sequence)
+                    #
+                    # # -----------------------------
+                    # # PYGAME VISUAL CUES FOR USER
+                    # # -----------------------------
+                    # begin_attack_visual_cue = visual_ops.HeaderText("GO!", glob_var.black, 75, None, None)
+                    # begin_attack_visual_cue.display_text()
+                    #
+                    # sign_num_cue = visual_ops.PromptText(f'SIGN #{str(len(sequence) + 1)}', glob_var.black, 30,
+                    #                                      sequence, None, None)
+                    # sign_num_cue.display_text()
+                    #
+                    # # Visual printing of top signs so far
+                    # if len(sequence) > 0 and top_signs is not None:
+                    #
+                    #     predicted_sign_cue = visual_ops.JutsuText(str(top_signs[0]), glob_var.black, 45, sequence, None,
+                    #                                               None)
+                    #     predicted_sign_cue.display_text()
+                    #
+                    #     for s in top_signs:
+                    #         try:
+                    #             if s == selected_jutsu.get_jutsu_signs()[len(sequence) - 1]:
+                    #                 pass  # print("GOOD JOB")
+                    #             else:
+                    #                 pass  # print("INCORRECT SIGN")
+                    #         except Exception as e:
+                    #             print("exception: ", e)
+                    #
+                    # # RESET / FINISHED
+                    # if selected_jutsu.get_jutsu_signs() in perm:
+                    #     attacked_character.health = game_ops.apply_damage(attacked_character.health,
+                    #                                                       selected_jutsu.get_damage())
+                    #     attacked_character.check_health()
+                    #     attacked_character.bar, attacked_character.bar_x, attacked_character.bar_y, \
+                    #     attacked_character.bar_message = attacked_character.create_bar()  # TODO this should be reducable
+                    #
+                    #     game_ops.activate_jutsu(selected_jutsu)
+                    #
+                    #     game_ops.release_camera(camera)
+                    #
+                    #     GameManager.check_characters()
+                    #     if GameManager.end_game:
+                    #         end_game(GameManager.winner)
+                    #
+                    #     GameManager.change_turn()
+                    #     game()
+                    #
+                    #
+                    # elif len(sequence) >= len(
+                    #         selected_jutsu.get_jutsu_signs()) and selected_jutsu.get_jutsu_signs() not in perm:
+                    #     game_ops.skip_jutsu()
+                    #     GameManager.change_turn()
+                    #     game_ops.release_camera(camera)
+                    #     game()
+                    #
+                    # elif keypress == ord("n"):
+                    #     game_ops.skip_jutsu()
+                    #     GameManager.change_turn()
+                    #     game_ops.release_camera(camera)
+                    #     game()
+                    #
+                    # pygame.display.update()
 
             num_frames += 1
 
