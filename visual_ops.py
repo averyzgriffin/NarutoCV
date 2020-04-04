@@ -18,22 +18,11 @@ def create_textObject(text, font):
 
 
 def get_selected_jutsu_prompt(jutsu):  # TODO I don't like the name of this function.
-    jutsu_string = str(jutsu.get_jutsu_signs())
-    jutsu_string = jutsu_string.replace("'", "")
-    jutsu_string = jutsu_string.replace("(", "")
-    jutsu_string = jutsu_string.replace(")", "")
-    jutsu_string = jutsu_string.replace(",", " -")
-    jutsu_string = jutsu_string.upper()
-
-    visual_cue = TextCue(jutsu_string, black, 50, glob_var.display_width // 2, glob_var.display_height * 7/8)
-
     selection_text = HeaderText(msg="You have selected: " + str(jutsu.jutsu_icon_name), text_color=black, size=50, x=None, y=None)
     selection_text.display_text()
 
     pygame.display.update()
-
     time.sleep(3)
-    return visual_cue
 
 
 # ------------------------------------------------------------------------------
@@ -335,3 +324,38 @@ class JutsuText(TextCue):
         self.y = (glob_var.display_height // 3.25)
 
         self.font = pygame.font.Font("freesansbold.ttf", int(self.size))
+
+
+class Picture:
+
+    def __init__(self, file_name, x, y, w, h, border=''):
+        self.file_name = file_name
+        self.x = x
+        self.y = y
+        self.w = w
+        self.h = h
+        self.border = border
+
+        self.img = self.load_image()  # I have no idea how this is being called
+
+    def load_image(self):
+        img = self.get_image_from_string()
+        img = self.resize_image(img)
+        return img
+
+    def get_image_from_string(self):
+        try:
+            img = pygame.image.load(self.file_name)
+        except Exception:
+            return f"Couldn't image {self.file_name}."
+        return img
+
+    def resize_image(self, img):
+        resized = pygame.transform.scale(img, (self.w, self.h)).convert()
+        return resized
+
+    def display_image(self):
+        if self.border != '':
+            pygame.draw.rect(glob_var.win, glob_var.green, (self.x - self.w//2 - 3, self.y - self.h//2 - 3, self.w + 6, self.h + 6), 0)
+
+        glob_var.win.blit(self.img, (self.x - self.w // 2, self.y - self.h // 2))
