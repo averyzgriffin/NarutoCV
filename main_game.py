@@ -37,6 +37,9 @@ if __name__ == "__main__":
         background = pygame.image.load("env_icons/background2.jpg").convert()
         background = pygame.transform.scale(background, (glob_var.display_width, glob_var.display_height))
 
+        game_ops.change_music("Sound/Naruto OST 2 - Afternoon of Konoha.mp3")
+
+
         while True:
 
             for event in pygame.event.get():
@@ -327,7 +330,7 @@ if __name__ == "__main__":
                     # TIMER - COUNTDOWN
                     elapsed = (pygame.time.get_ticks() - start - 2500) / 1000
 
-                    timer_bar = Button(0, glob_var.display_height, (glob_var.display_width * ((10-elapsed)/10) * 2), 50, highlight=False)
+                    timer_bar = Button(0, glob_var.display_height, (glob_var.display_width * ((20-elapsed)/20) * 2), 50, highlight=False)
                     timer_bar.boxcolor = glob_var.orange
                     timer_bar.display_button()
 
