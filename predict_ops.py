@@ -6,11 +6,11 @@ import numpy as np
 # --------------------------------------------------------------------------------------------------------------
 # MODEL + PREDICTION FUNCTIONS
 # --------------------------------------------------------------------------------------------------------------
-def get_top3_predictions(ordered_predictions):
+def get_top_predictions(ordered_predictions):
     top_signs, top_signs_percents = [], []
-    for i in range(3):
-        top_signs.append(list(ordered_predictions)[-(i+1)])  # I think this grabs the top 3 keys from reverse ordered dictionary
-        top_signs_percents.append(list(ordered_predictions.values())[-(i+1)])  # I think this grabs the top 3 values
+    for i in range(2):
+        top_signs.append(list(ordered_predictions)[-(i+1)])  # I think this grabs the top 2 keys from reverse ordered dictionary
+        top_signs_percents.append(list(ordered_predictions.values())[-(i+1)])  # I think this grabs the top 2 values
 
     return top_signs, top_signs_percents
 
@@ -41,10 +41,10 @@ def get_permutations_of_predictions(current_sequence):
     return permutation
 
 
-def get_top3_signs(labels, predictions):
+def get_top_signs(labels, predictions):
     labeled_predictions = label_predictions(labels, predictions)  # {'bird': 4.585343e-33, 'label': prediction, etc.]
     ordered_predictions = order_predictions(labeled_predictions)
-    top_signs, top_signs_percents = get_top3_predictions(ordered_predictions)
+    top_signs, top_signs_percents = get_top_predictions(ordered_predictions)
 
     return top_signs
 
@@ -52,8 +52,14 @@ def get_top3_signs(labels, predictions):
 def get_predictions(accumulated_predictions, prediction, sequence):
     average_prediction = accumulated_predictions / glob_var.mean_cutoff
     accumulated_predictions = np.zeros_like(prediction)
-    top_signs = get_top3_signs(glob_var.signs, average_prediction)
+    top_signs = get_top_signs(glob_var.signs, average_prediction)
     sequence = get_sequence_of_predictions(sequence, top_signs)
 
     return accumulated_predictions, sequence, top_signs
+
+
+def get_avererage_prediction(accumulated_predictions):
+    average_prediction = accumulated_predictions / glob_var.mean_cutoff
+    accumulated_predictions_reset = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], dtype='float64')
+    return average_prediction, accumulated_predictions_reset
 
