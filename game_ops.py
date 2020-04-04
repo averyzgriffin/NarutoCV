@@ -77,6 +77,7 @@ def apply_damage(health, damage):
 def activate_jutsu(selected_jutsu):
     pygame.mixer_music.stop()  # TODO PUT THIS ELSEWHERE TOGETHER WITH THE SKIP_JUTSU ONE. Not sure what to do.
 
+    pygame.mixer.Channel(0).play(pygame.mixer.Sound('extras/jutsu_start.wav'))
     jutsu_video = selected_jutsu.get_video_string()
     jutsu_videos.play_video(jutsu_video)
 
@@ -86,13 +87,13 @@ def skip_jutsu():
 
     background = pygame.image.load("env_icons/failed_jutsu.jpeg").convert()
     background = pygame.transform.scale(background, (glob_var.display_width, glob_var.display_height))
-
     glob_var.win.blit(background, (0, 0))
 
-    # fail_jutsu_cue = visual_ops.HeaderText('FAILURE', glob_var.black, 100, None, None)
-    # fail_jutsu_cue.display_text()
     pygame.display.update()
-    time.sleep(2)
+
+    pygame.mixer.Channel(0).play(pygame.mixer.Sound('extras/failed_jutsu.wav'))
+
+    time.sleep(3)
 
 
 # ---------------------------------------------------------------
