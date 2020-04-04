@@ -12,13 +12,16 @@ from game_manager import GameManager
 from game_manager import CharacterManager
 from game_manager import JutsuManager
 import global_variables as glob_var
-from global_variables import calibrate_frames, aWeight, mean_cutoff, signs, active_health, active_damage
+from global_variables import calibrate_frames, aWeight, mean_cutoff, signs
 
 
 model = models.load_model(saved_model)
 pygame.init()
 clock = pygame.time.Clock()
 pygame.mixer.init()
+
+pygame.mixer_music.set_volume(.2)
+# pygame.mixer.Sound.set_volume(.9)
 
 
 # ----------------------------------------
@@ -45,8 +48,6 @@ if __name__ == "__main__":
 
             play_button.display_button()
             quit_button.display_button()
-
-
 
             pygame.display.update()
 
@@ -273,7 +274,6 @@ if __name__ == "__main__":
 
         selected_jutsu = game_ops.get_jutsu(jutsu_queued=jutsu_icon.queued_for_attack)
         attacked_character = character_icon.queued_to_be_attacked
-        procedure = visual_ops.get_selected_jutsu_prompt(selected_jutsu)
 
         num_frames, count = 0, 0
         accumulated_predictions = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], dtype='float64')
@@ -283,9 +283,10 @@ if __name__ == "__main__":
         easymode = True
         hardmode = False
 
-        camera = camera_ops.setup_camera()
         game_ops.change_music("Sound/Naruto OST 1 - Need To Be Strong.mp3")
-        glob_var.win.blit(background, (0, 0))
+        visual_ops.get_selected_jutsu_prompt(selected_jutsu)
+        # glob_var.win.blit(background, (0, 0))
+        camera = camera_ops.setup_camera()
 
         correct_image = visual_ops.Picture("extras/mightguythumbsup.jpg", 0, 500, 160, 160, 'border')
 
@@ -296,7 +297,7 @@ if __name__ == "__main__":
         jutsu_phase = True
         while jutsu_phase:
 
-            # glob_var.win.blit(background, (0, 0))
+            glob_var.win.blit(background, (0, 0))
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -324,30 +325,37 @@ if __name__ == "__main__":
                     threshold = np.stack((threshold,) * 3, axis=-1)  # Expand frame to 3 channels for the model
 
                     # TIMER - COUNTDOWN
-                    now = (pygame.time.get_ticks() - start - 10000) / 1000
-                    timer = visual_ops.TextCue(str(int(5-now)), glob_var.black, 75, 1300, 100)
-                    timer.display_text()
+                    elapsed = (pygame.time.get_ticks() - start - 2500) / 1000
 
-                    if 5-now <= 0:
+                    timer_bar = Button(0, glob_var.display_height, (glob_var.display_width * ((10-elapsed)/10) * 2), 50, highlight=False)
+                    timer_bar.boxcolor = glob_var.orange
+                    timer_bar.display_button()
+
+
+                    if timer_bar.w <= 0:
                         game_ops.skip_jutsu()
                         GameManager.change_turn()
                         game_ops.release_camera(camera)
                         game()
 
+
                     # ---- (NEW) PREDICTION FUNCTIONALITY ----
                     count += 1
-
                     prediction = model.predict([np.reshape(threshold, (1, height, width, 3))])
                     accumulated_predictions += prediction
+
                     if count % mean_cutoff == 0:
                         average_prediction, accumulated_predictions = predict_ops.get_avererage_prediction(accumulated_predictions)
                         top_predictions = predict_ops.get_top_signs(signs, average_prediction)
 
                     if average_prediction is not None:
+
                         for n in range(len(selected_jutsu.get_jutsu_signs())):
+
                             if correct_predictions[n-1] != 0 or n == 0:
 
                                 if correct_predictions[n] == selected_jutsu.get_jutsu_signs()[n]:
+                                    correct_image.x = ((1 / (len(selected_jutsu.get_jutsu_signs()) + 1)) * (n + 1) * glob_var.display_width)
                                     correct_image.display_image()
 
                                     if n + 1 == len(selected_jutsu.get_jutsu_signs()):
@@ -355,7 +363,7 @@ if __name__ == "__main__":
                                                                                           selected_jutsu.get_damage())
                                         attacked_character.check_health()
                                         attacked_character.bar, attacked_character.bar_x, attacked_character.bar_y, \
-                                        attacked_character.bar_message = attacked_character.create_bar()  # TODO this should be reducable
+                                        attacked_character.bar_message = attacked_character.create_bar()  # TODO clean
 
                                         game_ops.activate_jutsu(selected_jutsu)
 
@@ -372,11 +380,15 @@ if __name__ == "__main__":
                                     correct_image.x = ((1 / (len(selected_jutsu.get_jutsu_signs()) + 1)) * (n + 1) * glob_var.display_width)
                                     correct_image.display_image()
 
+                                    pygame.mixer.Channel(0).play(pygame.mixer.Sound('extras/sound_effect_1.wav'))
+
                                     correct_predictions[n] = signs[np.argmax(average_prediction)]
 
                                 elif selected_jutsu.get_jutsu_signs()[n] in top_predictions and easymode:
                                     correct_image.x = ((1 / (len(selected_jutsu.get_jutsu_signs()) + 1)) * (n + 1) * glob_var.display_width)
                                     correct_image.display_image()
+
+                                    pygame.mixer.Channel(0).play(pygame.mixer.Sound('extras/sound_effect_1.wav'))
 
                                     correct_predictions[n] = selected_jutsu.get_jutsu_signs()[n]
 
@@ -425,20 +437,24 @@ if __name__ == "__main__":
                     # else:
                     #     print('WE DID IT')
 
-                    begin_button = Button((glob_var.display_width // 2),(glob_var.display_height // 10), 500, 100, "GO!")
+                    begin_button = Button((glob_var.display_width // 2),(glob_var.display_height // 10), 500, 100, "GO!", highlight=False)
                     begin_button.display_button()
 
-                    for n in range(len(selected_jutsu.get_jutsu_signs())):
-                        sign_cue1 = Button(((1 / (len(selected_jutsu.get_jutsu_signs()) + 1)) * (n+1) * glob_var.display_width), ((glob_var.display_height // 4.175)), 80, 40, f"SIGN #{n+1}")
-                        sign_cue1.display_button()
+                    print(len(correct_predictions))
 
-                        sign_cue = Button(((1 / (len(selected_jutsu.get_jutsu_signs()) + 1)) * (n+1) * glob_var.display_width), ((glob_var.display_height // 3)), 140, 70, (str(selected_jutsu.get_jutsu_signs()[n]).upper()))
+                    for n in range(len(selected_jutsu.get_jutsu_signs())):
+                        sign_cue1 = Button(((1 / (len(selected_jutsu.get_jutsu_signs()) + 1)) * (n+1) * glob_var.display_width), ((glob_var.display_height // 4.175)), 80, 40, f"SIGN #{n+1}", highlight=False)
+                        sign_cue = Button(((1 / (len(selected_jutsu.get_jutsu_signs()) + 1)) * (n+1) * glob_var.display_width), ((glob_var.display_height // 3)), 140, 70, (str(selected_jutsu.get_jutsu_signs()[n]).upper()), highlight=False)
+
+                        sign_cue1.display_button()
                         sign_cue.display_button()
+
+
 
                     pygame.display.update()
 
-                    print("Correct Predictions: ", correct_predictions)
-                    print("Top Predictions:            ", top_predictions)
+                    # print("Correct Predictions: ", correct_predictions)
+                    # print("Top Predictions:            ", top_predictions)
 
             num_frames += 1
 
