@@ -267,11 +267,8 @@ if __name__ == "__main__":
 
 
     def jutsu(jutsu_icon, character_icon):
-        sequence, top_signs, select, selected_jutsu, visual_ops.Jutsu_Icon.jutsu_que = [], [], [], [], []
-
         background = pygame.image.load("env_icons/naruto_background_5_by_pungpp_dcsgik3-fullview.jpg").convert()
         background = pygame.transform.scale(background, (glob_var.display_width, glob_var.display_height))
-
         glob_var.win.blit(background, (0, 0))
 
         selected_jutsu = game_ops.get_jutsu(jutsu_queued=jutsu_icon.queued_for_attack)
@@ -288,18 +285,18 @@ if __name__ == "__main__":
 
         camera = camera_ops.setup_camera()
         game_ops.change_music("Sound/Naruto OST 1 - Need To Be Strong.mp3")
+        glob_var.win.blit(background, (0, 0))
 
-
-        # glob_var.win.blit(background, (0, 0))
+        correct_image = visual_ops.Picture("extras/mightguythumbsup.jpg", 0, 500, 160, 160, 'border')
 
         # START TIMER
         start = pygame.time.get_ticks()
 
+        # ---------------------------------------------------START--------------------------------------
         jutsu_phase = True
         while jutsu_phase:
 
-            procedure.display_text()
-            glob_var.win.blit(background, (0, 0))
+            # glob_var.win.blit(background, (0, 0))
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -326,15 +323,18 @@ if __name__ == "__main__":
                     cv2.imshow("Threshold", threshold)
                     threshold = np.stack((threshold,) * 3, axis=-1)  # Expand frame to 3 channels for the model
 
-
+                    # TIMER - COUNTDOWN
                     now = (pygame.time.get_ticks() - start - 10000) / 1000
                     timer = visual_ops.TextCue(str(int(5-now)), glob_var.black, 75, 1300, 100)
                     timer.display_text()
 
-                    # if 5-now <= 0:
-                    #     print("Times Up! Skip Jutsu")
+                    if 5-now <= 0:
+                        game_ops.skip_jutsu()
+                        GameManager.change_turn()
+                        game_ops.release_camera(camera)
+                        game()
 
-
+                    # ---- (NEW) PREDICTION FUNCTIONALITY ----
                     count += 1
 
                     prediction = model.predict([np.reshape(threshold, (1, height, width, 3))])
@@ -348,31 +348,40 @@ if __name__ == "__main__":
                             if correct_predictions[n-1] != 0 or n == 0:
 
                                 if correct_predictions[n] == selected_jutsu.get_jutsu_signs()[n]:
-                                    correct.display_text()
+                                    correct_image.display_image()
+
                                     if n + 1 == len(selected_jutsu.get_jutsu_signs()):
-                                        print("-------- WE DID IT ----------")
+                                        attacked_character.health = game_ops.apply_damage(attacked_character.health,
+                                                                                          selected_jutsu.get_damage())
+                                        attacked_character.check_health()
+                                        attacked_character.bar, attacked_character.bar_x, attacked_character.bar_y, \
+                                        attacked_character.bar_message = attacked_character.create_bar()  # TODO this should be reducable
+
+                                        game_ops.activate_jutsu(selected_jutsu)
+
+                                        game_ops.release_camera(camera)
+
+                                        GameManager.check_characters()
+                                        if GameManager.end_game:
+                                            end_game(GameManager.winner)
+
+                                        GameManager.change_turn()
+                                        game()
 
                                 elif signs[np.argmax(average_prediction)] == selected_jutsu.get_jutsu_signs()[n] and hardmode:
-                                    print('correct sign')
-                                    correct = visual_ops.TextCue('CORRECT', glob_var.black, 50, 100*(n+1), 400)
-                                    correct.display_text()
+                                    correct_image.x = ((1 / (len(selected_jutsu.get_jutsu_signs()) + 1)) * (n + 1) * glob_var.display_width)
+                                    correct_image.display_image()
+
                                     correct_predictions[n] = signs[np.argmax(average_prediction)]
 
                                 elif selected_jutsu.get_jutsu_signs()[n] in top_predictions and easymode:
-                                    print('correct sign')
-                                    correct = visual_ops.TextCue('CORRECT', glob_var.black, 50, 100 * (n + 1), 400)
-                                    correct.display_text()
+                                    correct_image.x = ((1 / (len(selected_jutsu.get_jutsu_signs()) + 1)) * (n + 1) * glob_var.display_width)
+                                    correct_image.display_image()
+
                                     correct_predictions[n] = selected_jutsu.get_jutsu_signs()[n]
 
 
-
-                    print("Correct Predictions: ", correct_predictions)
-                    # print("Prediction: ", signs[np.argmax(prediction)])
-                    # print("Average Pred:      ", signs[np.argmax(average_prediction)])
-                    print("Top Predictions:            ", top_predictions)
-
-
-
+                    # Alternative Method
                     # if correct_predictions[-1] == 0:
                     #     if correct_predictions[0] == selected_jutsu.get_jutsu_signs()[0]:
                     #         if correct_predictions[1] == selected_jutsu.get_jutsu_signs()[1]:
@@ -416,82 +425,20 @@ if __name__ == "__main__":
                     # else:
                     #     print('WE DID IT')
 
+                    begin_button = Button((glob_var.display_width // 2),(glob_var.display_height // 10), 500, 100, "GO!")
+                    begin_button.display_button()
 
+                    for n in range(len(selected_jutsu.get_jutsu_signs())):
+                        sign_cue1 = Button(((1 / (len(selected_jutsu.get_jutsu_signs()) + 1)) * (n+1) * glob_var.display_width), ((glob_var.display_height // 4.175)), 80, 40, f"SIGN #{n+1}")
+                        sign_cue1.display_button()
 
+                        sign_cue = Button(((1 / (len(selected_jutsu.get_jutsu_signs()) + 1)) * (n+1) * glob_var.display_width), ((glob_var.display_height // 3)), 140, 70, (str(selected_jutsu.get_jutsu_signs()[n]).upper()))
+                        sign_cue.display_button()
 
+                    pygame.display.update()
 
-
-
-                    # # MODEL PREDICTION - OBTAINING AVERAGE PREDICTIONS, SEQUENCES, AND PERMUTATIONS
-                    # accumulated_predictions += prediction
-                    #
-                    # count += 1
-                    # if count % mean_cutoff == 0:
-                    #     accumulated_predictions, sequence, top_signs = predict_ops.get_predictions(
-                    #         accumulated_predictions, prediction, sequence)
-                    #
-                    # perm = predict_ops.get_permutations_of_predictions(sequence)
-                    #
-                    # # -----------------------------
-                    # # PYGAME VISUAL CUES FOR USER
-                    # # -----------------------------
-                    # begin_attack_visual_cue = visual_ops.HeaderText("GO!", glob_var.black, 75, None, None)
-                    # begin_attack_visual_cue.display_text()
-                    #
-                    # sign_num_cue = visual_ops.PromptText(f'SIGN #{str(len(sequence) + 1)}', glob_var.black, 30,
-                    #                                      sequence, None, None)
-                    # sign_num_cue.display_text()
-                    #
-                    # # Visual printing of top signs so far
-                    # if len(sequence) > 0 and top_signs is not None:
-                    #
-                    #     predicted_sign_cue = visual_ops.JutsuText(str(top_signs[0]), glob_var.black, 45, sequence, None,
-                    #                                               None)
-                    #     predicted_sign_cue.display_text()
-                    #
-                    #     for s in top_signs:
-                    #         try:
-                    #             if s == selected_jutsu.get_jutsu_signs()[len(sequence) - 1]:
-                    #                 pass  # print("GOOD JOB")
-                    #             else:
-                    #                 pass  # print("INCORRECT SIGN")
-                    #         except Exception as e:
-                    #             print("exception: ", e)
-                    #
-                    # # RESET / FINISHED
-                    # if selected_jutsu.get_jutsu_signs() in perm:
-                    #     attacked_character.health = game_ops.apply_damage(attacked_character.health,
-                    #                                                       selected_jutsu.get_damage())
-                    #     attacked_character.check_health()
-                    #     attacked_character.bar, attacked_character.bar_x, attacked_character.bar_y, \
-                    #     attacked_character.bar_message = attacked_character.create_bar()  # TODO this should be reducable
-                    #
-                    #     game_ops.activate_jutsu(selected_jutsu)
-                    #
-                    #     game_ops.release_camera(camera)
-                    #
-                    #     GameManager.check_characters()
-                    #     if GameManager.end_game:
-                    #         end_game(GameManager.winner)
-                    #
-                    #     GameManager.change_turn()
-                    #     game()
-                    #
-                    #
-                    # elif len(sequence) >= len(
-                    #         selected_jutsu.get_jutsu_signs()) and selected_jutsu.get_jutsu_signs() not in perm:
-                    #     game_ops.skip_jutsu()
-                    #     GameManager.change_turn()
-                    #     game_ops.release_camera(camera)
-                    #     game()
-                    #
-                    # elif keypress == ord("n"):
-                    #     game_ops.skip_jutsu()
-                    #     GameManager.change_turn()
-                    #     game_ops.release_camera(camera)
-                    #     game()
-                    #
-                    # pygame.display.update()
+                    print("Correct Predictions: ", correct_predictions)
+                    print("Top Predictions:            ", top_predictions)
 
             num_frames += 1
 
