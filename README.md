@@ -26,8 +26,10 @@ Keras (TensorFlow) was used to train the model.
 
 The model itself was only trained to perform handsign recognition, not segmentation. Meaning, nothing is actually tracking your hands. Instead, the camera performs image thresholding (to make the video feed black and white), then a running-average to segment the background from the forground, then a subtraction to remove the background. The result (if done correctly) is a video feed that only tracks movement (hands). And that movement is white against a black background. This black and white footage is then fed into the model.
 
-The game itself was coded using Pygame.
-
+And the game itself was coded using Pygame.
+&nbsp
+&nbsp
+&nbsp
 
 Woohoo!
 
