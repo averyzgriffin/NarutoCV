@@ -58,5 +58,10 @@ Computer Vision - The computer vision operations used to obtain the thresholded 
 <p>&nbsp
 &nbsp</p>
 
+Thanks - And I must give a big thanks to the countless number of people on StackOverflow, Youtube, and the internet as a whole who provided the knowledge (and tutorials) to do half the things I tried doing (let's be honest....SO is the author of this project).
+
+<p>&nbsp
+&nbsp</p>
+
 And just to reiterate, the holders of the copyrighted and/or trademarked material appearing on this project are as follows:
 NARUTO © 2002 MASASHI KISHIMOTO. All Rights Reserved.
