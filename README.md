@@ -9,10 +9,9 @@ The aim was to recreate the classic Naruto Arena turn-based strategy game....but
 
 I wanted to bring alive the all-too-exciting handsigns from Naruto (remember when Zabuza and Kakashi whipped out Water Dragon Jutsu?!). And while my attempt is crude, funny, and not quite up to the level of the actual show....it's at least an attempt :).
 
-<p>&nbsp
-&nbsp</p>
+<p>&nbsp</p>
 
-The game is not available to download and play. But I plan to make it available sometime in the near future (within a month).
+NOTE: THE GAME IS NOT AVAILABLE TO DOWNLOAD AND PLAY. BUT I PLAN TO MAKE IT AVAILABLE SOMETIME IN THE NEAR FUTURE (WITHIN A MONTH).
 
 <p>&nbsp
 &nbsp</p>
@@ -33,14 +32,15 @@ Each time the camera opens, their is a small time period where the camera needs 
 -->
 
 Techical details:
+<p>&nbsp</p>
 Everything was coded in Python.
-
+<p>&nbsp</p>
 The VGG16 convolutional neural network (by K. Simonyan and A. Zisserman) was used as the model.
-
+<p>&nbsp</p>
 Keras (TensorFlow) was used to train the model.
-
+<p>&nbsp</p>
 The model itself was only trained to perform handsign recognition, not segmentation. Meaning, nothing is actually tracking your hands. Instead, the camera performs image thresholding (to make the video feed black and white), then a running-average to segment the background from the forground, then a subtraction to remove the background. The result (if done correctly) is a video feed that only tracks movement (hands). And that movement is white against a black background. This black and white footage is then fed into the model.
-
+<p>&nbsp</p>
 And the game itself was coded using Pygame.
 
 <p>&nbsp
