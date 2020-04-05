@@ -12,9 +12,14 @@ The game uses the camera on your computer, so make sure to have one. Basically, 
 
 FYI: The camera is only open during the jutsu phase.
 
+<p>&nbsp
+&nbsp</p>
 
 Calibrating the camera:
 Each time the camera opens, their is a small time period where the camera needs to be calibrated. This is where the computer vision part is coming into play. Just make sure NOT to move during this phase and DO NOT have your hands in camera view at this point (raise them to your side for example). If you fail to hide your hands during calibration, the camera will not be able to track you hands properly. Calibration should only take 5 or so seconds. But it does need to happen each attack (jutsu) phase.
+
+<p>&nbsp
+&nbsp</p>
 
 
 Techical details:
@@ -34,6 +39,10 @@ And the game itself was coded using Pygame.
 
 Woohoo!
 
+<p>&nbsp
+&nbsp
+&nbsp
+&nbsp</p>
 
 Disclaimer:
 
@@ -43,7 +52,8 @@ VGG16 - This model is by K. Simonyan and A. Zisserman as mentioned. Here is the 
 
 Computer Vision - The computer vision operations used to obtain the thresholded image were not of my own creation. It was a combination of stuff I knew and some stuff I picked up across the internet. A major help with solving this problem was Brenner Heintz in his article here https://towardsdatascience.com/training-a-neural-network-to-detect-gestures-with-opencv-in-python-e09b0a12bdf1. A matter of fact, it was Brenner's article that convinced me to switch from the Google Inception model to the VGG16 model (Inception was just not training properly).
 
-
+<p>&nbsp
+&nbsp</p>
 
 And just to reiterate, the holders of the copyrighted and/or trademarked material appearing on this project are as follows:
 NARUTO © 2002 MASASHI KISHIMOTO. All Rights Reserved.
