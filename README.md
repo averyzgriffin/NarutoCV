@@ -14,13 +14,13 @@ FYI: The camera is only open during the jutsu phase.
 
 
 Calibrating the camera:
-Each time the camera opens, their is a small time period where the camera needs to be calibrated. This is where the computer vision part is coming into play. Just make sure NOT to move during this phase and DO NOT have your hands in camera view at this point (raise them to your side for example). If you do, the camera will not be able to track you hands post-calibration. Calibration should only take 5 or so seconds. But it does need to happen each attack (jutsu) phase.
+Each time the camera opens, their is a small time period where the camera needs to be calibrated. This is where the computer vision part is coming into play. Just make sure NOT to move during this phase and DO NOT have your hands in camera view at this point (raise them to your side for example). If you fail to hide your hands during calibration, the camera will not be able to track you hands properly. Calibration should only take 5 or so seconds. But it does need to happen each attack (jutsu) phase.
 
 
 Techical details:
 Everything was coded in Python.
 
-The VGG16 convolutional neural network by K. Simonyan and A. Zisserman was used as the model.
+The VGG16 convolutional neural network (by K. Simonyan and A. Zisserman) was used as the model.
 
 Keras (TensorFlow) was used to train the model.
 
