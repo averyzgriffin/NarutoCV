@@ -30,15 +30,10 @@ Each time the camera opens, their is a small time period where the camera needs 
 -->
 
 Techical details:
-<p>&nbsp</p>
 Everything was coded in Python.
-<p>&nbsp</p>
 The VGG16 convolutional neural network (by K. Simonyan and A. Zisserman) was used as the model.
-<p>&nbsp</p>
 Keras (TensorFlow) was used to train the model.
-<p>&nbsp</p>
 The model itself was only trained to perform handsign recognition, not segmentation. Meaning, nothing is actually tracking your hands. Instead, the camera performs image thresholding (to make the video feed black and white), then a running-average to segment the background from the forground, then a subtraction to remove the background. The result (if done correctly) is a video feed that only tracks movement (hands). And that movement is white against a black background. This black and white footage is then fed into the model.
-<p>&nbsp</p>
 And the game itself was coded using Pygame.
 
 <p>&nbsp
