@@ -95,10 +95,6 @@ checkpoint = ModelCheckpoint(MODEL_NAME, monitor='val_loss', save_best_only=True
 model.fit(X, Y, epochs=EPOCHS, batch_size=batch, validation_split=.20, verbose=1,
           callbacks=[tensorboard_callback, checkpoint], shuffle=True,)
 
-# if count % 10 == 0:  # Make sure to have at least 10 saves for training
-#     print('SAVING MODEL!')
-#     model.save(MODEL_NAME)
-
 
 clear_session()
 

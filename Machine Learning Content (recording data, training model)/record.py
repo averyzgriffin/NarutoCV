@@ -9,13 +9,10 @@ count = 600   # TODO
 sign = 'bird'   # TODO
 user = 'avery'  # TODO
 folder_avery = 'C:/Users/Avery/Desktop/data-2-26-20/avery/'  # TODO
-folder_jared = ''
 
 sign_path = sign + r'/'
 if user.lower() == 'avery':
     dir_output = folder_avery + sign_path
-elif user.lower() == 'jared':
-    dir_output = folder_jared + sign
 
 bg = None
 record = False
