@@ -2,6 +2,9 @@
 
 Hello! Here is a machine learning + Pygame joint project.
 
+<p>&nbsp
+</p>
+
 The aim was to recreate the classic Naruto Arena turn-based strategy game....but with a twist. Instead of just using a mouse and keyboard to play the game, I incorporated the camera via computer vision. Specifically, the 'attacks' are preformed by weaving Naruto-style handsigns with your actual hands!
 
 I wanted to bring alive the all-too-exciting handsigns from Naruto (remember when Zabuza and Kakashi whipped out Water Dragon Jutsu?!). And while my attempt is crude, funny, and not quite up to the level of the actual show....it's at least an attempt :).
