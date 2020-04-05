@@ -9,8 +9,6 @@ The aim was to recreate the classic Naruto Arena turn-based strategy game....but
 
 I wanted to bring alive the all-too-exciting handsigns from Naruto (remember when Zabuza and Kakashi whipped out Water Dragon Jutsu?!). And while my attempt is crude, funny, and not quite up to the level of the actual show....it's at least an attempt :).
 
-<p>&nbsp</p>
-
 NOTE: THE GAME IS NOT AVAILABLE TO DOWNLOAD AND PLAY. BUT I PLAN TO MAKE IT AVAILABLE SOMETIME IN THE NEAR FUTURE (WITHIN A MONTH).
 
 <p>&nbsp
@@ -31,7 +29,7 @@ Each time the camera opens, their is a small time period where the camera needs 
 &nbsp</p>
 -->
 
-Techical details:
+Techical details:<p>&nbsp</p>
 Everything was coded in Python.
 <p>&nbsp</p>
 The VGG16 convolutional neural network (by K. Simonyan and A. Zisserman) was used as the model.
