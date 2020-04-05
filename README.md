@@ -49,14 +49,11 @@ Woohoo!
 
 Disclaimer:
 
-Naruto-Arena - I took a lot of inspiration from the Naruto Arena game, so a lot of credit goes to them. Some of the icons used in my game are taken directly from their site. I definitely do not own any of those assets. Naruto-Arena.net itself is a fansite based on the Naruto Anime and Manga series. Unfortunately, I believe the game is no longer active (RIP). Here is the site https://naruto-arena.net/
+Naruto-Arena - I took a lot of inspiration from the Naruto Arena game, so a lot of credit goes to them. Most (if not all?) of the icons used are taken directly from their site. I definitely do not own any of those assets. Naruto-Arena.net itself is a fansite based on the Naruto Anime and Manga series. Unfortunately, I believe the game is no longer active (RIP). Here is the site https://naruto-arena.net/
 
 VGG16 - This model is by K. Simonyan and A. Zisserman as mentioned. Here is the paper https://arxiv.org/abs/1409.1556
 
 Computer Vision - The computer vision operations used to obtain the thresholded image were not of my own creation. It was a combination of stuff I knew and some stuff I picked up across the internet. A major help with solving this problem was Brenner Heintz in his article here https://towardsdatascience.com/training-a-neural-network-to-detect-gestures-with-opencv-in-python-e09b0a12bdf1. A matter of fact, it was Brenner's article that convinced me to switch from the Google Inception model to the VGG16 model (Inception was just not training properly).
-
-<p>&nbsp
-&nbsp</p>
 
 The Internet - And I must give a big thanks to the countless number of people on StackOverflow, Youtube, and the internet as a whole who provided the knowledge (and tutorials) to do half the things I tried doing (let's be honest....SO is the author of this project).
 
