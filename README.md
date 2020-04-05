@@ -29,7 +29,8 @@ Each time the camera opens, their is a small time period where the camera needs 
 &nbsp</p>
 -->
 
-Techical details:<p>&nbsp</p>
+Techical details:
+<p>&nbsp</p>
 Everything was coded in Python.
 <p>&nbsp</p>
 The VGG16 convolutional neural network (by K. Simonyan and A. Zisserman) was used as the model.
