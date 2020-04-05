@@ -14,7 +14,7 @@ FYI: The camera is only open during the jutsu phase.
 
 
 Calibrating the camera:
-Each time the camera opens, their is a small time period where the camera needs to be calibrated. This is where the computer vision part is coming into play. Just make sure NOT to move during this phase and DO NOT have your hands in camera view at this point (raise in the air or something). If you do, the camera will not be able to track you hands post-calibration. Calibration should only take 5 or so seconds. But it does need to happen each attack (jutsu) phase.
+Each time the camera opens, their is a small time period where the camera needs to be calibrated. This is where the computer vision part is coming into play. Just make sure NOT to move during this phase and DO NOT have your hands in camera view at this point (raise them to your side for example). If you do, the camera will not be able to track you hands post-calibration. Calibration should only take 5 or so seconds. But it does need to happen each attack (jutsu) phase.
 
 
 Techical details:
