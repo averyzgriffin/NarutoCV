@@ -9,8 +9,15 @@ The aim was to recreate the classic Naruto Arena turn-based strategy game....but
 
 I wanted to bring alive the all-too-exciting handsigns from Naruto (remember when Zabuza and Kakashi whipped out Water Dragon Jutsu?!). And while my attempt is crude, funny, and not quite up to the level of the actual show....it's at least an attempt :).
 
+<p>&nbsp
+&nbsp</p>
 
-Some details for anyone wanting to play:
+The game is not available to download and play. But I plan to make it available sometime in the near future (within a month).
+
+<p>&nbsp
+&nbsp</p>
+
+<!-- 
 The game uses the camera on your computer, so make sure to have one. Basically, there are 2 phases in the game: pre-jutsu phase and jutsu phase. In the pre-jutsu phase, Player 1 or 2 will select a jutsu and a character to attack. Then in the jutsu phase, the camera is fired up, video footage is taken, and some background code starts to track your hands (basically). Then it's just a matter of performing the prompted handsigns to activate the jutsu.
 
 FYI: The camera is only open during the jutsu phase.
@@ -23,7 +30,7 @@ Each time the camera opens, their is a small time period where the camera needs 
 
 <p>&nbsp
 &nbsp</p>
-
+-->
 
 Techical details:
 Everything was coded in Python.
