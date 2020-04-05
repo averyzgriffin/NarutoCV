@@ -383,7 +383,7 @@ if __name__ == "__main__":
                                     correct_image.x = ((1 / (len(selected_jutsu.get_jutsu_signs()) + 1)) * (n + 1) * glob_var.display_width)
                                     correct_image.display_image()
 
-                                    pygame.mixer.Channel(0).play(pygame.mixer.Sound('extras/sound_effect_1.wav'))
+                                    pygame.mixer.Channel(0).play(pygame.mixer.Sound('Sound/sound_effect_1.wav'))
 
                                     correct_predictions[n] = signs[np.argmax(average_prediction)]
 
@@ -391,7 +391,7 @@ if __name__ == "__main__":
                                     correct_image.x = ((1 / (len(selected_jutsu.get_jutsu_signs()) + 1)) * (n + 1) * glob_var.display_width)
                                     correct_image.display_image()
 
-                                    pygame.mixer.Channel(0).play(pygame.mixer.Sound('extras/sound_effect_1.wav'))
+                                    pygame.mixer.Channel(0).play(pygame.mixer.Sound('Sound/sound_effect_1.wav'))
 
                                     correct_predictions[n] = selected_jutsu.get_jutsu_signs()[n]
 
