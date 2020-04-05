@@ -8,7 +8,7 @@ I wanted to bring alive the all-too-exciting handsigns from Naruto (remember whe
 
 
 Some details for anyone wanting to play:
-The game uses the camera on your computer, so make sure to have one. Basically, there are 2 phases in the game: pre-jutsu phase and jutsu phase. In the pre-jutsu phase, Player 1 or 2 will select a jutsu and a character to attack. Then in the jutsu phase, the camera is fired up, video footage is taken, and some background code starts to track your hands (basically). Then it's just a matter of performing the prompted handsigns to perform the jutsu.
+The game uses the camera on your computer, so make sure to have one. Basically, there are 2 phases in the game: pre-jutsu phase and jutsu phase. In the pre-jutsu phase, Player 1 or 2 will select a jutsu and a character to attack. Then in the jutsu phase, the camera is fired up, video footage is taken, and some background code starts to track your hands (basically). Then it's just a matter of performing the prompted handsigns to activate the jutsu.
 
 FYI: The camera is only open during the jutsu phase.
 
