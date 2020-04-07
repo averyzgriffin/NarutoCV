@@ -5,10 +5,10 @@ import os
 import time
 
 
-count = 600   # TODO
+count = 900   # TODO
 sign = 'bird'   # TODO
 user = 'avery'  # TODO
-folder_avery = 'C:/Users/Avery/Desktop/data-2-26-20/avery/'  # TODO
+folder_avery = 'E:/Artificial Intelligence/naruto/data-4-6-20/'  # TODO
 
 sign_path = sign + r'/'
 if user.lower() == 'avery':

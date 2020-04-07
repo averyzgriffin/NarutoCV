@@ -18,7 +18,7 @@ def move_files(RootDir1, TargetFolder):
                     shutil.copy2(SourceFolder, TargetFolder)  # copies files to new folder
 
 
-source1_dir = "E:/Artificial Intelligence/naruto/data-2-25-20/"
+source1_dir = "E:/Artificial Intelligence/naruto/data-4-6-20/"
 source2_dir = "E:/Artificial Intelligence/naruto/data-10-13/"
 training_dir = "E:/Artificial Intelligence/naruto/training_data/"
 validation_dir = "E:/Artificial Intelligence/naruto/validation_data/"
@@ -37,4 +37,4 @@ def convert_NPY(sourcedir, newdir):
 
 
 convert_NPY(source1_dir, training_dir)
-convert_NPY(source2_dir, validation_dir)
+# convert_NPY(source2_dir, validation_dir)

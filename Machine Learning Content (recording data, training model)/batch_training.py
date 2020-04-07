@@ -11,18 +11,17 @@ import time
 
 
 # Parameters
-training_data_codename = "2-25"
+training_data_codename = "2-25+4-06"
 dir_train = "E:/Artificial Intelligence/naruto/training_data/"
 dir_val = "E:/Artificial Intelligence/naruto/validation_data/"
-num_images = 300*100
+num_images = 600*100
 WIDTH = 165
 HEIGHT = 235
 
 
-LR = .0003
 EPOCHS = 10
 batch_size = 48
-MODEL_NAME = f'VGG16_LR_{LR}_EPOCHS{EPOCHS}_CODENAME_{training_data_codename}_{time.time()}'
+MODEL_NAME = f'VGG16_EPOCHS{EPOCHS}_CODENAME_{training_data_codename}_{time.time()}'
 PREV_MODEL = ''
 
 # Data Generator
