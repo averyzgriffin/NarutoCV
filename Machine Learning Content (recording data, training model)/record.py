@@ -5,10 +5,11 @@ import os
 import time
 
 
-count = 900   # TODO
-sign = 'bird'   # TODO
+count = 900   # where we left off training
+# count = 120   # where we left off testing
+sign = 'tiger'   # TODO
 user = 'avery'  # TODO
-folder_avery = 'E:/Artificial Intelligence/naruto/data-4-6-20/'  # TODO
+folder_avery = 'E:/Artificial Intelligence/naruto/testing_data/testing_data_noisy_short/'  # TODO
 
 sign_path = sign + r'/'
 if user.lower() == 'avery':
@@ -164,7 +165,7 @@ if __name__ == "__main__":
                         data = []
                         count += 1
 
-                    if len(os.listdir(dir_output)) >= 25:
+                    if len(os.listdir(dir_output)) >= 5:
                         record = False
                         print("---Limit reached. Shutting down.---")
                         break
