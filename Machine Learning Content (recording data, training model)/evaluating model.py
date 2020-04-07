@@ -43,21 +43,21 @@ def get_classification_report(model, eval_dir="E:/Artificial Intelligence/naruto
     return report
 
 
-def save_report(report):
+def save_report(report, name):
     df = pd.DataFrame(report).transpose()
     html = df.to_html()
-    text_file = open("index.html", "w")
+    text_file = open(name + ".html", "w")
     text_file.write(html)
     text_file.close()
 
 
-# report1 = get_classification_report(saved_model_1, "E:/Artificial Intelligence/naruto/testing_data/testing_data_clean_long")
-# print(report1)
-# save_report(report1)
+report1 = get_classification_report(saved_model_1, "E:/Artificial Intelligence/naruto/testing_data/testing_data_clean_long", augment=True)
+print(report1)
+save_report(report1, saved_model_1)
 
-for saved_model in saved_models:
-    for test_dir in test_dirs:
-        report = get_classification_report(saved_model, test_dir)
-        print(report)
-        save_report(report)
+# for saved_model in saved_models:
+#     for test_dir in test_dirs:
+#         report = get_classification_report(saved_model, test_dir)
+#         print(report)
+#         save_report(report)
 
