@@ -11,7 +11,7 @@ import camera_ops
 # --------------------------------------------------
 # Global Variables
 # --------------------------------------------------
-saved_model = "VGG16_EPOCHS10_CODENAME_2-25+4-06_1586224978.494585"
+saved_model = "VGG16_EPOCHS10_CODENAME_accumulative_data_4-8_1586391812.960287"
 model = models.load_model(saved_model)
 WIDTH = 165
 HEIGHT = 235
@@ -96,36 +96,6 @@ if __name__ == "__main__":
                 #     average_prediction, accumulated_predictions = predict_ops.get_avererage_prediction(
                 #         accumulated_predictions)
                 #     top_predictions = predict_ops.get_top_signs(signs, average_prediction)
-
-
-
-
-                        # # If we decide to use np.argmax again
-                        #
-                        #  if np.argmax(average_prediction) == np.argmax(bird):
-                        #     print(signs[0])
-                        # elif np.argmax(average_prediction) == np.argmax(boar):
-                        #     print(signs[1])
-                        # elif np.argmax(average_prediction) == np.argmax(dog):
-                        #     print(signs[2])
-                        # elif np.argmax(average_prediction) == np.argmax(dragon):
-                        #     print(signs[3])
-                        # elif np.argmax(average_prediction) == np.argmax(hare):
-                        #     print(signs[4])
-                        # elif np.argmax(average_prediction) == np.argmax(horse):
-                        #     print(signs[5])
-                        # elif np.argmax(average_prediction) == np.argmax(monkey):
-                        #     print(signs[6])
-                        # elif np.argmax(average_prediction) == np.argmax(ox):
-                        #     print(signs[7])
-                        # elif np.argmax(average_prediction) == np.argmax(ram):
-                        #     print(signs[8])
-                        # elif np.argmax(average_prediction) == np.argmax(rat):
-                        #     print(signs[9])
-                        # elif np.argmax(average_prediction) == np.argmax(serpent):
-                        #     print(signs[10])
-                        # elif np.argmax(average_prediction) == np.argmax(tiger):
-                        #     print(signs[11])
 
         num_frames += 1
 
