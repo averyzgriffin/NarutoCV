@@ -11,20 +11,23 @@ import time
 
 
 # Parameters
-training_data_codename = "2-25+4-06"
-dir_train = "E:/Artificial Intelligence/naruto/training_data/"
+training_data_codename = "accumulative_data_4-9_augmented"
+dir_train = "E:/Artificial Intelligence/naruto/combined_training_data/"
 dir_val = "E:/Artificial Intelligence/naruto/validation_data/"
-num_images = 600*100
 WIDTH = 165
 HEIGHT = 235
 
 
-EPOCHS = 10
-batch_size = 48
+EPOCHS = 50
+batch_size = 32
 MODEL_NAME = f'VGG16_EPOCHS{EPOCHS}_CODENAME_{training_data_codename}_{time.time()}'
-PREV_MODEL = ''
+
+# PREV_MODEL = 'VGG16_EPOCHS10_CODENAME_2-25_augmented_1586286447.4944365'
+# model = models.load_model(PREV_MODEL)
 
 # Data Generator
+# datagen = ImageDataGenerator(width_shift_range=[-.10,.10], height_shift_range=[-.10,.10],
+#                              brightness_range=[.8,1.1], zoom_range=[.7,1.3])
 datagen = ImageDataGenerator()
 train_it = datagen.flow_from_directory(dir_train, batch_size=batch_size, target_size=(HEIGHT, WIDTH))
 val_it = datagen.flow_from_directory(dir_val, batch_size=batch_size, target_size=(HEIGHT, WIDTH))
@@ -59,12 +62,12 @@ for layer in base_model.layers:
 model.compile(optimizer=optimizer, loss='categorical_crossentropy', metrics=['accuracy'])
 
 # Tensorboard
-logdir = f"log_generator/"
+logdir = f"log_{training_data_codename}/"
 tensorboard_callback = keras.callbacks.TensorBoard(log_dir=logdir)
 checkpoint = ModelCheckpoint(MODEL_NAME, monitor='val_loss', save_best_only=True, mode='min')
 
 
 # Model Fit
-model.fit_generator(train_it, steps_per_epoch=num_images/batch_size, epochs=10, validation_data=val_it, validation_steps=num_images/batch_size, callbacks=[tensorboard_callback, checkpoint])
+model.fit_generator(train_it, steps_per_epoch=train_it.samples/batch_size, epochs=EPOCHS, validation_data=val_it, validation_steps=val_it.samples/batch_size, callbacks=[tensorboard_callback, checkpoint])
 
 clear_session()

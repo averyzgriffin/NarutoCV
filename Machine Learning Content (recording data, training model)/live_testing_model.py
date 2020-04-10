@@ -11,6 +11,8 @@ import camera_ops
 # --------------------------------------------------
 # Global Variables
 # --------------------------------------------------
+# saved_model = "VGG16_LR_0.0003_EPOCHS10_CODENAME_2-25_1586194069.8080373"
+# saved_model = "VGG16_EPOCHS10_CODENAME_2-25+4-06_1586224978.494585"
 saved_model = "VGG16_EPOCHS10_CODENAME_accumulative_data_4-8_1586391812.960287"
 model = models.load_model(saved_model)
 WIDTH = 165

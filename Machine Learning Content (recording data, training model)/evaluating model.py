@@ -1,20 +1,25 @@
 from keras_preprocessing.image import ImageDataGenerator
-from keras import models, layers, optimizers
+from keras import models
+from keras.backend import clear_session
 import numpy as np
 from sklearn import metrics
 import pandas as pd
 
 
-saved_model_1 = "VGG16_EPOCHS10_CODENAME_2-25+4-06_1586224978.494585"
-saved_model_2 = "VGG16_LR_0.0003_EPOCHS10_CODENAME_2-25_1586194069.8080373"
-saved_model_3 = "VGG16_LR_0.0003_EPOCHS1_1571499473.7668839"
-saved_models = [saved_model_1, saved_model_2, saved_model_3]
 
-clean_long_dir = "E:/Artificial Intelligence/naruto/testing_data/testing_data_clean_long"
+# saved_model_1 = "VGG16_LR_0.0003_EPOCHS1_1571499473.7668839"
+# saved_model_2 = "VGG16_LR_0.0003_EPOCHS10_CODENAME_2-25_1586194069.8080373"
+# saved_model_3 = "VGG16_EPOCHS10_CODENAME_2-25+4-06_1586224978.494585"
+# saved_model_4 = "VGG16_EPOCHS5_CODENAME_2-25_augmented_1586303841.0710201"
+# saved_model_5 = "VGG16_EPOCHS10_CODENAME_2-25_4-6_augmented_1586311673.3138366"
+saved_model = "VGG16_EPOCHS10_CODENAME_accumulative_data_4-8_1586391812.960287"
+saved_models = [saved_model]
+
+# clean_long_dir = "E:/Artificial Intelligence/naruto/testing_data/testing_data_clean_long"
 clean_short_dir = "E:/Artificial Intelligence/naruto/testing_data/testing_data_clean_short"
-noisy_long_dir = "E:/Artificial Intelligence/naruto/testing_data/testing_data_noisy_long"
+# noisy_long_dir = "E:/Artificial Intelligence/naruto/testing_data/testing_data_noisy_long"
 noisy_short_dir = "E:/Artificial Intelligence/naruto/testing_data/testing_data_noisy_short"
-test_dirs = [clean_long_dir, clean_short_dir, noisy_long_dir, noisy_short_dir]
+test_dirs = [clean_short_dir, noisy_short_dir]
 
 WIDTH = 165
 HEIGHT = 235
@@ -40,6 +45,7 @@ def get_classification_report(model, eval_dir="E:/Artificial Intelligence/naruto
     class_labels = list(test_it.class_indices.keys())
 
     report = metrics.classification_report(true_classes, predicted_classes, target_names=class_labels, output_dict=True)
+    clear_session()
     return report
 
 
@@ -51,13 +57,18 @@ def save_report(report, name):
     text_file.close()
 
 
-report1 = get_classification_report(saved_model_1, "E:/Artificial Intelligence/naruto/testing_data/testing_data_clean_long", augment=True)
-print(report1)
-save_report(report1, saved_model_1)
+# report1 = get_classification_report(saved_model_1, "E:/Artificial Intelligence/naruto/testing_data/testing_data_clean_long", augment=True)
+# print(report1)
+# save_report(report1, saved_model_1)
 
-# for saved_model in saved_models:
-#     for test_dir in test_dirs:
-#         report = get_classification_report(saved_model, test_dir)
-#         print(report)
-#         save_report(report)
+for saved_model in saved_models:
+    for test_dir in test_dirs:
+        for i in range(2):
+            if i==0:
+                report = get_classification_report(saved_model, test_dir)
+                print(report)
+            elif i==1:
+                report = get_classification_report(saved_model, test_dir, augment=True)
+                print(report)
+            save_report(report, saved_model+"_"+test_dir[-11]+"_"+str(i))
 

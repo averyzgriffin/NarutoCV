@@ -5,11 +5,12 @@ import os
 import time
 
 
-count = 900   # where we left off training
+count = 6300   # where we left off training ...rename monkey and ox files starting at 2100 and 2200 respectively
 # count = 120   # where we left off testing
+# count = 600   # where we left off validation
 sign = 'tiger'   # TODO
 user = 'avery'  # TODO
-folder_avery = 'E:/Artificial Intelligence/naruto/testing_data/testing_data_noisy_short/'  # TODO
+folder_avery = 'E:/Artificial Intelligence/naruto/data-4-9-20-dr/'  # TODO
 
 sign_path = sign + r'/'
 if user.lower() == 'avery':
@@ -165,7 +166,7 @@ if __name__ == "__main__":
                         data = []
                         count += 1
 
-                    if len(os.listdir(dir_output)) >= 5:
+                    if len(os.listdir(dir_output)) >= 100:
                         record = False
                         print("---Limit reached. Shutting down.---")
                         break

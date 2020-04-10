@@ -6,8 +6,8 @@ from matplotlib import pyplot
 
 
 # load the image
-dir_train = "E:/Artificial Intelligence/naruto/training_data/"
-dir_image = 'tiger/handsign_892.npy_42.jpg'
+dir_train = "E:/Artificial Intelligence/naruto/combined_training_data/"
+dir_image = 'rat/handsign_2432.npy_48.jpg'
 data = load_img(dir_train+dir_image)
 
 
@@ -40,8 +40,8 @@ def augment(img, aug_type=None, aug_value=None):
 
 augment(data, 'w_shift', [-.2,.2])
 augment(data, 'h_shift', [-.15,.15])
-augment(data, 'rotate', 45)
-augment(data, 'brighten', [.2,1.2])
+augment(data, 'rotate', 15)
+augment(data, 'brighten', [.8,1.2])
 augment(data, 'zoom', [.7,1.5])
 # augment(data, 'zca')
 
