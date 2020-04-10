@@ -1,6 +1,6 @@
 kakashi = {'name': 'kakashi',
            'Kakashi Sharingan':        [('tiger', 'monkey', 'horse'), 110],
-           'Ninja Hounds':             [('dog', 'dog', 'dog', 'dog', 'dog', 'dog', 'dog', 'dog'), 20],
+           'Ninja Hounds':             [('dog', 'hare', 'dog', 'boar', 'dog', 'horse', 'dog', 'bird'), 20],
            'Lightning Blade':          [('ox', 'hare', 'monkey'), 40],
            'Hiding':                   [('rat', 'serpent'), 0]}
 
@@ -11,9 +11,9 @@ obito = {'name': 'obito',
          'Rin':                  [('rat', 'serpent'), 0]}
 
 guy = {'name': 'guy',
-       'Guy Leaf Whirl Wind':    [('ox', 'horse'), 15],
-       'Counter Punch':          [('ox', 'horse'), 10],
-       '6th Gate of Joy':        [('ox', 'horse', 'dragon'), 50],
+       'Guy Leaf Whirl Wind':    [('ox', 'rat', 'bird', 'dragon', 'ox'), 15],
+       'Counter Punch':          [('ox', 'horse', 'monkey', 'serpent'), 10],
+       '6th Gate of Joy':        [('ox', 'horse', 'dragon', 'dog', 'boar', 'dragon', 'tiger', 'hare', 'ram'), 50],
        'Guy Dodge':              [('rat', 'serpent'), 0]}
 
 crow = {'name': 'crow',

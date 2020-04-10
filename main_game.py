@@ -252,9 +252,9 @@ if __name__ == "__main__":
                 if Jutsu_Icon.queued_for_attack is not None and CharacterIcon.queued_to_be_attacked is not None:
                     jutsu(Jutsu_Icon, CharacterIcon)
 
-            # fps = clock.get_fps()
-            # clock.tick()
-            # print("FPS ", fps)
+            fps = clock.get_fps()
+            clock.tick()
+            print("FPS ", fps)
 
             # print("Character: ", CharacterIcon.queued_to_be_attacked)
             # print("Jutsu: ", Jutsu_Icon.queued_for_attack)
@@ -283,8 +283,8 @@ if __name__ == "__main__":
         correct_predictions = np.zeros((len(selected_jutsu.get_jutsu_signs())), dtype='O')
         average_prediction = None
         top_predictions = None
-        easymode = True
-        hardmode = False
+        easymode = False
+        hardmode = True
 
         game_ops.change_music("Sound/Naruto OST 1 - Need To Be Strong.mp3")
         visual_ops.get_selected_jutsu_prompt(selected_jutsu)
