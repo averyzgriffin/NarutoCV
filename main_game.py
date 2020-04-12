@@ -32,6 +32,7 @@ if __name__ == "__main__":
     def main_menu():
 
         play_button = Button((glob_var.display_width//3), (glob_var.display_height//2), 200, 100, "ENTER DOJO", character_select)
+        option_button = Button((glob_var.display_width//2), (glob_var.display_height//2), 200, 100, "OPTIONS", options_menu)
         quit_button = Button((glob_var.display_width//3 * 2), (glob_var.display_height//2), 200, 100, "WALK AWAY", quit)
 
         background = pygame.image.load("env_icons/background2.jpg").convert()
@@ -50,12 +51,41 @@ if __name__ == "__main__":
             glob_var.win.blit(background, (0,0))
 
             play_button.display_button()
+            option_button.display_button()
             quit_button.display_button()
 
             pygame.display.update()
 
 
-    def choose_character():
+    def easy_difficulty():
+        glob_var.easymode = True
+        glob_var.hardmode = False
+
+    def hard_difficulty():
+        glob_var.easymode = False
+        glob_var.hardmode = True
+
+    def show_signs():
+        glob_var.showsigns = True
+
+    def hide_signs():
+        glob_var.showsigns = False
+
+
+    def options_menu():
+
+        home_button = Button((glob_var.display_width//10 * 8), (glob_var.display_height//10 * 9), 70, 35, "HOME", main_menu)
+        easy_button = Button(glob_var.display_width // 5*2 - 100, (glob_var.display_height // 3), 200, 100, "EASY", easy_difficulty)
+        hard_button = Button(glob_var.display_width // 5*2 + 100, (glob_var.display_height // 3), 200, 100, "HARD", hard_difficulty)
+        showsigns_button = Button((glob_var.display_width // 5*2 - 100), (glob_var.display_height // 3 * 2), 200, 100, "SHOW SIGNS", show_signs)
+        hidesigns_button = Button((glob_var.display_width // 5*2 + 100), (glob_var.display_height // 3 * 2), 200, 100, "HIDE SIGNS", hide_signs)
+
+        difficulty_button = Button(glob_var.display_width // 8, (glob_var.display_height // 3), 300, 100, "DIFFICULTY", highlight=False)
+        sign_option_button = Button(glob_var.display_width // 8, (glob_var.display_height // 3 * 2), 300, 100, "HAND-SIGNS", highlight=False)
+
+        background = pygame.image.load("env_icons/background2.jpg").convert()
+        background = pygame.transform.scale(background, (glob_var.display_width, glob_var.display_height))
+
         while True:
 
             for event in pygame.event.get():
@@ -63,13 +93,37 @@ if __name__ == "__main__":
                     pygame.quit()
                     quit()
 
+            glob_var.win.blit(background, (0,0))
 
+            difficulty_button.display_button()
+            sign_option_button.display_button()
+
+            home_button.display_button()
+            easy_button.display_button()
+            hard_button.display_button()
+            showsigns_button.display_button()
+            hidesigns_button.display_button()
+            
+            if glob_var.easymode:
+                easy_button.boxcolor = (200,200,200)
+                hard_button.boxcolor = glob_var.gray
+            else:
+                easy_button.boxcolor = glob_var.gray
+                hard_button.boxcolor = (200,200,200)
+            if glob_var.showsigns:
+                showsigns_button.boxcolor = (200,200,200)
+                hidesigns_button.boxcolor = glob_var.gray
+            else:
+                showsigns_button.boxcolor = glob_var.gray
+                hidesigns_button.boxcolor = (200, 200, 200)
 
 
             pygame.display.update()
 
 
     def character_select():
+        glob_var.player_turn = True
+
         player1_character1_icon = CharacterIcon('kakashi', player_num=1, icon_num=1)
         player1_character2_icon = CharacterIcon('obito', 1, 2)
         player1_character3_icon = CharacterIcon('guy', 1, 3)
@@ -283,15 +337,32 @@ if __name__ == "__main__":
         correct_predictions = np.zeros((len(selected_jutsu.get_jutsu_signs())), dtype='O')
         average_prediction = None
         top_predictions = None
-        easymode = False
-        hardmode = True
 
         game_ops.change_music("Sound/Naruto OST 1 - Need To Be Strong.mp3")
         visual_ops.get_selected_jutsu_prompt(selected_jutsu)
         # glob_var.win.blit(background, (0, 0))
         camera = camera_ops.setup_camera()
 
-        correct_image = visual_ops.Picture("extras/mightguythumbsup.jpg", 0, 500, 160, 160, 'border')
+        correct_image = visual_ops.Picture("extras/mightguythumbsup.jpg", 0, 450, 160, 160, 'border')
+        if glob_var.showsigns:
+            bird_picture = visual_ops.Picture("extras/bird.jpg", 0, 650, 120, 120, 'border')
+            boar_picture = visual_ops.Picture("extras/boar.jpg", 0, 650, 120, 120, 'border')
+            dog_picture = visual_ops.Picture("extras/dog.jpg", 0, 650, 120, 120, 'border')
+            dragon_picture = visual_ops.Picture("extras/dragon.jpg", 0, 650, 120, 120, 'border')
+            hare_picture = visual_ops.Picture("extras/hare.jpg", 0, 650, 120, 120, 'border')
+            horse_picture = visual_ops.Picture("extras/horse.jpg", 0, 650, 120, 120, 'border')
+            monkey_picture = visual_ops.Picture("extras/monkey.jpg", 0, 650, 120, 120, 'border')
+            ox_picture = visual_ops.Picture("extras/ox.jpg", 0, 650, 120, 120, 'border')
+            ram_picture = visual_ops.Picture("extras/ram.jpg", 0, 650, 120, 120, 'border')
+            rat_picture = visual_ops.Picture("extras/rat.jpg", 0, 650, 120, 120, 'border')
+            serpent_picture = visual_ops.Picture("extras/serpent.jpg", 0, 650, 120, 120, 'border')
+            tiger_picture = visual_ops.Picture("extras/tiger.jpg", 0, 650, 120, 120, 'border')
+
+            sign_pics_dict = {"bird": bird_picture, "boar": boar_picture, "dog": dog_picture, "dragon": dragon_picture,
+                         "hare": hare_picture, "horse": horse_picture, "monkey": monkey_picture, "ox": ox_picture,
+                         "ram": ram_picture, "rat": rat_picture, "serpent": serpent_picture, "tiger": tiger_picture}
+
+
 
         # START TIMER
         start = pygame.time.get_ticks()
@@ -379,7 +450,7 @@ if __name__ == "__main__":
                                         GameManager.change_turn()
                                         game()
 
-                                elif signs[np.argmax(average_prediction)] == selected_jutsu.get_jutsu_signs()[n] and hardmode:
+                                elif signs[np.argmax(average_prediction)] == selected_jutsu.get_jutsu_signs()[n] and glob_var.hardmode:
                                     correct_image.x = ((1 / (len(selected_jutsu.get_jutsu_signs()) + 1)) * (n + 1) * glob_var.display_width)
                                     correct_image.display_image()
 
@@ -387,7 +458,7 @@ if __name__ == "__main__":
 
                                     correct_predictions[n] = signs[np.argmax(average_prediction)]
 
-                                elif selected_jutsu.get_jutsu_signs()[n] in top_predictions and easymode:
+                                elif selected_jutsu.get_jutsu_signs()[n] in top_predictions and glob_var.easymode:
                                     correct_image.x = ((1 / (len(selected_jutsu.get_jutsu_signs()) + 1)) * (n + 1) * glob_var.display_width)
                                     correct_image.display_image()
 
@@ -443,11 +514,13 @@ if __name__ == "__main__":
                     begin_button = Button((glob_var.display_width // 2),(glob_var.display_height // 10), 500, 100, "GO!", highlight=False)
                     begin_button.display_button()
 
-                    print(len(correct_predictions))
-
                     for n in range(len(selected_jutsu.get_jutsu_signs())):
-                        sign_cue1 = Button(((1 / (len(selected_jutsu.get_jutsu_signs()) + 1)) * (n+1) * glob_var.display_width), ((glob_var.display_height // 4.175)), 80, 40, f"SIGN #{n+1}", highlight=False)
                         sign_cue = Button(((1 / (len(selected_jutsu.get_jutsu_signs()) + 1)) * (n+1) * glob_var.display_width), ((glob_var.display_height // 3)), 140, 70, (str(selected_jutsu.get_jutsu_signs()[n]).upper()), highlight=False)
+                        sign_cue1 = Button(((1 / (len(selected_jutsu.get_jutsu_signs()) + 1)) * (n+1) * glob_var.display_width), ((glob_var.display_height // 4.175)), 80, 40, f"SIGN #{n+1}", highlight=False)
+                        if glob_var.showsigns:
+                            sign_picture = sign_pics_dict[selected_jutsu.get_jutsu_signs()[n]]
+                            sign_picture.x = (1 / (len(selected_jutsu.get_jutsu_signs()) + 1)) * (n+1) * glob_var.display_width
+                            sign_picture.display_image()
 
                         sign_cue1.display_button()
                         sign_cue.display_button()
@@ -460,6 +533,23 @@ if __name__ == "__main__":
                     # print("Top Predictions:            ", top_predictions)
 
             num_frames += 1
+
+
+    def test_camera():
+
+        background = pygame.image.load("env_icons/background2.jpg").convert()
+        background = pygame.transform.scale(background, (glob_var.display_width, glob_var.display_height))
+
+        while True:
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+
+            glob_var.win.blit(background, (0,0))
+
+            # run camaera function
 
 
     def end_game(winner):

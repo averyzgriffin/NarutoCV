@@ -40,3 +40,8 @@ accumulated_predictions = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], dtype
 top_signs = []
 sequence = []
 signs = ['bird', 'boar', 'dog', 'dragon', 'hare', 'horse', 'monkey', 'ox', 'ram', 'rat', 'serpent', 'tiger']
+
+# Options
+easymode = True
+hardmode = False
+showsigns = True
