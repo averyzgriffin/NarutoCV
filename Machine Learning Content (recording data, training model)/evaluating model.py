@@ -7,13 +7,9 @@ import pandas as pd
 
 
 
-# saved_model_1 = "VGG16_LR_0.0003_EPOCHS1_1571499473.7668839"
-# saved_model_2 = "VGG16_LR_0.0003_EPOCHS10_CODENAME_2-25_1586194069.8080373"
-# saved_model_3 = "VGG16_EPOCHS10_CODENAME_2-25+4-06_1586224978.494585"
-# saved_model_4 = "VGG16_EPOCHS5_CODENAME_2-25_augmented_1586303841.0710201"
-# saved_model_5 = "VGG16_EPOCHS10_CODENAME_2-25_4-6_augmented_1586311673.3138366"
-saved_model = "VGG16_EPOCHS10_CODENAME_accumulative_data_4-8_1586391812.960287"
-saved_models = [saved_model]
+saved_model_1 = "VGG16_EPOCHS50_CODENAME_accumulative_data_4-9_1586483732.9708767"
+saved_model_2 = "VGG16_EPOCHS50_CODENAME_accumulative_data_4-9_actual_1586535508.2220433"
+saved_models = [saved_model_1, saved_model_2]
 
 # clean_long_dir = "E:/Artificial Intelligence/naruto/testing_data/testing_data_clean_long"
 clean_short_dir = "E:/Artificial Intelligence/naruto/testing_data/testing_data_clean_short"
