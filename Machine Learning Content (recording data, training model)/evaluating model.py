@@ -11,9 +11,7 @@ saved_model_1 = "VGG16_EPOCHS50_CODENAME_accumulative_data_4-9_1586483732.970876
 saved_model_2 = "VGG16_EPOCHS50_CODENAME_accumulative_data_4-9_actual_1586535508.2220433"
 saved_models = [saved_model_1, saved_model_2]
 
-# clean_long_dir = "E:/Artificial Intelligence/naruto/testing_data/testing_data_clean_long"
 clean_short_dir = "E:/Artificial Intelligence/naruto/testing_data/testing_data_clean_short"
-# noisy_long_dir = "E:/Artificial Intelligence/naruto/testing_data/testing_data_noisy_long"
 noisy_short_dir = "E:/Artificial Intelligence/naruto/testing_data/testing_data_noisy_short"
 test_dirs = [clean_short_dir, noisy_short_dir]
 
