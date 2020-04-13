@@ -7,13 +7,13 @@ kakashi = {'name': 'kakashi',
 obito = {'name': 'obito',
          'Tobi Chains':          [('tiger', 'ram', 'horse'), 15],
          'Tobi Kamui':           [('tiger', 'ram', 'dragon'), 80],
-         'Summoning Nine Tails': [('boar', 'serpent', 'bird', 'monkey', 'ram', 'tiger'), 60],
+         'Summoning Nine Tails': [('bird', 'boar', 'dog', 'dragon', 'hare', 'horse'), 60],
          'Rin':                  [('rat', 'serpent'), 0]}
 
 guy = {'name': 'guy',
        'Guy Leaf Whirl Wind':    [('ox', 'rat', 'bird', 'dragon', 'ox'), 15],
        'Counter Punch':          [('ox', 'horse', 'monkey', 'serpent'), 10],
-       '6th Gate of Joy':        [('ox', 'horse', 'dragon', 'dog', 'boar', 'dragon', 'tiger', 'hare', 'ram'), 50],
+       '6th Gate of Joy':        [('monkey', 'ox', 'ram', 'rat', 'serpent', 'tiger'), 50],
        'Guy Dodge':              [('rat', 'serpent'), 0]}
 
 crow = {'name': 'crow',
