@@ -18,8 +18,12 @@ def create_textObject(text, font):
 
 
 def get_selected_jutsu_prompt(jutsu):  # TODO I don't like the name of this function.
-    selection_text = HeaderText(msg="You have selected: " + str(jutsu.jutsu_icon_name), text_color=black, size=50, x=None, y=None)
-    selection_text.display_text()
+    selection_text1 = HeaderText(msg="You have selected " + str(jutsu.jutsu_icon_name).upper(), text_color=glob_var.black, size=glob_var.display_width/30.4, x=None, y=None)
+    selection_text2 = HeaderText(msg="You have selected " + str(jutsu.jutsu_icon_name).upper(), text_color=glob_var.orange, size=glob_var.display_width/31, x=None, y=None)
+    selection_text1.y = glob_var.display_height / 2
+    selection_text2.y = glob_var.display_height / 2
+    selection_text1.display_text()
+    selection_text2.display_text()
 
     pygame.display.update()
     time.sleep(3)
@@ -105,9 +109,9 @@ class CharacterIcon:
         bar_x, bar_y = self.x, self.y + self.icon_size[1] + (glob_var.display_height * 0.00625)
         bar_width = abs(int(self.icon_size[0] * (self.health / 100)))
 
-        bar = pygame.Surface((bar_width, 10), pygame.SRCALPHA)
+        bar = pygame.Surface((bar_width, glob_var.display_height/83.5), pygame.SRCALPHA)
         bar.fill((255, 0, 0, 255))
-        bar_message = TextCue(f"Health:  {self.health}", black, (glob_var.display_area // 86283),(bar_x + (self.icon_size[0] / 2)), bar_y + (glob_var.display_height * 0.0225))
+        bar_message = TextCue(f"Health:  {self.health}", black, (glob_var.display_width / 103),(bar_x + (self.icon_size[0] / 2)), bar_y + (glob_var.display_height * 0.0225))
 
         return bar, bar_x, bar_y, bar_message
 
@@ -181,8 +185,8 @@ class Jutsu_Icon(CharacterIcon):
 
     def create_name(self):
         x, y = (self.x + self.icon_size[0] / 2, self.y + self.icon_size[1] + (glob_var.display_height * 0.0125))
-        msg1 = TextCue(self.icon_name, black, 14, x, y)
-        msg2 = TextCue(f"Damage: {self.get_damage()}", black, 14, x, y + (glob_var.display_height * 0.01875))
+        msg1 = TextCue(self.icon_name, black, glob_var.display_width/112, x, y)
+        msg2 = TextCue(f"Damage: {self.get_damage()}", black, glob_var.display_width/112, x, y + (glob_var.display_height * 0.01875))
 
         return msg1, msg2
 
@@ -233,7 +237,7 @@ class Button:
         self.destination = destination
         self.highlight = highlight
 
-        self.boxcolor = glob_var.gray
+        self.boxcolor = glob_var.orange
         self.boxoutline = glob_var.black
         self.textcolor = glob_var.white
         self.textsize = self.w // 7
@@ -253,10 +257,10 @@ class Button:
 
     def display_button(self):
 
-        pygame.draw.rect(glob_var.win, self.boxoutline, (self.x-3, self.y-3, self.w+6, self.h+6), 0)
+        pygame.draw.rect(glob_var.win, self.boxoutline, (self.x-2, self.y-2, self.w+4, self.h+4), 0)
 
         if self.click_status() and self.highlight:
-            pygame.draw.rect(glob_var.win, (200,200,200), (self.x, self.y, self.w, self.h), 0)
+            pygame.draw.rect(glob_var.win, (255,207,158), (self.x, self.y, self.w, self.h), 0)
 
             click = pygame.mouse.get_pressed()
             if click[0] == 1 and self.destination is not None:
@@ -357,6 +361,6 @@ class Picture:
 
     def display_image(self):
         if self.border != '':
-            pygame.draw.rect(glob_var.win, glob_var.green, (self.x - self.w//2 - 3, self.y - self.h//2 - 3, self.w + 6, self.h + 6), 0)
+            pygame.draw.rect(glob_var.win, glob_var.orange, (self.x - self.w//2 - 3, self.y - self.h//2 - 3, self.w + 6, self.h + 6), 0)
 
         glob_var.win.blit(self.img, (self.x - self.w // 2, self.y - self.h // 2))

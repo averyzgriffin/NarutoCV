@@ -4,8 +4,8 @@ import numpy as np
 
 
 # Display variables
-display_width = 1550  # 1200
-display_height = 835  # 800
+display_width =  1550
+display_height =  835
 display_area = display_width * display_height
 black = (0,0,0)
 white = (255,255,255)
@@ -42,6 +42,6 @@ sequence = []
 signs = ['bird', 'boar', 'dog', 'dragon', 'hare', 'horse', 'monkey', 'ox', 'ram', 'rat', 'serpent', 'tiger']
 
 # Options
-easymode = True
-hardmode = False
+easymode = False
+hardmode = True
 showsigns = True

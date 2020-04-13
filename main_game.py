@@ -31,14 +31,17 @@ pygame.mixer_music.set_volume(.2)
 if __name__ == "__main__":
 
     def main_menu():
+        
+        w = glob_var.display_width
+        h = glob_var.display_height  
 
-        play_button = Button((glob_var.display_width//5), (glob_var.display_height//2), 200, 100, "ENTER DOJO", construct_characters)
-        test_button = Button((glob_var.display_width//5*2), (glob_var.display_height//2), 200, 100, "TEST MODE", test_mode)
-        option_button = Button((glob_var.display_width//5*3), (glob_var.display_height//2), 200, 100, "OPTIONS", options_menu)
-        quit_button = Button((glob_var.display_width//5*4), (glob_var.display_height//2), 200, 100, "WALK AWAY", quit)
+        play_button = Button((w//5), (h//2), w/7.75, h/8.35, "ENTER DOJO", construct_characters)
+        test_button = Button((w//5*2), (h//2), w/7.75, h/8.35, "TEST MODE", test_mode)
+        option_button = Button((w//5*3), (h//2), w/7.75, h/8.35, "OPTIONS", options_menu)
+        quit_button = Button((w//5*4), (h//2), w/7.75, h/8.35, "WALK AWAY", quit)
 
         background = pygame.image.load("env_icons/background2.jpg").convert()
-        background = pygame.transform.scale(background, (glob_var.display_width, glob_var.display_height))
+        background = pygame.transform.scale(background, (w, h))
 
         game_ops.change_music("Sound/Naruto OST 2 - Afternoon of Konoha.mp3")
 
@@ -61,15 +64,20 @@ if __name__ == "__main__":
 
 
     def options_menu():
+        
+        w = glob_var.display_width
+        h = glob_var.display_height  
 
-        home_button = Button((glob_var.display_width//10 * 9), (glob_var.display_height//10 * 1), 70, 35, "HOME", main_menu)
-        easy_button = Button(glob_var.display_width // 5*2 - 100, (glob_var.display_height // 3), 200, 100, "EASY", game_manager.easy_difficulty)
-        hard_button = Button(glob_var.display_width // 5*2 + 100, (glob_var.display_height // 3), 200, 100, "HARD", game_manager.hard_difficulty)
-        showsigns_button = Button((glob_var.display_width // 5*2 - 100), (glob_var.display_height // 3 * 2), 200, 100, "SHOW SIGNS", game_manager.show_signs)
-        hidesigns_button = Button((glob_var.display_width // 5*2 + 100), (glob_var.display_height // 3 * 2), 200, 100, "HIDE SIGNS", game_manager.hide_signs)
+        home_button = Button((w//10 * 1), (h//12 * 1), w/22.1, h/23.8, "HOME", main_menu)
 
-        difficulty_button = Button(glob_var.display_width // 8, (glob_var.display_height // 3), 300, 100, "DIFFICULTY", highlight=False)
-        sign_option_button = Button(glob_var.display_width // 8, (glob_var.display_height // 3 * 2), 300, 100, "HAND-SIGNS", highlight=False)
+        difficulty_button = Button(w // 8, (h // 3), w/6, h/8, "DIFFICULTY", highlight=False)
+        sign_option_button = Button(w // 8, (h // 3 * 2), w/6, h/9, "HAND-SIGNS", highlight=False)
+
+        easy_button = Button(w // 5*2 - w/15.5, (h // 3), w/7.8, h/8.8, "EASY", game_manager.easy_difficulty)
+        hard_button = Button(w // 5*2 + w/15.5, (h // 3), w/7.8, h/8.8, "HARD", game_manager.hard_difficulty)
+        showsigns_button = Button((w // 5*2 - w/15.5), (h // 3 * 2), w/7.8, h/8.8, "SHOW SIGNS", game_manager.show_signs)
+        hidesigns_button = Button((w // 5*2 + w/15.5), (h // 3 * 2), w/7.8, h/8.8, "HIDE SIGNS", game_manager.hide_signs)
+
 
         background = pygame.image.load("env_icons/background2.jpg").convert()
         background = pygame.transform.scale(background, (glob_var.display_width, glob_var.display_height))
@@ -93,17 +101,17 @@ if __name__ == "__main__":
             hidesigns_button.display_button()
 
             if glob_var.easymode:
-                easy_button.boxcolor = (200,200,200)
-                hard_button.boxcolor = glob_var.gray
+                easy_button.boxcolor = (255,207,158)
+                hard_button.boxcolor = glob_var.orange
             else:
-                easy_button.boxcolor = glob_var.gray
-                hard_button.boxcolor = (200,200,200)
+                easy_button.boxcolor = glob_var.orange
+                hard_button.boxcolor = (255,207,158)
             if glob_var.showsigns:
-                showsigns_button.boxcolor = (200,200,200)
-                hidesigns_button.boxcolor = glob_var.gray
+                showsigns_button.boxcolor = (255,207,158)
+                hidesigns_button.boxcolor = glob_var.orange
             else:
-                showsigns_button.boxcolor = glob_var.gray
-                hidesigns_button.boxcolor = (200, 200, 200)
+                showsigns_button.boxcolor = glob_var.orange
+                hidesigns_button.boxcolor = (255,207,158)
 
             pygame.display.update()
 
@@ -196,18 +204,21 @@ if __name__ == "__main__":
 
 
     def game():
-
+        
+        w = glob_var.display_width
+        h = glob_var.display_height
+        
         attack = False
         visual_ops.CharacterIcon.queued_to_be_attacked = None
         visual_ops.Jutsu_Icon.queued_for_attack = None
 
         game_ops.change_music("Sound/Naruto OST 2 - Afternoon of Konoha.mp3")
         background = pygame.image.load("env_icons/background2.jpg").convert()
-        background = pygame.transform.scale(background, (glob_var.display_width, glob_var.display_height))
+        background = pygame.transform.scale(background, (w, h))
 
-        attack_button = Button((glob_var.display_width//2), (glob_var.display_height//8), 160, 80, "ATTACK")
-        home_button = Button((glob_var.display_width//12 * 10), (glob_var.display_height//12 * 1), 70, 35, "HOME", main_menu)
-        quit_button = Button((glob_var.display_width//12 * 11), (glob_var.display_height//12 * 1), 70, 35, "QUIT", quit)
+        attack_button = Button((w//2), (h//8), w/9.69, h/10.4, "ATTACK")
+        home_button = Button((w//12 * 1), (h//12 * 1), w/22.1, h/23.8, "HOME", main_menu)
+        quit_button = Button((w//12 * 2), (h//12 * 1), w/22.1, h/23.8, "QUIT", quit)
 
 
         game_phase = True
@@ -307,6 +318,9 @@ if __name__ == "__main__":
 
 
     def jutsu(jutsu_icon, character_icon):
+        w = glob_var.display_width
+        h = glob_var.display_height
+
         background = pygame.image.load("env_icons/naruto_background_5_by_pungpp_dcsgik3-fullview.jpg").convert()
         background = pygame.transform.scale(background, (glob_var.display_width, glob_var.display_height))
         glob_var.win.blit(background, (0, 0))
@@ -324,20 +338,20 @@ if __name__ == "__main__":
         visual_ops.get_selected_jutsu_prompt(selected_jutsu)
         camera = camera_ops.setup_camera()
 
-        correct_image = visual_ops.Picture("extras/mightguythumbsup.jpg", 0, 450, 160, 160, 'border')
+        correct_image = visual_ops.Picture("extras/mightguythumbsup.jpg", 0, int(h/1.85), int(w/9.69), int(w/9.69), 'border')
         if glob_var.showsigns:
-            bird_picture = visual_ops.Picture("extras/bird.jpg", 0, 650, 120, 120, 'border')
-            boar_picture = visual_ops.Picture("extras/boar.jpg", 0, 650, 120, 120, 'border')
-            dog_picture = visual_ops.Picture("extras/dog.jpg", 0, 650, 120, 120, 'border')
-            dragon_picture = visual_ops.Picture("extras/dragon.jpg", 0, 650, 120, 120, 'border')
-            hare_picture = visual_ops.Picture("extras/hare.jpg", 0, 650, 120, 120, 'border')
-            horse_picture = visual_ops.Picture("extras/horse.jpg", 0, 650, 120, 120, 'border')
-            monkey_picture = visual_ops.Picture("extras/monkey.jpg", 0, 650, 120, 120, 'border')
-            ox_picture = visual_ops.Picture("extras/ox.jpg", 0, 650, 120, 120, 'border')
-            ram_picture = visual_ops.Picture("extras/ram.jpg", 0, 650, 120, 120, 'border')
-            rat_picture = visual_ops.Picture("extras/rat.jpg", 0, 650, 120, 120, 'border')
-            serpent_picture = visual_ops.Picture("extras/serpent.jpg", 0, 650, 120, 120, 'border')
-            tiger_picture = visual_ops.Picture("extras/tiger.jpg", 0, 650, 120, 120, 'border')
+            bird_picture = visual_ops.Picture("extras/bird.jpg", 0, int(h/1.28), int(w/12.9), int(w/12.9), 'border')
+            boar_picture = visual_ops.Picture("extras/boar.jpg", 0, int(h/1.28), int(w/12.9), int(w/12.9), 'border')
+            dog_picture = visual_ops.Picture("extras/dog.jpg", 0, int(h/1.28), int(w/12.9), int(w/12.9), 'border')
+            dragon_picture = visual_ops.Picture("extras/dragon.jpg", 0, int(h/1.28), int(w/12.9), int(w/12.9), 'border')
+            hare_picture = visual_ops.Picture("extras/hare.jpg", 0, int(h/1.28), int(w/12.9), int(w/12.9), 'border')
+            horse_picture = visual_ops.Picture("extras/horse.jpg", 0, int(h/1.28), int(w/12.9), int(w/12.9), 'border')
+            monkey_picture = visual_ops.Picture("extras/monkey.jpg", 0, int(h/1.28), int(w/12.9), int(w/12.9), 'border')
+            ox_picture = visual_ops.Picture("extras/ox.jpg", 0, int(h/1.28), int(w/12.9), int(w/12.9), 'border')
+            ram_picture = visual_ops.Picture("extras/ram.jpg", 0, int(h/1.28), int(w/12.9), int(w/12.9), 'border')
+            rat_picture = visual_ops.Picture("extras/rat.jpg", 0, int(h/1.28), int(w/12.9), int(w/12.9), 'border')
+            serpent_picture = visual_ops.Picture("extras/serpent.jpg", 0, int(h/1.28), int(w/12.9), int(w/12.9), 'border')
+            tiger_picture = visual_ops.Picture("extras/tiger.jpg", 0, int(h/1.28), int(w/12.9), int(w/12.9), 'border')
 
             sign_pics_dict = {"bird": bird_picture, "boar": boar_picture, "dog": dog_picture, "dragon": dragon_picture,
                               "hare": hare_picture, "horse": horse_picture, "monkey": monkey_picture, "ox": ox_picture,
@@ -377,12 +391,13 @@ if __name__ == "__main__":
 
                 if threshold is not None:
                     cv2.imshow("Threshold", threshold)
+                    cv2.moveWindow("Threshold", glob_var.display_width // 10*9, glob_var.display_height//20)
                     threshold = np.stack((threshold,) * 3, axis=-1)
 
                     # TIMER - COUNTDOWN
                     elapsed = (pygame.time.get_ticks() - start - 2500) / 1000
 
-                    timer_bar = Button(0, glob_var.display_height, (glob_var.display_width * ((20-elapsed)/20) * 2), 50, highlight=False)
+                    timer_bar = Button(0, glob_var.display_height, (glob_var.display_width * ((20-elapsed)/20) * 2), h/16, highlight=False)
                     timer_bar.boxcolor = glob_var.orange
                     timer_bar.display_button()
 
@@ -492,15 +507,15 @@ if __name__ == "__main__":
                     # else:
                     #     print('WE DID IT')
 
-                    begin_button = Button((glob_var.display_width // 2),(glob_var.display_height // 10), 500, 100, "GO!", highlight=False)
+                    begin_button = Button((w // 2),(h // 10), w/3.1, h/8.35, "GO!", highlight=False)
                     begin_button.display_button()
 
                     for n in range(len(selected_jutsu.get_jutsu_signs())):
-                        sign_cue = Button(((1 / (len(selected_jutsu.get_jutsu_signs()) + 1)) * (n+1) * glob_var.display_width), ((glob_var.display_height // 3)), 140, 70, (str(selected_jutsu.get_jutsu_signs()[n]).upper()), highlight=False)
-                        sign_cue1 = Button(((1 / (len(selected_jutsu.get_jutsu_signs()) + 1)) * (n+1) * glob_var.display_width), ((glob_var.display_height // 4.175)), 80, 40, f"SIGN #{n+1}", highlight=False)
+                        sign_cue = Button(((1 / (len(selected_jutsu.get_jutsu_signs()) + 1)) * (n+1) * w), h/3, w/11.07, h/11.9, (str(selected_jutsu.get_jutsu_signs()[n]).upper()), highlight=False)
+                        sign_cue1 = Button(((1 / (len(selected_jutsu.get_jutsu_signs()) + 1)) * (n+1) * w), h/4.175, w/19.38, h/20.9, f"SIGN #{n+1}", highlight=False)
                         if glob_var.showsigns:
                             sign_picture = sign_pics_dict[selected_jutsu.get_jutsu_signs()[n]]
-                            sign_picture.x = (1 / (len(selected_jutsu.get_jutsu_signs()) + 1)) * (n+1) * glob_var.display_width
+                            sign_picture.x = (1 / (len(selected_jutsu.get_jutsu_signs()) + 1)) * (n+1) * w
                             sign_picture.display_image()
 
                         sign_cue1.display_button()
@@ -532,7 +547,7 @@ if __name__ == "__main__":
         h = glob_var.display_height / 3.4
         sign_text = visual_ops.TextCue('TEST', glob_var.white, font_size, x, y)
 
-        home_button = Button((glob_var.display_width//10 * 9), (glob_var.display_height//10 * 1), 70, 35, "HOME", main_menu)
+        home_button = Button((glob_var.display_width//12 * 1), (glob_var.display_height//10 * 1), glob_var.display_width/22.1, glob_var.display_height/23.8, "HOME", main_menu)
 
         while True:
 
@@ -543,7 +558,7 @@ if __name__ == "__main__":
 
             glob_var.win.blit(background, (0,0))
 
-            pygame.draw.rect(glob_var.win, glob_var.orange, (x - (w/2+3),  y - (h/2+3), w + 6, h + 6), 0)
+            pygame.draw.rect(glob_var.win, glob_var.orange, (x - (w/2+2),  y - (h/2+2), w + 4, h + 4), 0)
             pygame.draw.rect(glob_var.win, glob_var.black, (x - w/2,  y - h/2, w, h), 0)
 
             home_button.display_button()
@@ -561,6 +576,7 @@ if __name__ == "__main__":
 
                 if threshold is not None:
                     cv2.imshow("Threshold", threshold)
+                    cv2.moveWindow("Threshold", glob_var.display_width // 2 - glob_var.display_width // 20, glob_var.display_height//10)
                     threshold = np.stack((threshold,) * 3, axis=-1)
 
                     # ---- PREDICTION FUNCTIONALITY ----
