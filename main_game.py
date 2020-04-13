@@ -8,6 +8,7 @@ import predict_ops
 import camera_ops
 from keras import models
 from model import saved_model
+import game_manager
 from game_manager import GameManager
 from game_manager import CharacterManager
 from game_manager import JutsuManager
@@ -31,9 +32,10 @@ if __name__ == "__main__":
 
     def main_menu():
 
-        play_button = Button((glob_var.display_width//3), (glob_var.display_height//2), 200, 100, "ENTER DOJO", character_select)
-        option_button = Button((glob_var.display_width//2), (glob_var.display_height//2), 200, 100, "OPTIONS", options_menu)
-        quit_button = Button((glob_var.display_width//3 * 2), (glob_var.display_height//2), 200, 100, "WALK AWAY", quit)
+        play_button = Button((glob_var.display_width//5), (glob_var.display_height//2), 200, 100, "ENTER DOJO", construct_characters)
+        test_button = Button((glob_var.display_width//5*2), (glob_var.display_height//2), 200, 100, "TEST MODE", test_mode)
+        option_button = Button((glob_var.display_width//5*3), (glob_var.display_height//2), 200, 100, "OPTIONS", options_menu)
+        quit_button = Button((glob_var.display_width//5*4), (glob_var.display_height//2), 200, 100, "WALK AWAY", quit)
 
         background = pygame.image.load("env_icons/background2.jpg").convert()
         background = pygame.transform.scale(background, (glob_var.display_width, glob_var.display_height))
@@ -51,34 +53,20 @@ if __name__ == "__main__":
             glob_var.win.blit(background, (0,0))
 
             play_button.display_button()
+            test_button.display_button()
             option_button.display_button()
             quit_button.display_button()
 
             pygame.display.update()
 
 
-    def easy_difficulty():
-        glob_var.easymode = True
-        glob_var.hardmode = False
-
-    def hard_difficulty():
-        glob_var.easymode = False
-        glob_var.hardmode = True
-
-    def show_signs():
-        glob_var.showsigns = True
-
-    def hide_signs():
-        glob_var.showsigns = False
-
-
     def options_menu():
 
-        home_button = Button((glob_var.display_width//10 * 8), (glob_var.display_height//10 * 9), 70, 35, "HOME", main_menu)
-        easy_button = Button(glob_var.display_width // 5*2 - 100, (glob_var.display_height // 3), 200, 100, "EASY", easy_difficulty)
-        hard_button = Button(glob_var.display_width // 5*2 + 100, (glob_var.display_height // 3), 200, 100, "HARD", hard_difficulty)
-        showsigns_button = Button((glob_var.display_width // 5*2 - 100), (glob_var.display_height // 3 * 2), 200, 100, "SHOW SIGNS", show_signs)
-        hidesigns_button = Button((glob_var.display_width // 5*2 + 100), (glob_var.display_height // 3 * 2), 200, 100, "HIDE SIGNS", hide_signs)
+        home_button = Button((glob_var.display_width//10 * 9), (glob_var.display_height//10 * 1), 70, 35, "HOME", main_menu)
+        easy_button = Button(glob_var.display_width // 5*2 - 100, (glob_var.display_height // 3), 200, 100, "EASY", game_manager.easy_difficulty)
+        hard_button = Button(glob_var.display_width // 5*2 + 100, (glob_var.display_height // 3), 200, 100, "HARD", game_manager.hard_difficulty)
+        showsigns_button = Button((glob_var.display_width // 5*2 - 100), (glob_var.display_height // 3 * 2), 200, 100, "SHOW SIGNS", game_manager.show_signs)
+        hidesigns_button = Button((glob_var.display_width // 5*2 + 100), (glob_var.display_height // 3 * 2), 200, 100, "HIDE SIGNS", game_manager.hide_signs)
 
         difficulty_button = Button(glob_var.display_width // 8, (glob_var.display_height // 3), 300, 100, "DIFFICULTY", highlight=False)
         sign_option_button = Button(glob_var.display_width // 8, (glob_var.display_height // 3 * 2), 300, 100, "HAND-SIGNS", highlight=False)
@@ -103,7 +91,7 @@ if __name__ == "__main__":
             hard_button.display_button()
             showsigns_button.display_button()
             hidesigns_button.display_button()
-            
+
             if glob_var.easymode:
                 easy_button.boxcolor = (200,200,200)
                 hard_button.boxcolor = glob_var.gray
@@ -117,11 +105,10 @@ if __name__ == "__main__":
                 showsigns_button.boxcolor = glob_var.gray
                 hidesigns_button.boxcolor = (200, 200, 200)
 
-
             pygame.display.update()
 
 
-    def character_select():
+    def construct_characters():
         glob_var.player_turn = True
 
         player1_character1_icon = CharacterIcon('kakashi', player_num=1, icon_num=1)
@@ -219,8 +206,8 @@ if __name__ == "__main__":
         background = pygame.transform.scale(background, (glob_var.display_width, glob_var.display_height))
 
         attack_button = Button((glob_var.display_width//2), (glob_var.display_height//8), 160, 80, "ATTACK")
-        menu_button = Button((glob_var.display_width//10 * 8), (glob_var.display_height//10 * 9), 70, 35, "MENU", main_menu)
-        quit_button = Button((glob_var.display_width//10 * 9), (glob_var.display_height//10 * 9), 70, 35, "QUIT", quit)
+        home_button = Button((glob_var.display_width//12 * 10), (glob_var.display_height//12 * 1), 70, 35, "HOME", main_menu)
+        quit_button = Button((glob_var.display_width//12 * 11), (glob_var.display_height//12 * 1), 70, 35, "QUIT", quit)
 
 
         game_phase = True
@@ -293,7 +280,7 @@ if __name__ == "__main__":
             JutsuManager.player2_character3_jutsu4_icon.display_image()
 
             attack_button.display_button()
-            menu_button.display_button()
+            home_button.display_button()
             quit_button.display_button()
 
             # If using a button instead of keypress for attack, use attack_button.is_clicked instead of just "attack"
@@ -310,16 +297,11 @@ if __name__ == "__main__":
             clock.tick()
             print("FPS ", fps)
 
-            # print("Character: ", CharacterIcon.queued_to_be_attacked)
-            # print("Jutsu: ", Jutsu_Icon.queued_for_attack)
-
-            # ----------------------------------------------------
-            # Final Update
-            pygame.display.update()
-
             # Reset in-game variables - these need to be reset at the end of every loop.
             Jutsu_Icon.class_clickable = False
             CharacterIcon.class_clickable = False
+
+            pygame.display.update()
 
 
 
@@ -340,7 +322,6 @@ if __name__ == "__main__":
 
         game_ops.change_music("Sound/Naruto OST 1 - Need To Be Strong.mp3")
         visual_ops.get_selected_jutsu_prompt(selected_jutsu)
-        # glob_var.win.blit(background, (0, 0))
         camera = camera_ops.setup_camera()
 
         correct_image = visual_ops.Picture("extras/mightguythumbsup.jpg", 0, 450, 160, 160, 'border')
@@ -359,8 +340,8 @@ if __name__ == "__main__":
             tiger_picture = visual_ops.Picture("extras/tiger.jpg", 0, 650, 120, 120, 'border')
 
             sign_pics_dict = {"bird": bird_picture, "boar": boar_picture, "dog": dog_picture, "dragon": dragon_picture,
-                         "hare": hare_picture, "horse": horse_picture, "monkey": monkey_picture, "ox": ox_picture,
-                         "ram": ram_picture, "rat": rat_picture, "serpent": serpent_picture, "tiger": tiger_picture}
+                              "hare": hare_picture, "horse": horse_picture, "monkey": monkey_picture, "ox": ox_picture,
+                              "ram": ram_picture, "rat": rat_picture, "serpent": serpent_picture, "tiger": tiger_picture}
 
 
 
@@ -389,14 +370,14 @@ if __name__ == "__main__":
             processed_frame, color_frame = camera_ops.process_frame(frame)
             (height, width) = processed_frame.shape[:2]
 
-            if num_frames < calibrate_frames:  # 30 frames = 1 seconds ..... I think
+            if num_frames < calibrate_frames:
                 camera_ops.background_run_avg(processed_frame, aWeight)
             else:
                 threshold = camera_ops.segment_hand_region(processed_frame)
 
                 if threshold is not None:
                     cv2.imshow("Threshold", threshold)
-                    threshold = np.stack((threshold,) * 3, axis=-1)  # Expand frame to 3 channels for the model
+                    threshold = np.stack((threshold,) * 3, axis=-1)
 
                     # TIMER - COUNTDOWN
                     elapsed = (pygame.time.get_ticks() - start - 2500) / 1000
@@ -525,20 +506,33 @@ if __name__ == "__main__":
                         sign_cue1.display_button()
                         sign_cue.display_button()
 
-
-
                     pygame.display.update()
-
-                    # print("Correct Predictions: ", correct_predictions)
-                    # print("Top Predictions:            ", top_predictions)
 
             num_frames += 1
 
 
-    def test_camera():
 
-        background = pygame.image.load("env_icons/background2.jpg").convert()
+
+
+
+    def test_mode():
+
+        background = pygame.image.load("env_icons/Chunin_Examination_Arena.png").convert()
         background = pygame.transform.scale(background, (glob_var.display_width, glob_var.display_height))
+
+        camera = camera_ops.setup_camera()
+        num_frames, count = 0, 0
+        accumulated_predictions = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], dtype='float64')
+        average_prediction = None
+
+        font_size = glob_var.display_width//15.5
+        x = glob_var.display_width//2
+        y = glob_var.display_height//2
+        w = glob_var.display_width / 3.2
+        h = glob_var.display_height / 3.4
+        sign_text = visual_ops.TextCue('TEST', glob_var.white, font_size, x, y)
+
+        home_button = Button((glob_var.display_width//10 * 9), (glob_var.display_height//10 * 1), 70, 35, "HOME", main_menu)
 
         while True:
 
@@ -549,7 +543,43 @@ if __name__ == "__main__":
 
             glob_var.win.blit(background, (0,0))
 
-            # run camaera function
+            pygame.draw.rect(glob_var.win, glob_var.orange, (x - (w/2+3),  y - (h/2+3), w + 6, h + 6), 0)
+            pygame.draw.rect(glob_var.win, glob_var.black, (x - w/2,  y - h/2, w, h), 0)
+
+            home_button.display_button()
+
+            (grabbed, frame) = camera.read()
+
+            # COMPUTER VISION OPERATIONS ON FRAME
+            processed_frame, color_frame = camera_ops.process_frame(frame)
+            (height, width) = processed_frame.shape[:2]
+
+            if num_frames < calibrate_frames:
+                camera_ops.background_run_avg(processed_frame, aWeight)
+            else:
+                threshold = camera_ops.segment_hand_region(processed_frame)
+
+                if threshold is not None:
+                    cv2.imshow("Threshold", threshold)
+                    threshold = np.stack((threshold,) * 3, axis=-1)
+
+                    # ---- PREDICTION FUNCTIONALITY ----
+                    count += 1
+                    prediction = model.predict([np.reshape(threshold, (1, height, width, 3))])
+                    accumulated_predictions += prediction
+
+                    if count % mean_cutoff == 0:
+                        average_prediction, accumulated_predictions = predict_ops.get_avererage_prediction(
+                            accumulated_predictions)
+
+                    if average_prediction is not None:
+                        sign_text.msg = str(signs[np.argmax(prediction)]).upper()
+                        sign_text.text, sign_text.rect = sign_text.create_text()
+                        sign_text.display_text()
+
+            pygame.display.update()
+            num_frames += 1
+
 
 
     def end_game(winner):
@@ -578,7 +608,7 @@ if __name__ == "__main__":
 
     def end_game2():
 
-        playagain_button = Button((glob_var.display_width//3), (glob_var.display_height//2), 200, 100, "PLAY AGAIN", character_select)
+        playagain_button = Button((glob_var.display_width//3), (glob_var.display_height//2), 200, 100, "PLAY AGAIN", construct_characters)
         mainmenu_button = Button((glob_var.display_width//2), (glob_var.display_height//2), 200, 100, "MAIN MENU", main_menu)
         quit_button = Button((glob_var.display_width//3 * 2), (glob_var.display_height//2), 200, 100, "EXIT GAME", quit)
 
