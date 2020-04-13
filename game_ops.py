@@ -28,39 +28,6 @@ def change_turn():
     GameManager.change_turn()
 
 
-def start_jutsu_phase(jutsu_icon, character_icon):
-    glob_var.win.fill(glob_var.white)
-
-    selected_jutsu = get_jutsu(jutsu_queued=jutsu_icon.queued_for_attack)
-    attacked_character = character_icon.queued_to_be_attacked
-    procedure = visual_ops.get_selected_jutsu_prompt(selected_jutsu)
-
-    glob_var.win.fill(glob_var.white)
-
-    camera = camera_ops.setup_camera()
-    change_music("Sound/Naruto OST 1 - Need To Be Strong.mp3")
-
-    # rtn  gamephase, jutsuphase, attack
-    return False, True, False, selected_jutsu, attacked_character, procedure, camera
-
-
-def start_game_phase():
-    pygame.display.update()
-
-    visual_ops.CharacterIcon.queued_to_be_attacked = None
-    visual_ops.Jutsu_Icon.queued_for_attack = None
-
-    num_frames, count = 0, 0
-    accumulated_predictions = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], dtype='float64')
-    sequence, top_signs, select, selected_jutsu, visual_ops.Jutsu_Icon.jutsu_que = [], [], [], [], []
-
-    change_turn()
-    change_music("Sound/Naruto OST 2 - Afternoon of Konoha.mp3")
-
-    # rtn gamephase, attack phase
-    return True, False, sequence, num_frames, count, accumulated_predictions, top_signs, select, selected_jutsu
-
-
 # --------------------------------------------------------------------------------------------------------------
 # JUTSU FUNCTIONS
 # --------------------------------------------------------------------------------------------------------------
