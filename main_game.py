@@ -208,15 +208,14 @@ if __name__ == "__main__":
         w = glob_var.display_width
         h = glob_var.display_height
         
-        attack = False
-        visual_ops.CharacterIcon.queued_to_be_attacked = None
-        visual_ops.Jutsu_Icon.queued_for_attack = None
+        game_manager.CharacterManager.queued_to_be_attacked = None
+        game_manager.JutsuManager.queued_for_attack = None
 
         game_ops.change_music("Sound/Naruto OST 2 - Afternoon of Konoha.mp3")
         background = pygame.image.load("env_icons/background2.jpg").convert()
         background = pygame.transform.scale(background, (w, h))
 
-        attack_button = Button((w//2), (h//8), w/9.69, h/10.4, "ATTACK")
+        attack_button = Button((w//2), (h//8), w/9.5, h/11, "ATTACK")
         home_button = Button((w//12 * 1), (h//12 * 1), w/22.1, h/23.8, "HOME", main_menu)
         quit_button = Button((w//12 * 2), (h//12 * 1), w/22.1, h/23.8, "QUIT", quit)
 
@@ -294,30 +293,36 @@ if __name__ == "__main__":
             home_button.display_button()
             quit_button.display_button()
 
-            # If using a button instead of keypress for attack, use attack_button.is_clicked instead of just "attack"
-            # click = pygame.mouse.get_pressed()
-            # if click[0] == 1 and attack_button.click_status():
-            #     if Jutsu_Icon.queued_for_attack is not None and CharacterIcon.queued_to_be_attacked is not None:
-            #         jutsu(Jutsu_Icon, CharacterIcon)
+            if attack_button.click_status():
+                game_manager.CharacterManager.mouse_cleared = False
+                game_manager.JutsuManager.mouse_cleared = False
 
-            if attack:
-                if Jutsu_Icon.queued_for_attack is not None and CharacterIcon.queued_to_be_attacked is not None:
-                    jutsu(Jutsu_Icon, CharacterIcon)
+            click = pygame.mouse.get_pressed()
+            if click[0] == 1 and game_manager.CharacterManager.mouse_cleared and game_manager.JutsuManager.mouse_cleared:
+                game_manager.CharacterManager.queued_to_be_attacked = None
+                game_manager.JutsuManager.queued_for_attack = None
 
-            fps = clock.get_fps()
-            clock.tick()
-            print("FPS ", fps)
+            if click[0] == 1 and attack_button.click_status():
+                if game_manager.CharacterManager.queued_to_be_attacked is not None and game_manager.JutsuManager.queued_for_attack is not None:
+                    jutsu()
+
+            # fps = clock.get_fps()
+            # clock.tick()
+            # print("FPS ", fps)
+
+            print("Character Queue: ", game_manager.CharacterManager.queued_to_be_attacked)
+            print("Jutsu Queue: ", game_manager.JutsuManager.queued_for_attack)
 
             # Reset in-game variables - these need to be reset at the end of every loop.
-            Jutsu_Icon.class_clickable = False
-            CharacterIcon.class_clickable = False
+            game_manager.CharacterManager.mouse_cleared = True
+            game_manager.JutsuManager.mouse_cleared = True
 
             pygame.display.update()
 
 
 
 
-    def jutsu(jutsu_icon, character_icon):
+    def jutsu():
         w = glob_var.display_width
         h = glob_var.display_height
 
@@ -325,8 +330,8 @@ if __name__ == "__main__":
         background = pygame.transform.scale(background, (glob_var.display_width, glob_var.display_height))
         glob_var.win.blit(background, (0, 0))
 
-        selected_jutsu = game_ops.get_jutsu(jutsu_queued=jutsu_icon.queued_for_attack)
-        attacked_character = character_icon.queued_to_be_attacked
+        selected_jutsu = game_ops.get_jutsu(jutsu_queued=game_manager.JutsuManager.queued_for_attack)
+        attacked_character = game_manager.CharacterManager.queued_to_be_attacked
 
         num_frames, count = 0, 0
         accumulated_predictions = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], dtype='float64')

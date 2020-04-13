@@ -3,6 +3,7 @@ import time
 import global_variables as glob_var
 import jutsu_signs_damage
 from game_manager import GameManager
+import game_manager
 
 
 black = (0,0,0)
@@ -37,9 +38,6 @@ class CharacterIcon:
 
     _folder = 'character_icons/'
     icon_size = (int(glob_var.display_width * .1), int(glob_var.display_height * .15))
-
-    queued_to_be_attacked = None
-    class_clickable = False
 
     def __init__(self, icon_name, player_num, icon_num):
         self.icon_name = icon_name
@@ -121,15 +119,17 @@ class CharacterIcon:
 
     def display_image(self):
         if not self.dead:
-            if Jutsu_Icon.class_isclicked:
+            if game_manager.JutsuManager.queued_for_attack is not None:
                 if GameManager.player1_turn and self.player_num == 2 or not GameManager.player1_turn and self.player_num == 1:
                     self.img.set_alpha(100)
 
                     if self.click_status():
-                        CharacterIcon.class_clickable = True
+                        self.img.set_alpha(255)
+                        game_manager.CharacterManager.mouse_cleared = False
+
                         click = pygame.mouse.get_pressed()
                         if click[0] == 1:
-                            CharacterIcon.queued_to_be_attacked = self
+                            game_manager.CharacterManager.queued_to_be_attacked = self
             else:
                 self.img.set_alpha(255)
 
@@ -152,10 +152,6 @@ class Jutsu_Icon(CharacterIcon):
     _folder = 'jutsu_icons/'
     icon_size = (int(glob_var.display_width * (1/15)), int(glob_var.display_height * 0.1))
     offset_from_character_icon = glob_var.display_width // 12
-
-    class_clickable = False
-    class_isclicked = False
-    queued_for_attack = None
 
     def __init__(self, icon_name, player_num, icon_num, parent_icon):
         self.parent_icon = parent_icon
@@ -203,24 +199,18 @@ class Jutsu_Icon(CharacterIcon):
 
     def display_image(self):
         if not self.parent_icon.dead:
+
             if self.click_status():
-                Jutsu_Icon.class_clickable = True
+                game_manager.JutsuManager.mouse_cleared = False
+
                 self.img.set_alpha(100)
 
                 click = pygame.mouse.get_pressed()
                 if click[0] == 1:
-                    Jutsu_Icon.queued_for_attack = self
-                    Jutsu_Icon.class_isclicked = True
+                    game_manager.JutsuManager.queued_for_attack = self
 
             if not self.click_status():
                 self.img.set_alpha(255)
-
-                click = pygame.mouse.get_pressed()
-                if click[0] == 1:
-                    if not Jutsu_Icon.class_clickable:
-                        Jutsu_Icon.class_isclicked = False
-                    if not Jutsu_Icon.class_clickable and not CharacterIcon.class_clickable:
-                        Jutsu_Icon.queued_for_attack = None
 
             glob_var.win.blit(self.img, (self.x, self.y))
             self.display_name()
