@@ -1,3 +1,5 @@
+import global_variables as glob_var
+
 
 class GameManager:
     player1_turn = True
@@ -67,4 +69,22 @@ class JutsuManager:
     player2_character3_jutsu2_icon = None
     player2_character3_jutsu3_icon = None
     player2_character3_jutsu4_icon = None
-2
+
+
+def easy_difficulty():
+    glob_var.easymode = True
+    glob_var.hardmode = False
+
+
+def hard_difficulty():
+    glob_var.easymode = False
+    glob_var.hardmode = True
+
+
+def show_signs():
+    glob_var.showsigns = True
+
+
+def hide_signs():
+    glob_var.showsigns = False
+
