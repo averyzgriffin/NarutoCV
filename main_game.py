@@ -200,6 +200,7 @@ if __name__ == "__main__":
         JutsuManager.player2_character3_jutsu4_icon = player2_character3_jutsu4_icon
 
         GameManager.end_game = False
+        game_ops.change_music("Sound/Naruto Main Theme [Extended].mp3")
 
         game()
 
@@ -209,11 +210,10 @@ if __name__ == "__main__":
         
         w = glob_var.display_width
         h = glob_var.display_height
-        
-        game_manager.CharacterManager.queued_to_be_attacked = None
-        game_manager.JutsuManager.queued_for_attack = None
 
-        game_ops.change_music("Sound/Naruto Main Theme [Extended].mp3")
+        game_manager.CharacterManager.queued_to_be_attacked = ''
+        game_manager.JutsuManager.queued_for_attack = ''
+
         background = pygame.image.load("env_icons/background2.jpg").convert()
         background = pygame.transform.scale(background, (w, h))
 
@@ -221,6 +221,16 @@ if __name__ == "__main__":
         home_button = Button((w//12 * 1), (h//12 * 1), w/22.1, h/23.8, "HOME", main_menu)
         quit_button = Button((w//12 * 2), (h//12 * 1), w/22.1, h/23.8, "QUIT", quit)
 
+        hei, wid = w / 4, h / 20,
+
+        if GameManager.player1_turn:
+            turn_int = 1
+        else:
+            turn_int = 2
+
+        turn_cue = visual_ops.TextCue(f"PLAYER {turn_int}'S TURN", glob_var.white, w/60, w/2, h//20*17)
+        jutsu_cue = visual_ops.TextCue(f"{game_manager.JutsuManager.queued_for_attack}", glob_var.white, w/60, w//2, h//20*18)
+        character_cue = visual_ops.TextCue(f"{game_manager.CharacterManager.queued_to_be_attacked}", glob_var.white, w/60, w//2, h//20*19)
 
         game_phase = True
         while game_phase:
@@ -294,22 +304,54 @@ if __name__ == "__main__":
             home_button.display_button()
             quit_button.display_button()
 
+            # pygame.draw.rect(glob_var.win, glob_var.black, [775-200 -1, 735-60 -1, 400 +2, 120 +2])
+            # pygame.draw.rect(glob_var.win, glob_var.orange, [775-200, 735-60, 400, 120])
+
+            pygame.draw.rect(glob_var.win, glob_var.black, [w/2-w/7.75-2, h/1.136-h/13.9-2, w/3.875+4, h/6.958+4])
+            pygame.draw.rect(glob_var.win, glob_var.orange, [w/2-w/7.75, h/1.136-h/13.9, w/3.875, h/6.958])
+
+            turn_cue.display_text()
+            jutsu_cue.display_text()
+            character_cue.display_text()
+
+            if game_manager.CharacterManager.queued_to_be_attacked == '' or game_manager.JutsuManager.queued_for_attack == '':
+                attack_button.boxcolor = glob_var.gray
+            else:
+                attack_button.boxcolor = glob_var.orange
+
             if attack_button.click_status():
                 game_manager.CharacterManager.mouse_cleared = False
                 game_manager.JutsuManager.mouse_cleared = False
 
             click = pygame.mouse.get_pressed()
             if click[0] == 1 and game_manager.CharacterManager.mouse_cleared and game_manager.JutsuManager.mouse_cleared:
-                game_manager.CharacterManager.queued_to_be_attacked = None
-                game_manager.JutsuManager.queued_for_attack = None
+                game_manager.CharacterManager.queued_to_be_attacked = ''
+                game_manager.JutsuManager.queued_for_attack = ''
 
             if click[0] == 1 and attack_button.click_status():
-                if game_manager.CharacterManager.queued_to_be_attacked is not None and game_manager.JutsuManager.queued_for_attack is not None:
+                if game_manager.CharacterManager.queued_to_be_attacked != '' and game_manager.JutsuManager.queued_for_attack != '':
                     jutsu()
+
+            if click[0] == 1 and game_manager.JutsuManager.queued_for_attack != jutsu_cue.msg:
+                if game_manager.JutsuManager.queued_for_attack != '':
+                    jutsu_cue.msg = f"{game_manager.JutsuManager.queued_for_attack.icon_name}".upper()
+                else:
+                    jutsu_cue.msg = ""
+                jutsu_cue.text, jutsu_cue.rect = jutsu_cue.create_text()
+
+            if click[0] == 1 and game_manager.CharacterManager.queued_to_be_attacked != character_cue.msg:
+                if game_manager.CharacterManager.queued_to_be_attacked != '':
+                    character_cue.msg = f"{game_manager.CharacterManager.queued_to_be_attacked.icon_name}".upper()
+                else:
+                    character_cue.msg = ""
+                character_cue.text, character_cue.rect = character_cue.create_text()
 
             fps = clock.get_fps()
             clock.tick()
             print("FPS ", fps)
+
+            # print("button: ", jutsu_cue.msg)
+            # print(game_manager.JutsuManager.queued_for_attack)
 
             # Reset in-game variables - these need to be reset at the end of every loop.
             game_manager.CharacterManager.mouse_cleared = True
