@@ -7,12 +7,10 @@ from keras import models
 import camera_ops
 
 
-
 # --------------------------------------------------
 # Global Variables
 # --------------------------------------------------
 saved_model = "VGG16_EPOCHS50_CODENAME_accumulative_data_4-9_1586483732.9708767"
-# saved_model = "VGG16_EPOCHS50_CODENAME_accumulative_data_4-9_actual_1586535508.2220433"
 model = models.load_model(saved_model)
 WIDTH = 165
 HEIGHT = 235
@@ -80,26 +78,13 @@ if __name__ == "__main__":
                 cv2.imshow("Threshold", threshold)
                 threshold = np.stack((threshold,) * 3, axis=-1)  # Expand frame to 3 channels for the model
 
-
-
-
                 prediction = model.predict([np.reshape(threshold, (1, height, width, 3))])
                 accumulated_predictions += prediction
-
-
 
                 labeled_prediction = signs[np.argmax(prediction)]
                 print(labeled_prediction)
 
-
-
-                # if count % mean_cutoff == 0:
-                #     average_prediction, accumulated_predictions = predict_ops.get_avererage_prediction(
-                #         accumulated_predictions)
-                #     top_predictions = predict_ops.get_top_signs(signs, average_prediction)
-
         num_frames += 1
-
 
     camera.release()
     cv2.destroyAllWindows()

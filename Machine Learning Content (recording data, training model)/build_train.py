@@ -19,7 +19,6 @@ clear_session()
 def process_data(X_data, y_data):
     X_data = np.array(X_data, dtype='float32')
 
-
     X_data = np.stack((X_data,) * 3, axis=-1)
 
     X_data /= 255
@@ -27,7 +26,6 @@ def process_data(X_data, y_data):
     return X_data, y_data
 
 
-# Get data
 def walk_file_tree(dir):
     X_data = []
     y_data = []
@@ -49,18 +47,13 @@ def walk_file_tree(dir):
 # ------------------------
 # Global Variables
 # ------------------------
-# TODO Check each run
 X, Y = walk_file_tree("E:/Artificial Intelligence/naruto/data-2-25-20/all_avery/")
-print(X.shape)
-# X = X.reshape((X.shape[0], 235, 165, 3))
-input('stop')
 
-# input('Ready to build & compile?')
 WIDTH = 165
 HEIGHT = 235
 LR = .0003
 EPOCHS = 3
-batch = 32  # 60 is limit I think
+batch = 32  # memory limit varies. used to be 60 but 32 seems to be the safe bet.
 MODEL_NAME = f'VGG16_LR_{LR}_EPOCHS{EPOCHS}_{time.time()}'
 PREV_MODEL = ''
 

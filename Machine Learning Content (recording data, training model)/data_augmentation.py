@@ -43,6 +43,4 @@ augment(data, 'h_shift', [-.15,.15])
 augment(data, 'rotate', 15)
 augment(data, 'brighten', [.8,1.2])
 augment(data, 'zoom', [.7,1.5])
-# augment(data, 'zca')
-
 

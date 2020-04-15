@@ -36,11 +36,7 @@ def convert_NPY(sourcedir, newdir):
                     image.save(newdir+dir+'/' + f"{file}_{i}.jpg", "JPEG")
 
 
-
 source_dir = "E:/Artificial Intelligence/naruto/data-4-9-20-dr/"
-# source2_dir = "E:/Artificial Intelligence/naruto/data-4-9-20-kt/"
 training_dir = "E:/Artificial Intelligence/naruto/combined_training_data/"
-# validation_dir = "E:/Artificial Intelligence/naruto/validation_data/"
 
 convert_NPY(source_dir, training_dir)
-# convert_NPY(source2_dir, training_dir)

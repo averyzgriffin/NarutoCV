@@ -6,7 +6,6 @@ from sklearn import metrics
 import pandas as pd
 
 
-
 saved_model_1 = "VGG16_EPOCHS50_CODENAME_accumulative_data_4-9_1586483732.9708767"
 saved_model_2 = "VGG16_EPOCHS50_CODENAME_accumulative_data_4-9_actual_1586535508.2220433"
 saved_models = [saved_model_1, saved_model_2]
@@ -50,10 +49,6 @@ def save_report(report, name):
     text_file.write(html)
     text_file.close()
 
-
-# report1 = get_classification_report(saved_model_1, "E:/Artificial Intelligence/naruto/testing_data/testing_data_clean_long", augment=True)
-# print(report1)
-# save_report(report1, saved_model_1)
 
 for saved_model in saved_models:
     for test_dir in test_dirs:

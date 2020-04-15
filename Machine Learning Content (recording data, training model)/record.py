@@ -4,13 +4,17 @@ import numpy as np
 import os
 import time
 
-
-count = 6300   # where we left off training ...rename monkey and ox files starting at 2100 and 2200 respectively
+# ----------------------------------------------------------------------
+# This section needs to be filled in each run
+# ----------------------------------------------------------------------
+count = 6300   # where we left off training
 # count = 120   # where we left off testing
 # count = 600   # where we left off validation
-sign = 'tiger'   # TODO
-user = 'avery'  # TODO
-folder_avery = 'E:/Artificial Intelligence/naruto/data-4-9-20-dr/'  # TODO
+sign = 'tiger'
+user = 'avery'
+folder_avery = 'E:/Artificial Intelligence/naruto/data-4-9-20-dr/'
+# ----------------------------------------------------------------------
+# ----------------------------------------------------------------------
 
 sign_path = sign + r'/'
 if user.lower() == 'avery':
@@ -21,8 +25,6 @@ record = False
 calibrate = 300
 
 # ROI coordinates
-# top, right, bottom, left = 125, 175, 450, 425  # close up
-# top, right, bottom, left = 235, 255, 470, 420  # far away
 top, right, bottom, left = 195, 255, 430, 420  # far away
 
 print('---CAMERA STARTING UP---')
@@ -135,9 +137,9 @@ if __name__ == "__main__":
         # convert the roi to grayscale and blur it
         gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
         gray = cv2.GaussianBlur(gray, (7, 7), 0)
-        # to get the background, keep looking till a threshold is reached
-        # so that our running average model gets calibrated
-        if num_frames < calibrate:  # 30 = 1 seconds
+
+        # to get the background, keep looking till a threshold is reached so the running average model gets calibrated
+        if num_frames < calibrate:
             run_avg(gray, aWeight)
         else:
             # segment the hand region
@@ -145,8 +147,7 @@ if __name__ == "__main__":
 
             # check whether hand region is segmented
             if hand is not None:
-                # if yes, unpack the threshold image and
-                # segmented region
+                # if yes, unpack the threshold image and segmented region
                 (thresholded, segmented) = hand
 
                 # ----------------------
@@ -170,7 +171,6 @@ if __name__ == "__main__":
                         record = False
                         print("---Limit reached. Shutting down.---")
                         break
-
 
                 # draw the segmented region and display the frame
                 cv2.drawContours(clone, [segmented + (right, top)], -1, (0, 0, 255))

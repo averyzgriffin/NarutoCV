@@ -16,8 +16,6 @@ dir_train = "E:/Artificial Intelligence/naruto/combined_training_data/"
 dir_val = "E:/Artificial Intelligence/naruto/validation_data/"
 WIDTH = 165
 HEIGHT = 235
-
-
 EPOCHS = 50
 batch_size = 32
 MODEL_NAME = f'VGG16_EPOCHS{EPOCHS}_CODENAME_{training_data_codename}_{time.time()}'
@@ -25,7 +23,6 @@ MODEL_NAME = f'VGG16_EPOCHS{EPOCHS}_CODENAME_{training_data_codename}_{time.time
 # PREV_MODEL = 'VGG16_EPOCHS50_CODENAME_accumulative_data_4-9_1586483732.9708767'
 # model = models.load_model(PREV_MODEL)
 
-# Data Generator
 # datagen = ImageDataGenerator(width_shift_range=[-.10,.10], height_shift_range=[-.10,.10],
 #                              brightness_range=[.8,1.1], zoom_range=[.7,1.3])
 datagen = ImageDataGenerator()
