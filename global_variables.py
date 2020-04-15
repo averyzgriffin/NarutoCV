@@ -18,7 +18,7 @@ gray = (127,127,127)
 # Camera Variables
 bg = None
 calibrate_frames = 30
-top, right, bottom, left = 195, 255, 430, 420  # far away
+top, right, bottom, left = 195, 255, 430, 420
 aWeight = 0.5
 
 # PyGame variables
@@ -27,7 +27,6 @@ win = pygame.display.set_mode((display_width, display_height), flags)
 pygame.display.set_caption('NARUTO: THE COMPUTER-VISION GAME')
 
 player_turn = True
-# clicked_away = False
 active_health = 0
 active_damage = 0
 

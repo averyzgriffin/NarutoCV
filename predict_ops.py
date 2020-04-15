@@ -3,21 +3,18 @@ import global_variables as glob_var
 import numpy as np
 
 
-# --------------------------------------------------------------------------------------------------------------
-# MODEL + PREDICTION FUNCTIONS
-# --------------------------------------------------------------------------------------------------------------
 def get_top_predictions(ordered_predictions):
     top_signs, top_signs_percents = [], []
     for i in range(2):
-        top_signs.append(list(ordered_predictions)[-(i+1)])  # I think this grabs the top 2 keys from reverse ordered dictionary
-        top_signs_percents.append(list(ordered_predictions.values())[-(i+1)])  # I think this grabs the top 2 values
+        top_signs.append(list(ordered_predictions)[-(i+1)])
+        top_signs_percents.append(list(ordered_predictions.values())[-(i+1)])
 
     return top_signs, top_signs_percents
 
 
 def order_predictions(labeled_predictions):
     ordered_predictions = {}
-    for key, value in sorted(labeled_predictions.items(), key=lambda item: item[1]):  # I think this sorts the pred_dict by value
+    for key, value in sorted(labeled_predictions.items(), key=lambda item: item[1]):
         ordered_predictions.update({key: value})
 
     return ordered_predictions
@@ -42,7 +39,7 @@ def get_permutations_of_predictions(current_sequence):
 
 
 def get_top_signs(labels, predictions):
-    labeled_predictions = label_predictions(labels, predictions)  # {'bird': 4.585343e-33, 'label': prediction, etc.]
+    labeled_predictions = label_predictions(labels, predictions)
     ordered_predictions = order_predictions(labeled_predictions)
     top_signs, top_signs_percents = get_top_predictions(ordered_predictions)
 

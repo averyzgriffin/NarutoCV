@@ -4,10 +4,6 @@ import imutils
 from global_variables import top, right, bottom, left
 
 
-
-# --------------------------------------------------
-# OPENCV FUNCTIONS USED TO PROCESS IMAGES
-# --------------------------------------------------
 def setup_camera():
     return cv2.VideoCapture(0)
 

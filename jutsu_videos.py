@@ -52,8 +52,6 @@ def play_video(video):
         audio_frame, val = video_player.get_frame()
         ret, frame = cap.read()
 
-        # h, w, l = frame.shape
-
         if not ret:
             break
         if cv2.waitKey(25) & 0xFF == 27:

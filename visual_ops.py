@@ -31,7 +31,7 @@ def get_selected_jutsu_prompt(jutsu):  # TODO I don't like the name of this func
 
 
 # ------------------------------------------------------------------------------
-# GAME LOOP CLASSES
+# CLASSES
 # ------------------------------------------------------------------------------
 
 class CharacterIcon:
@@ -95,7 +95,7 @@ class CharacterIcon:
         resized = pygame.transform.scale(img, self.icon_size).convert()
         return resized
 
-    def click_status(self):  # This can be cleaned up
+    def click_status(self):
         mouse = pygame.mouse.get_pos()
         size = self.icon_size[0]
         if (self.x + size) > mouse[0] > self.x and (self.y + size) > mouse[1] > self.y:
@@ -166,7 +166,7 @@ class Jutsu_Icon(CharacterIcon):
     def get_x(self):
         x_p = self.parent_icon.x
         if self.player_num == 1:
-            x_p += (glob_var.display_width * .025)  # was 30
+            x_p += (glob_var.display_width * .025)
             x = x_p + (self.offset_from_character_icon * self.icon_num)
         elif self.player_num == 2:
             x = x_p - (self.offset_from_character_icon * self.icon_num)  # mirror effect
@@ -190,7 +190,7 @@ class Jutsu_Icon(CharacterIcon):
         self.msg1.display_text()
         self.msg2.display_text()
 
-    def get_damage(self):  # TODO I think I can eventually merge this with the same function in game_ops. Not sure.
+    def get_damage(self):
         for item in jutsu_signs_damage.names_of_characters:
             if list(item.values())[0] == self.parent_icon.icon_name:
                 return item[self.icon_name][1]
@@ -243,7 +243,7 @@ class Button:
             text = TextCue(self.msg, self.textcolor, self.textsize, self.x + self.w // 2, self.y + self.h // 2)
         return text
 
-    def click_status(self):  # This can be cleaned up
+    def click_status(self):
         mouse = pygame.mouse.get_pos()
         if (self.x + self.w) > mouse[0] > self.x and (self.y + self.h) > mouse[1] > self.y:
             return True
@@ -336,7 +336,7 @@ class Picture:
         self.h = h
         self.border = border
 
-        self.img = self.load_image()  # I have no idea how this is being called
+        self.img = self.load_image()
 
     def load_image(self):
         img = self.get_image_from_string()

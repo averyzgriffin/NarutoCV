@@ -22,12 +22,8 @@ clock = pygame.time.Clock()
 pygame.mixer.init()
 
 pygame.mixer_music.set_volume(.2)
-# pygame.mixer.Sound.set_volume(.9)
 
 
-# ----------------------------------------
-# MAIN
-# -----------------------------------------
 if __name__ == "__main__":
 
     def main_menu():
@@ -226,7 +222,6 @@ if __name__ == "__main__":
 
         while True:
 
-            # PyGame Events
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -270,13 +265,11 @@ if __name__ == "__main__":
         game_phase = True
         while game_phase:
 
-            # PyGame Events
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     quit()
 
-                # KEY PRESSES
                 if event.type == pygame.KEYDOWN:
                     print('keydown')
                     if event.key == pygame.K_ESCAPE:
@@ -300,7 +293,6 @@ if __name__ == "__main__":
                             end_game(GameManager.winner)
 
 
-            # Background
             glob_var.win.blit(background, (0,0))
 
             CharacterManager.player1_character1_icon.display_image()
@@ -383,9 +375,6 @@ if __name__ == "__main__":
             clock.tick()
             print("FPS ", fps)
 
-            # print("button: ", jutsu_cue.msg)
-            # print(game_manager.JutsuManager.queued_for_attack)
-
             # Reset in-game variables - these need to be reset at the end of every loop.
             game_manager.CharacterManager.mouse_cleared = True
             game_manager.JutsuManager.mouse_cleared = True
@@ -435,9 +424,6 @@ if __name__ == "__main__":
                               "hare": hare_picture, "horse": horse_picture, "monkey": monkey_picture, "ox": ox_picture,
                               "ram": ram_picture, "rat": rat_picture, "serpent": serpent_picture, "tiger": tiger_picture}
 
-
-
-        # START TIMER
         start = pygame.time.get_ticks()
 
         # ---------------------------------------------------START--------------------------------------
@@ -486,8 +472,7 @@ if __name__ == "__main__":
                         game_ops.release_camera(camera)
                         game()
 
-
-                    # ---- (NEW) PREDICTION FUNCTIONALITY ----
+                    # ---- PREDICTION FUNCTIONALITY ----
                     count += 1
                     prediction = model.predict([np.reshape(threshold, (1, height, width, 3))])
                     accumulated_predictions += prediction
@@ -511,7 +496,7 @@ if __name__ == "__main__":
                                                                                           selected_jutsu.get_damage())
                                         attacked_character.check_health()
                                         attacked_character.bar, attacked_character.bar_x, attacked_character.bar_y, \
-                                        attacked_character.bar_message = attacked_character.create_bar()  # TODO clean
+                                        attacked_character.bar_message = attacked_character.create_bar()
 
                                         game_ops.activate_jutsu(selected_jutsu)
 
