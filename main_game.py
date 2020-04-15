@@ -45,6 +45,8 @@ if __name__ == "__main__":
 
         game_ops.change_music("Sound/Naruto OST 2 - Afternoon of Konoha.mp3")
 
+        GameManager.active_game = False
+
 
         while True:
 
@@ -69,6 +71,7 @@ if __name__ == "__main__":
         h = glob_var.display_height  
 
         home_button = Button((w//10 * 1), (h//12 * 1), w/22.1, h/23.8, "HOME", main_menu)
+        game_button = Button((w//10 * 1), (h//12 * 1), w/22.1, h/23.8, "EXIT", pause_menu)
 
         difficulty_button = Button(w // 8, (h // 3), w/6, h/8, "DIFFICULTY", highlight=False)
         sign_option_button = Button(w // 8, (h // 3 * 2), w/6, h/9, "HAND-SIGNS", highlight=False)
@@ -77,7 +80,6 @@ if __name__ == "__main__":
         hard_button = Button(w // 5*2 + w/15.5, (h // 3), w/7.8, h/8.8, "HARD", game_manager.hard_difficulty)
         showsigns_button = Button((w // 5*2 - w/15.5), (h // 3 * 2), w/7.8, h/8.8, "SHOW SIGNS", game_manager.show_signs)
         hidesigns_button = Button((w // 5*2 + w/15.5), (h // 3 * 2), w/7.8, h/8.8, "HIDE SIGNS", game_manager.hide_signs)
-
 
         background = pygame.image.load("env_icons/background2.jpg").convert()
         background = pygame.transform.scale(background, (glob_var.display_width, glob_var.display_height))
@@ -91,10 +93,14 @@ if __name__ == "__main__":
 
             glob_var.win.blit(background, (0,0))
 
+            if GameManager.active_game:
+                game_button.display_button()
+            else:
+                home_button.display_button()
+
             difficulty_button.display_button()
             sign_option_button.display_button()
 
-            home_button.display_button()
             easy_button.display_button()
             hard_button.display_button()
             showsigns_button.display_button()
@@ -118,6 +124,7 @@ if __name__ == "__main__":
 
     def construct_characters():
         GameManager.player1_turn = True
+        GameManager.active_game = True
 
         player1_character1_icon = CharacterIcon('kakashi', player_num=1, icon_num=1)
         player1_character2_icon = CharacterIcon('hiruzen', 1, 2)
@@ -205,6 +212,37 @@ if __name__ == "__main__":
         game()
 
 
+    def pause_menu():
+
+        w, h = glob_var.display_width, glob_var.display_height
+
+        background = pygame.image.load("env_icons/background2.jpg").convert()
+        background = pygame.transform.scale(background, (w, h))
+
+        unpause_button = Button(w/2, h/8*2,   w/7, h/9, "BACK TO GAME", game, customfont=w/60)
+        options_button = Button(w/2, h/8*3, w/7, h/9, "OPTIONS", options_menu, customfont=w/60)
+        home_button =    Button(w/2, h/8*4, w/7, h/9, "MAIN MENU", main_menu, customfont=w/60)
+        quit_button =    Button(w/2, h/8*5, w/7, h/9, "QUIT GAME", quit, customfont=w/60)
+
+        while True:
+
+            # PyGame Events
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+
+            glob_var.win.blit(background, (0,0))
+
+            unpause_button.display_button()
+            options_button.display_button()
+            home_button.display_button()
+            quit_button.display_button()
+
+            pygame.display.update()
+
+
+
 
     def game():
         
@@ -218,10 +256,7 @@ if __name__ == "__main__":
         background = pygame.transform.scale(background, (w, h))
 
         attack_button = Button((w//2), (h//8), w/9.5, h/11, "ATTACK")
-        home_button = Button((w//12 * 1), (h//12 * 1), w/22.1, h/23.8, "HOME", main_menu)
-        quit_button = Button((w//12 * 2), (h//12 * 1), w/22.1, h/23.8, "QUIT", quit)
-
-        hei, wid = w / 4, h / 20,
+        pause_button = Button((w//12 * 1), (h//12 * 1), w/22.1, h/23.8, "PAUSE", pause_menu)
 
         if GameManager.player1_turn:
             turn_int = 1
@@ -301,11 +336,7 @@ if __name__ == "__main__":
             JutsuManager.player2_character3_jutsu4_icon.display_image()
 
             attack_button.display_button()
-            home_button.display_button()
-            quit_button.display_button()
-
-            # pygame.draw.rect(glob_var.win, glob_var.black, [775-200 -1, 735-60 -1, 400 +2, 120 +2])
-            # pygame.draw.rect(glob_var.win, glob_var.orange, [775-200, 735-60, 400, 120])
+            pause_button.display_button()
 
             pygame.draw.rect(glob_var.win, glob_var.black, [w/2-w/7.75-2, h/1.136-h/13.9-2, w/3.875+4, h/6.958+4])
             pygame.draw.rect(glob_var.win, glob_var.orange, [w/2-w/7.75, h/1.136-h/13.9, w/3.875, h/6.958])
@@ -607,6 +638,8 @@ if __name__ == "__main__":
         background = pygame.image.load("env_icons/background2.jpg").convert()
         background = pygame.transform.scale(background, (glob_var.display_width, glob_var.display_height))
         game_ops.change_music("Sound/Naruto - Morning [EXTENDED].mp3")
+
+        GameManager.active_game = False
 
 
         while True:

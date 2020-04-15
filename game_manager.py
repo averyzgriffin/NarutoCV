@@ -5,6 +5,7 @@ class GameManager:
     player1_turn = True
     end_game = False
     winner = None
+    active_game = False
 
     @staticmethod
     def change_turn():
