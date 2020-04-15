@@ -117,7 +117,7 @@ if __name__ == "__main__":
 
 
     def construct_characters():
-        glob_var.player_turn = True
+        GameManager.player1_turn = True
 
         player1_character1_icon = CharacterIcon('kakashi', player_num=1, icon_num=1)
         player1_character2_icon = CharacterIcon('hiruzen', 1, 2)
@@ -213,7 +213,7 @@ if __name__ == "__main__":
         game_manager.CharacterManager.queued_to_be_attacked = None
         game_manager.JutsuManager.queued_for_attack = None
 
-        game_ops.change_music("Sound/Naruto OST 2 - Afternoon of Konoha.mp3")
+        game_ops.change_music("Sound/Naruto Main Theme [Extended].mp3")
         background = pygame.image.load("env_icons/background2.jpg").convert()
         background = pygame.transform.scale(background, (w, h))
 
@@ -466,50 +466,6 @@ if __name__ == "__main__":
                                     correct_predictions[n] = selected_jutsu.get_jutsu_signs()[n]
 
 
-                    # Alternative Method
-                    # if correct_predictions[-1] == 0:
-                    #     if correct_predictions[0] == selected_jutsu.get_jutsu_signs()[0]:
-                    #         if correct_predictions[1] == selected_jutsu.get_jutsu_signs()[1]:
-                    #             if correct_predictions[2] == selected_jutsu.get_jutsu_signs()[2]:
-                    #                 if correct_predictions[3] == selected_jutsu.get_jutsu_signs()[3]:
-                    #                     if correct_predictions[4] == selected_jutsu.get_jutsu_signs()[4]:
-                    #                         if correct_predictions[5] == selected_jutsu.get_jutsu_signs()[5]:
-                    #                             if correct_predictions[6] == selected_jutsu.get_jutsu_signs()[6]:
-                    #                                 if correct_predictions[7] == selected_jutsu.get_jutsu_signs()[7]:
-                    #                                     if correct_predictions[8] == selected_jutsu.get_jutsu_signs()[8]:
-                    #                                         if correct_predictions[9] == selected_jutsu.get_jutsu_signs()[9]:
-                    #                                             if correct_predictions[10] == selected_jutsu.get_jutsu_signs()[10]:
-                    #
-                    #                                             elif signs[np.argmax(prediction)] == selected_jutsu.get_jutsu_signs()[10]:
-                    #                                                 correct_predictions[10] = signs[np.argmax(prediction)]
-                    #                                         elif signs[np.argmax(prediction)] == selected_jutsu.get_jutsu_signs()[9]:
-                    #                                             correct_predictions[9] = signs[np.argmax(prediction)]
-                    #                                     elif signs[np.argmax(prediction)] == selected_jutsu.get_jutsu_signs()[8]:
-                    #                                         correct_predictions[8] = signs[np.argmax(prediction)]
-                    #                                 elif signs[np.argmax(prediction)] == selected_jutsu.get_jutsu_signs()[7]:
-                    #                                     correct_predictions[7] = signs[np.argmax(prediction)]
-                    #                             elif signs[np.argmax(prediction)] == selected_jutsu.get_jutsu_signs()[6]:
-                    #                                 correct_predictions[6] = signs[np.argmax(prediction)]
-                    #                         elif signs[np.argmax(prediction)] == selected_jutsu.get_jutsu_signs()[5]:
-                    #                             correct_predictions[5] = signs[np.argmax(prediction)]
-                    #
-                    #                     elif signs[np.argmax(prediction)] == selected_jutsu.get_jutsu_signs()[4]:
-                    #                         correct_predictions[4] = signs[np.argmax(prediction)]
-                    #
-                    #                 elif signs[np.argmax(prediction)] == selected_jutsu.get_jutsu_signs()[3]:
-                    #                     correct_predictions[3] = signs[np.argmax(prediction)]
-                    #
-                    #             elif signs[np.argmax(prediction)] == selected_jutsu.get_jutsu_signs()[2]:
-                    #                 correct_predictions[2] = signs[np.argmax(prediction)]
-                    #
-                    #         elif signs[np.argmax(prediction)] == selected_jutsu.get_jutsu_signs()[1]:
-                    #             correct_predictions[1] = signs[np.argmax(prediction)]
-                    #
-                    #     elif signs[np.argmax(prediction)] == selected_jutsu.get_jutsu_signs()[0]:
-                    #         correct_predictions[0] = signs[np.argmax(prediction)]
-                    # else:
-                    #     print('WE DID IT')
-
                     begin_button = Button((w // 2),(h // 10), w/3.1, h/8.35, "GO!", highlight=False)
                     begin_button.display_button()
 
@@ -529,11 +485,9 @@ if __name__ == "__main__":
             num_frames += 1
 
 
-
-
-
-
     def test_mode():
+
+        game_ops.change_music("Sound/Naruto - Bad Situation (Extended).mp3")
 
         background = pygame.image.load("env_icons/Chunin_Examination_Arena.png").convert()
         background = pygame.transform.scale(background, (glob_var.display_width, glob_var.display_height))
@@ -605,6 +559,8 @@ if __name__ == "__main__":
 
         background = pygame.image.load("env_icons/background2.jpg").convert()
         background = pygame.transform.scale(background, (glob_var.display_width, glob_var.display_height))
+        game_ops.change_music("Sound/Naruto - Morning [EXTENDED].mp3")
+
 
         while True:
 
