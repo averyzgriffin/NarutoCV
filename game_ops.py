@@ -13,7 +13,6 @@ import cv2
 # GAME FUNCTIONS
 # --------------------------------------------------------------------------------------------------------------
 def release_camera(cam):
-    print("Released")
     cam.release()
     cv2.destroyAllWindows()
 
