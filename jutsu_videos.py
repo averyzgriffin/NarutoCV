@@ -52,6 +52,8 @@ def play_video(video):
         audio_frame, val = video_player.get_frame()
         ret, frame = cap.read()
 
+        # h, w, l = frame.shape
+
         if not ret:
             break
         if cv2.waitKey(25) & 0xFF == 27:
@@ -59,6 +61,7 @@ def play_video(video):
 
         if val != 'eof' and audio_frame is not None:
             img, t = audio_frame
+        frame = cv2.resize(frame, (800,600))
         cv2.imshow('frame',frame)
 
     cap.release()
