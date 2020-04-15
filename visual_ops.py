@@ -119,7 +119,7 @@ class CharacterIcon:
 
     def display_image(self):
         if not self.dead:
-            if game_manager.JutsuManager.queued_for_attack is not None:
+            if game_manager.JutsuManager.queued_for_attack != "":
                 if GameManager.player1_turn and self.player_num == 2 or not GameManager.player1_turn and self.player_num == 1:
                     self.img.set_alpha(100)
 
@@ -209,6 +209,7 @@ class Jutsu_Icon(CharacterIcon):
                 if click[0] == 1:
                     game_manager.JutsuManager.queued_for_attack = self
 
+
             if not self.click_status():
                 self.img.set_alpha(255)
 
@@ -218,7 +219,7 @@ class Jutsu_Icon(CharacterIcon):
 
 class Button:
 
-    def __init__(self, x, y, w, h, msg='', destination=None, highlight=True):
+    def __init__(self, x, y, w, h, msg='', destination=None, highlight=True, customfont=0):
         self.x = x - w // 2
         self.y = y - h // 2
         self.w = w
@@ -226,6 +227,7 @@ class Button:
         self.msg = msg
         self.destination = destination
         self.highlight = highlight
+        self.customfont = customfont
 
         self.boxcolor = glob_var.orange
         self.boxoutline = glob_var.black
@@ -235,7 +237,10 @@ class Button:
         self.text = self.create_text()
 
     def create_text(self):
-        text = TextCue(self.msg, self.textcolor, self.textsize, self.x + self.w // 2, self.y + self.h // 2)
+        if self.customfont != 0:
+            text = TextCue(self.msg, self.textcolor, self.customfont, self.x + self.w // 2, self.y + self.h // 2)
+        else:
+            text = TextCue(self.msg, self.textcolor, self.textsize, self.x + self.w // 2, self.y + self.h // 2)
         return text
 
     def click_status(self):  # This can be cleaned up
