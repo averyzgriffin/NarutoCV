@@ -513,6 +513,11 @@ if __name__ == "__main__":
                     pygame.quit()
                     quit()
 
+            if home_button.click_status():
+                click = pygame.mouse.get_pressed()
+                if click[0] == 1:
+                    game_ops.release_camera(camera)
+
             glob_var.win.blit(background, (0,0))
 
             pygame.draw.rect(glob_var.win, glob_var.orange, (x - (w/2+2),  y - (h/2+2), w + 4, h + 4), 0)
