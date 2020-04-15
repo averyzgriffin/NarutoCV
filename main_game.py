@@ -120,50 +120,50 @@ if __name__ == "__main__":
         glob_var.player_turn = True
 
         player1_character1_icon = CharacterIcon('kakashi', player_num=1, icon_num=1)
-        player1_character2_icon = CharacterIcon('obito', 1, 2)
-        player1_character3_icon = CharacterIcon('guy', 1, 3)
-        player2_character1_icon = CharacterIcon('crow', 2, 1)
-        player2_character2_icon = CharacterIcon('akamaru', 2, 2)
-        player2_character3_icon = CharacterIcon('naruto', 2, 3)
+        player1_character2_icon = CharacterIcon('hiruzen', 1, 2)
+        player1_character3_icon = CharacterIcon('darui', 1, 3)
+        player2_character1_icon = CharacterIcon('sasuke', 2, 1)
+        player2_character2_icon = CharacterIcon('madara', 2, 2)
+        player2_character3_icon = CharacterIcon('itachi', 2, 3)
 
         all_characters = [player1_character1_icon, player1_character2_icon, player1_character3_icon,
                           player2_character1_icon, player2_character2_icon, player2_character3_icon]
 
-        player1_character1_jutsu1_icon = Jutsu_Icon(icon_name='Kakashi Sharingan', player_num=1, icon_num=1,
+        player1_character1_jutsu1_icon = Jutsu_Icon(icon_name='Fire Ball Jutsu', player_num=1, icon_num=1,
                                                     parent_icon=player1_character1_icon)
-        player1_character1_jutsu2_icon = Jutsu_Icon('Ninja Hounds', 1, 2, player1_character1_icon)
+        player1_character1_jutsu2_icon = Jutsu_Icon('Fanged Pursuit Jutsu', 1, 2, player1_character1_icon)
         player1_character1_jutsu3_icon = Jutsu_Icon('Lightning Blade', 1, 3, player1_character1_icon)
-        player1_character1_jutsu4_icon = Jutsu_Icon('Hiding', 1, 4, player1_character1_icon)
+        player1_character1_jutsu4_icon = Jutsu_Icon('Water Wall', 1, 4, player1_character1_icon)
 
-        player1_character2_jutsu1_icon = Jutsu_Icon(icon_name='Tobi Chains', player_num=1, icon_num=1,
+        player1_character2_jutsu1_icon = Jutsu_Icon(icon_name='Tile Shuriken', player_num=1, icon_num=1,
                                                     parent_icon=player1_character2_icon)
-        player1_character2_jutsu2_icon = Jutsu_Icon('Tobi Kamui', 1, 2, player1_character2_icon)
-        player1_character2_jutsu3_icon = Jutsu_Icon('Summoning Nine Tails', 1, 3, player1_character2_icon)
-        player1_character2_jutsu4_icon = Jutsu_Icon('Rin', 1, 4, player1_character2_icon)
+        player1_character2_jutsu2_icon = Jutsu_Icon('Fire Dragon Flame Bombs', 1, 2, player1_character2_icon)
+        player1_character2_jutsu3_icon = Jutsu_Icon('Reaper Death Seal', 1, 3, player1_character2_icon)
+        player1_character2_jutsu4_icon = Jutsu_Icon('Earth Style Mud Wall', 1, 4, player1_character2_icon)
 
-        player1_character3_jutsu1_icon = Jutsu_Icon(icon_name='Guy Leaf Whirl Wind', player_num=1, icon_num=1,
+        player1_character3_jutsu1_icon = Jutsu_Icon(icon_name='Darui Water Wall', player_num=1, icon_num=1,
                                                     parent_icon=player1_character3_icon)
-        player1_character3_jutsu2_icon = Jutsu_Icon('Counter Punch', 1, 2, player1_character3_icon)
-        player1_character3_jutsu3_icon = Jutsu_Icon('6th Gate of Joy', 1, 3, player1_character3_icon)
-        player1_character3_jutsu4_icon = Jutsu_Icon('Guy Dodge', 1, 4, player1_character3_icon)
+        player1_character3_jutsu2_icon = Jutsu_Icon('Emotion Wave', 1, 2, player1_character3_icon)
+        player1_character3_jutsu3_icon = Jutsu_Icon('Laser Circus', 1, 3, player1_character3_icon)
+        player1_character3_jutsu4_icon = Jutsu_Icon('Sword Defense', 1, 4, player1_character3_icon)
 
-        player2_character1_jutsu1_icon = Jutsu_Icon(icon_name='Crow Stab', player_num=2, icon_num=1,
+        player2_character1_jutsu1_icon = Jutsu_Icon(icon_name='Fireball Jutsu', player_num=2, icon_num=1,
                                                     parent_icon=player2_character1_icon)
-        player2_character1_jutsu2_icon = Jutsu_Icon('Crow Poison Bomb', 2, 2, player2_character1_icon)
-        player2_character1_jutsu3_icon = Jutsu_Icon('Crow Black Ant', 2, 3, player2_character1_icon)
-        player2_character1_jutsu4_icon = Jutsu_Icon('Crow Substitution', 2, 4, player2_character1_icon)
+        player2_character1_jutsu2_icon = Jutsu_Icon('Dragon Flame Jutsu', 2, 2, player2_character1_icon)
+        player2_character1_jutsu3_icon = Jutsu_Icon('Chidori', 2, 3, player2_character1_icon)
+        player2_character1_jutsu4_icon = Jutsu_Icon('Sasuke Block', 2, 4, player2_character1_icon)
 
-        player2_character2_jutsu1_icon = Jutsu_Icon(icon_name='Fang over Fang', player_num=2, icon_num=1,
+        player2_character2_jutsu1_icon = Jutsu_Icon(icon_name='Majestic Destroyer Flame', player_num=2, icon_num=1,
                                                     parent_icon=player2_character2_icon)
-        player2_character2_jutsu2_icon = Jutsu_Icon('Dynamic Marking', 2, 2, player2_character2_icon)
-        player2_character2_jutsu3_icon = Jutsu_Icon('Double Headed Wolf', 2, 3, player2_character2_icon)
-        player2_character2_jutsu4_icon = Jutsu_Icon('Puppy mode', 2, 4, player2_character2_icon)
+        player2_character2_jutsu2_icon = Jutsu_Icon('Majestic Demolisher', 2, 2, player2_character2_icon)
+        player2_character2_jutsu3_icon = Jutsu_Icon('Summoning Nine Tails', 2, 3, player2_character2_icon)
+        player2_character2_jutsu4_icon = Jutsu_Icon('Hiding in Ash', 2, 4, player2_character2_icon)
 
-        player2_character3_jutsu1_icon = Jutsu_Icon(icon_name='Rasengan', player_num=2, icon_num=1,
+        player2_character3_jutsu1_icon = Jutsu_Icon(icon_name='Exploding Clone', player_num=2, icon_num=1,
                                                     parent_icon=player2_character3_icon)
-        player2_character3_jutsu2_icon = Jutsu_Icon('Shadow Clone Jutsu', 2, 2, player2_character3_icon)
-        player2_character3_jutsu3_icon = Jutsu_Icon('Chakra Boost', 2, 3, player2_character3_icon)
-        player2_character3_jutsu4_icon = Jutsu_Icon('Shadow Save', 2, 4, player2_character3_icon)
+        player2_character3_jutsu2_icon = Jutsu_Icon('Shuriken Phoenix Flower', 2, 2, player2_character3_icon)
+        player2_character3_jutsu3_icon = Jutsu_Icon('Grand Fireball Jutsu', 2, 3, player2_character3_icon)
+        player2_character3_jutsu4_icon = Jutsu_Icon('Summoning Crows', 2, 4, player2_character3_icon)
 
         CharacterManager.player1_character1_icon = player1_character1_icon
         CharacterManager.player1_character2_icon = player1_character2_icon
@@ -198,6 +198,8 @@ if __name__ == "__main__":
         JutsuManager.player2_character3_jutsu2_icon = player2_character3_jutsu2_icon
         JutsuManager.player2_character3_jutsu3_icon = player2_character3_jutsu3_icon
         JutsuManager.player2_character3_jutsu4_icon = player2_character3_jutsu4_icon
+
+        GameManager.end_game = False
 
         game()
 
@@ -240,7 +242,6 @@ if __name__ == "__main__":
                         GameManager.change_turn()
                     if event.key == pygame.K_RETURN:
                         print("Enter")
-                        attack = not attack
 
                     if event.key == pygame.K_1:
                         CharacterManager.all_characters[3].dead = True
@@ -306,12 +307,9 @@ if __name__ == "__main__":
                 if game_manager.CharacterManager.queued_to_be_attacked is not None and game_manager.JutsuManager.queued_for_attack is not None:
                     jutsu()
 
-            # fps = clock.get_fps()
-            # clock.tick()
-            # print("FPS ", fps)
-
-            print("Character Queue: ", game_manager.CharacterManager.queued_to_be_attacked)
-            print("Jutsu Queue: ", game_manager.JutsuManager.queued_for_attack)
+            fps = clock.get_fps()
+            clock.tick()
+            print("FPS ", fps)
 
             # Reset in-game variables - these need to be reset at the end of every loop.
             game_manager.CharacterManager.mouse_cleared = True

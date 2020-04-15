@@ -5,43 +5,43 @@ from ffpyplayer.player import MediaPlayer
 folder = "jutsu_videos/"
 
 kakashi = {'name': 'kakashi',
-           'Kakashi Sharingan': folder+"Kakashi First Time Using Sharingan.mp4",
-           'Ninja Hounds': folder+"",
+           'Fire Ball Jutsu': folder+"kakashi fire ball jutsu.mp4",
+           'Fanged Pursuit Jutsu': folder+"kakashi fanged pursuit jutsu.mp4",
            'Lightning Blade': folder+"Kakashi Raikiri's.mp4",
-           'Hiding': folder+""}
+           'Water Wall': folder+"kakashi water wall.mp4"}
 
-obito = {'name': 'obito',
-         'Tobi Chains': folder+"",
-         'Tobi Kamui': folder+"",
-         'Summoning Nine Tails': folder+"Tobi Nine Tails Full.mp4",
-         'Rin': folder+""}
+hiruzen = {'name': 'hiruzen',
+         'Tile Shuriken': folder+"Tile Shuriken.mp4",
+         'Fire Dragon Flame Bombs': folder+"Hiruzen Fire Dragon Flame Bombs.mp4",
+         'Reaper Death Seal': folder+"Reaper Death Seal.mp4",
+         'Earth Style Mud Wall': folder+"Hiruzen Earth Style Mud Wall.mp4"}
 
-guy = {'name': 'guy',
-       'Guy Leaf Whirl Wind':       folder+"",
-       'Counter Punch':             folder+"",
-       '6th Gate of Joy':           folder+"",
-       'Guy Dodge':                 folder+""}
+darui = {'name': 'darui',
+       'Darui Water Wall':       folder+"darui water wall.mp4",
+       'Emotion Wave':             folder+"Emotion Wave.mp4",
+       'Laser Circus':           folder+"Laser Circus.mp4",
+       'Sword Defense':                 folder+"Sword Defense.mp4"}
 
-crow = {'name': 'crow',
-        'Crow Stab':                  folder+"Crow stab.mp4",
-        'Crow Poison Bomb':           folder+"",
-        'Crow Black Ant':             folder+"",
-        'Crow Substitution':          folder+""}
+sasuke = {'name': 'sasuke',
+        'Fireball Jutsu':                  folder+"Fireball Jutsu.mp4",
+        'Dragon Flame Jutsu':           folder+"Dragon Flame Jutsu.mp4",
+        'Chidori':             folder+"Chidori.mp4",
+        'Sasuke Block':          folder+"Sasuke Block.mp4"}
 
-akamaru = {'name': 'akamaru',
-           'Fang over Fang': folder+"",
-           'Dynamic Marking': folder+"Inuzuka Kiba Dynamic Air Marking.mp4",
-           'Double Headed Wolf': folder+"",
-           'Puppy mode': folder+""}
+madara = {'name': 'madara',
+           'Majestic Destroyer Flame': folder+"Majestic Destroyer Flame.mp4",
+           'Majestic Demolisher': folder+"Majestic Demolisher.mp4",
+           'Summoning Nine Tails': folder+"Summoning Nine Tails.mp4",
+           'Hiding in Ash': folder+"Hiding in Ash.mp4"}
 
-naruto = {'name': 'naruto',
-          'Rasengan':           folder+"",
-          'Shadow Clone Jutsu': folder+"",
-          'Chakra Boost':       folder+"",
-          'Shadow Save':        folder+""}
+itachi = {'name': 'itachi',
+          'Exploding Clone':           folder+"Exploding Clone.mp4",
+          'Shuriken Phoenix Flower': folder+"Shuriken Phoenix Flower.mp4",
+          'Grand Fireball Jutsu':       folder+"Grand Fireball Jutsu.mp4",
+          'Summoning Crows':        folder+"Summoning Crows.mp4"}
 
 
-names_of_characters = [kakashi, obito, guy, crow, akamaru, naruto]
+names_of_characters = [kakashi, hiruzen, darui, sasuke, madara, itachi]
 
 
 def play_video(video):

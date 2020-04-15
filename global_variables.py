@@ -28,7 +28,6 @@ pygame.display.set_caption('NARUTO: THE COMPUTER-VISION GAME')
 
 player_turn = True
 # clicked_away = False
-attack = False
 active_health = 0
 active_damage = 0
 

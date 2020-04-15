@@ -37,14 +37,14 @@ def get_selected_jutsu_prompt(jutsu):  # TODO I don't like the name of this func
 class CharacterIcon:
 
     _folder = 'character_icons/'
-    icon_size = (int(glob_var.display_width * .1), int(glob_var.display_height * .15))
+    icon_size = (int(glob_var.display_width * .075), int(glob_var.display_width * .075))
 
     def __init__(self, icon_name, player_num, icon_num):
         self.icon_name = icon_name
         self.player_num = player_num
         self.icon_num = icon_num
 
-        self.img = self.resize_image()  # I have no idea how this is being called
+        self.img = self.resize_image()
         self.health = 100
 
         self.x = self.get_x()
@@ -83,7 +83,7 @@ class CharacterIcon:
                 path = self._folder + self.icon_name + ".png"
                 img = pygame.image.load(path)
             except Exception:
-                return f"Couldn't find jpg nor png for icon {self.icon_name}."
+                return f"EXCEPTION ---- Couldn't find jpg nor png for icon {self.icon_name}."
         return img
 
     def load_image(self):
