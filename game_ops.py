@@ -1,10 +1,7 @@
 import pygame
-import numpy as np
 import global_variables as glob_var
-import visual_ops
 import jutsu_signs_damage
 import jutsu_videos
-import camera_ops
 from game_manager import GameManager
 import time
 import cv2

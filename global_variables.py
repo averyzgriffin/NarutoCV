@@ -3,10 +3,18 @@ from pygame.locals import *
 import numpy as np
 
 
+pygame.init()
+
 # Display variables
-display_width =  1550
-display_height =  835
+infoObject = pygame.display.Info()
+
+# display_width =  1550
+# display_height =  835
+display_width = infoObject.current_w
+display_height = infoObject.current_h
+
 display_area = display_width * display_height
+
 black = (0,0,0)
 white = (255,255,255)
 red = (255,0,0)

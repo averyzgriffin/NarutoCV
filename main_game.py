@@ -17,7 +17,6 @@ from global_variables import calibrate_frames, aWeight, mean_cutoff, signs
 
 
 model = models.load_model(saved_model)
-pygame.init()
 clock = pygame.time.Clock()
 pygame.mixer.init()
 
@@ -32,7 +31,7 @@ if __name__ == "__main__":
         h = glob_var.display_height  
 
         play_button = Button((w//5), (h//2), w/7.75, h/8.35, "ENTER DOJO", construct_characters)
-        test_button = Button((w//5*2), (h//2), w/7.75, h/8.35, "TEST MODE", test_mode)
+        test_button = Button((w//5*2), (h//2), w/7.75, h/8.35, "TEST CAMERA", test_mode)
         option_button = Button((w//5*3), (h//2), w/7.75, h/8.35, "OPTIONS", options_menu)
         quit_button = Button((w//5*4), (h//2), w/7.75, h/8.35, "WALK AWAY", quit)
 
@@ -258,9 +257,9 @@ if __name__ == "__main__":
         else:
             turn_int = 2
 
-        turn_cue = visual_ops.TextCue(f"PLAYER {turn_int}'S TURN", glob_var.white, w/60, w/2, h//20*17)
-        jutsu_cue = visual_ops.TextCue(f"{game_manager.JutsuManager.queued_for_attack}", glob_var.white, w/60, w//2, h//20*18)
-        character_cue = visual_ops.TextCue(f"{game_manager.CharacterManager.queued_to_be_attacked}", glob_var.white, w/60, w//2, h//20*19)
+        turn_cue = visual_ops.TextCue(f"PLAYER {turn_int}'S TURN", glob_var.white, w/60, w/2, h/20*17)
+        jutsu_cue = visual_ops.TextCue(f"{game_manager.JutsuManager.queued_for_attack}", glob_var.white, w/60, w//2, h/20*18)
+        character_cue = visual_ops.TextCue(f"{game_manager.CharacterManager.queued_to_be_attacked}", glob_var.white, w/60, w//2, h/20*19)
 
         game_phase = True
         while game_phase:
@@ -271,15 +270,11 @@ if __name__ == "__main__":
                     quit()
 
                 if event.type == pygame.KEYDOWN:
-                    print('keydown')
                     if event.key == pygame.K_ESCAPE:
                         pygame.quit()
                         quit()
                     if event.key == pygame.K_t:
-                        print("T pressed")
                         GameManager.change_turn()
-                    if event.key == pygame.K_RETURN:
-                        print("Enter")
 
                     if event.key == pygame.K_1:
                         CharacterManager.all_characters[3].dead = True
@@ -332,8 +327,8 @@ if __name__ == "__main__":
             attack_button.display_button()
             pause_button.display_button()
 
-            pygame.draw.rect(glob_var.win, glob_var.black, [w/2-w/7.75-2, h/1.136-h/13.9-2, w/3.875+4, h/6.958+4])
-            pygame.draw.rect(glob_var.win, glob_var.orange, [w/2-w/7.75, h/1.136-h/13.9, w/3.875, h/6.958])
+            pygame.draw.rect(glob_var.win, glob_var.black, [w/2-w/7.75-2, h/1.133-h/13.9-2, w/3.87+4, h/6.958+4])
+            pygame.draw.rect(glob_var.win, glob_var.orange, [w/2-w/7.75, h/1.133-h/13.9, w/3.87, h/6.958])
 
             turn_cue.display_text()
             jutsu_cue.display_text()
@@ -370,10 +365,6 @@ if __name__ == "__main__":
                 else:
                     character_cue.msg = ""
                 character_cue.text, character_cue.rect = character_cue.create_text()
-
-            fps = clock.get_fps()
-            clock.tick()
-            print("FPS ", fps)
 
             # Reset in-game variables - these need to be reset at the end of every loop.
             game_manager.CharacterManager.mouse_cleared = True
@@ -461,7 +452,7 @@ if __name__ == "__main__":
                     # TIMER - COUNTDOWN
                     elapsed = (pygame.time.get_ticks() - start - 2500) / 1000
 
-                    timer_bar = Button(0, glob_var.display_height, (glob_var.display_width * ((20-elapsed)/20) * 2), h/16, highlight=False)
+                    timer_bar = Button(0, glob_var.display_height, (glob_var.display_width * ((20-elapsed)/20) * 2), glob_var.display_height/10, highlight=False)
                     timer_bar.boxcolor = glob_var.orange
                     timer_bar.display_button()
 
@@ -470,6 +461,7 @@ if __name__ == "__main__":
                         game_ops.skip_jutsu()
                         GameManager.change_turn()
                         game_ops.release_camera(camera)
+                        game_ops.change_music("Sound/Naruto Main Theme [Extended].mp3")
                         game()
 
                     # ---- PREDICTION FUNCTIONALITY ----
@@ -507,6 +499,7 @@ if __name__ == "__main__":
                                             end_game(GameManager.winner)
 
                                         GameManager.change_turn()
+                                        game_ops.change_music("Sound/Naruto Main Theme [Extended].mp3")
                                         game()
 
                                 elif signs[np.argmax(average_prediction)] == selected_jutsu.get_jutsu_signs()[n] and glob_var.hardmode:
