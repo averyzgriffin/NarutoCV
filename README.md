@@ -1,6 +1,7 @@
 ![alt text](https://github.com/AveryGriffin/NarutoCV/blob/master/extras/mainscreen.PNG)
 
 In this project, I created a Computer Vision based Naruto game.......BELIEVE IT!!!
+I wrote a quick blog post about the project on my website https://engineeringsapien.com/narutocv-blog. You can learn more about it there. 
 
 <p>&nbsp
 </p>
@@ -9,7 +10,7 @@ The aim was to bring the Naruto world to life. Namely, I trained a Convolutional
 
 From there, I recreated a simplied version of the classic Naruto Arena game that incorporated the hand recognition model. The result: a game where you 'attack' by preforming Naruto-style hand signs to activate jutsus!
 
-I wrote a quick blog post about the project on my website https://engineeringsapien.com/narutocv-blog. You can learn more about it there. Currently, the only way to play it is to download the code from my github here. I have instructions for doing so on the blog post.
+Currently, the only way to play it is to download the code from my github here. I have instructions for doing so on the blog post.
 
 <p>&nbsp</p>
 
