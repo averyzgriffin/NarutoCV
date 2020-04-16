@@ -14,7 +14,7 @@ I wrote a quick blog post about the project on my website https://engineeringsap
 <p>&nbsp</p>
 
 Disclaimer:
-There are several parties for which I owe a lot credit to. Namely:
+There are several parties for which I owe much credit to:
 
 Naruto-Arena - The whole game idea was pretty much just a copy of Naruto Arena. So I owe the creators of that gem a big thank you. In fact, most of the character icons and attack icons I used in the game I got from their website. I don't think I am nearly as talented as the NA creators plus I made my version in Python (PyGame) plus I didn't spend that much time on it, hence why my version is inferior.
 
