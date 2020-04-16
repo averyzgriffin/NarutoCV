@@ -1,6 +1,7 @@
 ![alt text](https://github.com/AveryGriffin/NarutoCV/blob/master/extras/mainscreen.PNG)
 
 In this project, I created a Computer Vision based Naruto game.......BELIEVE IT!!!
+
 I wrote a quick blog post about the project on my website https://engineeringsapien.com/narutocv-blog. You can learn more about it there. 
 
 <p>&nbsp
