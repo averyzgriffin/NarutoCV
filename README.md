@@ -7,18 +7,11 @@ In this project, I created a Computer Vision based Naruto game.......BELIEVE IT!
 
 The aim was to bring the Naruto world to life. Namely, I trained a Convolutional Neural Network to recognize Naruto hand signs.
 
-<p>&nbsp
-</p>
-
 From there, I recreated a simplied version of the classic Naruto Arena game that incorporated the hand recognition model. The result: a game where you 'attack' by preforming Naruto-style hand signs to activate jutsus!
-
-<p>&nbsp
-</p>
 
 I wrote a quick blog post about the project on my website https://engineeringsapien.com/narutocv-blog. You can learn more about it there. Currently, the only way to play it is to download the code from my github here. I have instructions for doing so on the blog post.
 
-<p>&nbsp
-&nbsp</p>
+<p>&nbsp</p>
 
 Disclaimer:
 There are several parties for which I owe a lot credit to. Namely:
