@@ -1,64 +1,29 @@
 ![alt text](https://github.com/AveryGriffin/NarutoCV/blob/master/extras/mainscreen.PNG)
 
-Hello! Here is a machine learning + Pygame joint project.
+In this project, I created a Computer Vision based Naruto game.......BELIEVE IT!!!
+
+I wrote a quick blog post about the project on my website https://engineeringsapien.com/narutocv-blog. You can learn more about it there. 
 
 <p>&nbsp
 </p>
 
-The aim was to recreate the classic Naruto Arena turn-based strategy game....but with a twist. Instead of just using a mouse and keyboard to play the game, I incorporated the camera via computer vision. Specifically, the 'attacks' are preformed by weaving Naruto-style handsigns with your actual hands!
+The aim was to bring the Naruto world to life. Namely, I trained a Convolutional Neural Network to recognize Naruto hand signs.
 
-I wanted to bring alive the all-too-exciting handsigns from Naruto (remember when Zabuza and Kakashi whipped out Water Dragon Jutsu?!). And while my attempt is crude, funny, and not quite up to the level of the actual show....it's at least an attempt :).
+From there, I recreated a simplied version of the classic Naruto Arena game that incorporated the hand recognition model. The result: a game where you 'attack' by preforming Naruto-style hand signs to activate jutsus!
 
-NOTE: THE GAME IS NOT AVAILABLE TO DOWNLOAD AND PLAY. BUT I PLAN TO MAKE IT AVAILABLE SOMETIME IN THE NEAR FUTURE (WITHIN A MONTH).
+Currently, the only way to play it is to download the code from my github here. I have instructions for doing so on the blog post.
 
-<p>&nbsp
-&nbsp</p>
-
-<!-- 
-The game uses the camera on your computer, so make sure to have one. Basically, there are 2 phases in the game: pre-jutsu phase and jutsu phase. In the pre-jutsu phase, Player 1 or 2 will select a jutsu and a character to attack. Then in the jutsu phase, the camera is fired up, video footage is taken, and some background code starts to track your hands (basically). Then it's just a matter of performing the prompted handsigns to activate the jutsu.
-
-FYI: The camera is only open during the jutsu phase.
-
-<p>&nbsp
-&nbsp</p>
-
-Calibrating the camera:
-Each time the camera opens, their is a small time period where the camera needs to be calibrated. This is where the computer vision part is coming into play. Just make sure NOT to move during this phase and DO NOT have your hands in camera view at this point (raise them to your side for example). If you fail to hide your hands during calibration, the camera will not be able to track you hands properly. Calibration should only take 5 or so seconds. But it does need to happen each attack (jutsu) phase.
-
-<p>&nbsp
-&nbsp</p>
--->
-
-Techical details:
-Everything was coded in Python.
-The VGG16 convolutional neural network (by K. Simonyan and A. Zisserman) was used as the model.
-Keras (TensorFlow) was used to train the model.
-The model itself was only trained to perform handsign recognition, not segmentation. Meaning, nothing is actually tracking your hands. Instead, the camera performs image thresholding (to make the video feed black and white), then a running-average to segment the background from the forground, then a subtraction to remove the background. The result (if done correctly) is a video feed that only tracks movement (hands). And that movement is white against a black background. This black and white footage is then fed into the model.
-And the game itself was coded using Pygame.
-
-<p>&nbsp
-&nbsp
-&nbsp</p>
-
-Woohoo!
-
-<p>&nbsp
-&nbsp
-&nbsp
-&nbsp</p>
+<p>&nbsp</p>
 
 Disclaimer:
+There are several parties for which I owe much credit to:
 
-Naruto-Arena - I took a lot of inspiration from the Naruto Arena game, so a lot of credit goes to them. Most (if not all?) of the icons used are taken directly from their site. I definitely do not own any of those assets. Naruto-Arena.net itself is a fansite based on the Naruto Anime and Manga series. Unfortunately, I believe the game is no longer active (RIP). Here is the site https://naruto-arena.net/
+Naruto-Arena - The whole game idea was pretty much just a copy of Naruto Arena. So I owe the creators of that gem a big thank you. In fact, most of the character icons and attack icons I used in the game I got from their website. Here is the OG Naruto Arena https://naruto-arena.net/
 
-VGG16 - This model is by K. Simonyan and A. Zisserman as mentioned. Here is the paper https://arxiv.org/abs/1409.1556
+VGG16 - This is the deep learning model I used in this project. It is a model by K. Simonyan and A. Zisserman. Here is their paper https://arxiv.org/abs/1409.1556
 
-Computer Vision - The computer vision operations used to obtain the thresholded image were not of my own creation. It was a combination of stuff I knew and some stuff I picked up across the internet. A major help with solving this problem was Brenner Heintz in his article here https://towardsdatascience.com/training-a-neural-network-to-detect-gestures-with-opencv-in-python-e09b0a12bdf1. A matter of fact, it was Brenner's article that convinced me to switch from the Google Inception model to the VGG16 model (Inception was just not training properly).
+Brenner Heintz - A major help was Brenner Heintz. For a while, I struggled to get the model to learn anything and it wasn't until I came across Brenner's article (https://towardsdatascience.com/training-a-neural-network-to-detect-gestures-with-opencv-in-python-e09b0a12bdf1) did things start to come together. It was Brenner who convinced me to use the VGG16 model as well as thresholded images instead of colored images.
 
-The Internet - And I must give a big thanks to the countless number of people on StackOverflow, Youtube, and the internet as a whole who provided the knowledge (and tutorials) to do half the things I tried doing (let's be honest....SO is the author of this project).
+The Internet - And of course, I must give a big thanks to the countless number of people on StackOverflow, Youtube, and the internet as a whole who provided the knowledge (and tutorials) to do half the things I tried doing (let's be honest....SO is the author of this project).
 
-<p>&nbsp
-&nbsp</p>
-
-And just to reiterate, the holders of the copyrighted and/or trademarked material appearing on this project are as follows:
-NARUTO © 2002 MASASHI KISHIMOTO. All Rights Reserved.
+Masashi Kishimoto - It goes without saying but the holders of the copyrighted and/or trademarked material appearing in this project belong to NARUTO © 2002 MASASHI KISHIMOTO. All Rights Reserved.
