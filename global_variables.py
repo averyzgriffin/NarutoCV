@@ -1,9 +1,11 @@
 import pygame
 from pygame.locals import *
 import numpy as np
+import ctypes
 
 
 pygame.init()
+ctypes.windll.user32.SetProcessDPIAware()
 
 # Display variables
 infoObject = pygame.display.Info()

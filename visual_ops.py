@@ -181,8 +181,8 @@ class Jutsu_Icon(CharacterIcon):
 
     def create_name(self):
         x, y = (self.x + self.icon_size[0] / 2, self.y + self.icon_size[1] + (glob_var.display_height * 0.0125))
-        msg1 = TextCue(self.icon_name, black, glob_var.display_width/112, x, y)
-        msg2 = TextCue(f"Damage: {self.get_damage()}", black, glob_var.display_width/112, x, y + (glob_var.display_height * 0.01875))
+        msg1 = TextCue(self.icon_name, black, glob_var.display_width/150, x, y)
+        msg2 = TextCue(f"Damage: {self.get_damage()}", black, glob_var.display_width/150, x, y + (glob_var.display_height * 0.01875))
 
         return msg1, msg2
 
@@ -271,14 +271,14 @@ class Button:
 
 class TextCue:
 
-    def __init__(self, msg, text_color, size, x, y):
+    def __init__(self, msg, text_color, size, x, y, font="extras/font_ninja_naruto/njnaruto.ttf"):
         self.msg = msg
         self.r, self.g, self.b = text_color
         self.size = size
         self.x = x
         self.y = y
 
-        self.font = pygame.font.Font("freesansbold.ttf", int(self.size))
+        self.font = pygame.font.Font(font, int(self.size))
 
         self.text, self.rect = self.create_text()
 
@@ -299,7 +299,7 @@ class HeaderText(TextCue):
         self.x = glob_var.display_width // 2
         self.y = glob_var.display_height / 8.35
 
-        self.font = pygame.font.Font("freesansbold.ttf", int(self.size))
+        self.font = pygame.font.Font("extras/font_ninja_naruto/njnaruto.ttf", int(self.size))
 
 
 class PromptText(TextCue):
@@ -311,7 +311,7 @@ class PromptText(TextCue):
         self.x = ((len(self.seq) + 1) / 8) * glob_var.display_width
         self.y = (glob_var.display_height // 4.175)
 
-        self.font = pygame.font.Font("freesansbold.ttf", int(self.size))
+        self.font = pygame.font.Font("extras/font_ninja_naruto/njnaruto.ttf", int(self.size))
 
 
 class JutsuText(TextCue):
@@ -323,7 +323,7 @@ class JutsuText(TextCue):
         self.x = ((len(self.seq)) / 8) * glob_var.display_width
         self.y = (glob_var.display_height // 3.25)
 
-        self.font = pygame.font.Font("freesansbold.ttf", int(self.size))
+        self.font = pygame.font.Font("extras/font_ninja_naruto/njnaruto.ttf", int(self.size))
 
 
 class Picture:

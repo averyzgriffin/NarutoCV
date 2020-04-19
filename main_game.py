@@ -30,8 +30,12 @@ if __name__ == "__main__":
         w = glob_var.display_width
         h = glob_var.display_height  
 
+        title = visual_ops.TextCue("NARUTO CV", glob_var.blue, w/20, w/2, h/5, font="extras/font_ninja_naruto/njnaruto.ttf")
+        title2 = visual_ops.TextCue("A COMPUTER VISION + MACHINE LEARNING SPOOF GAME", glob_var.blue, w/60, w/2, h/5*1.4,
+                                    font="extras/font_ninja_naruto/njnaruto.ttf")
+
         play_button = Button((w//5), (h//2), w/7.75, h/8.35, "ENTER DOJO", construct_characters)
-        test_button = Button((w//5*2), (h//2), w/7.75, h/8.35, "TEST CAMERA", test_mode)
+        test_button = Button((w//5*2), (h//2), w/7.75, h/8.35, "PRACTICE", test_mode)
         option_button = Button((w//5*3), (h//2), w/7.75, h/8.35, "OPTIONS", options_menu)
         quit_button = Button((w//5*4), (h//2), w/7.75, h/8.35, "WALK AWAY", quit)
 
@@ -51,6 +55,12 @@ if __name__ == "__main__":
                     quit()
 
             glob_var.win.blit(background, (0,0))
+
+            pygame.draw.rect(glob_var.win, glob_var.black,[w/2 - w/1.75/2 - 2, h/5 - h/5/2 - 2, w/1.75 + 4, h/5 + 4])
+            pygame.draw.rect(glob_var.win, glob_var.orange,[w/2 - w/1.75/2, h/5 - h/5/2, w/1.75, h/5])
+
+            title.display_text()
+            title2.display_text()
 
             play_button.display_button()
             test_button.display_button()
@@ -257,9 +267,9 @@ if __name__ == "__main__":
         else:
             turn_int = 2
 
-        turn_cue = visual_ops.TextCue(f"PLAYER {turn_int}'S TURN", glob_var.white, w/60, w/2, h/20*17)
-        jutsu_cue = visual_ops.TextCue(f"{game_manager.JutsuManager.queued_for_attack}", glob_var.white, w/60, w//2, h/20*18)
-        character_cue = visual_ops.TextCue(f"{game_manager.CharacterManager.queued_to_be_attacked}", glob_var.white, w/60, w//2, h/20*19)
+        turn_cue = visual_ops.TextCue(f"PLAYER {turn_int}'S TURN", glob_var.white, w/60, w/2, h/20*16.7)
+        jutsu_cue = visual_ops.TextCue(f"{game_manager.JutsuManager.queued_for_attack}", glob_var.white, w/60, w//2, h/20*17.7)
+        character_cue = visual_ops.TextCue(f"{game_manager.CharacterManager.queued_to_be_attacked}", glob_var.white, w/60, w//2, h/20*18.7)
 
         game_phase = True
         while game_phase:
