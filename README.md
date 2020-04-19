@@ -1,5 +1,3 @@
-![alt text](https://github.com/AveryGriffin/NarutoCV/blob/master/extras/mainscreen.PNG)
-
 [![Naruto CV: A Computer Vision + Machine Learning Game](https://github.com/AveryGriffin/NarutoCV/blob/master/extras/narutocvcoverphoto.png)](http://www.youtube.com/watch?v=KNtOvRUY_1U&feature=youtu.be "Naruto CV: A Computer Vision + Machine Learning Game")
 
 In this project, I created a Computer Vision based Naruto game.......BELIEVE IT!!!
