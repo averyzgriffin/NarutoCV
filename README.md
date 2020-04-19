@@ -2,7 +2,7 @@
 
 In this project, I created a Computer Vision based Naruto game.......BELIEVE IT!!!
 
-I wrote a quick blog post about the project on my website https://engineeringsapien.com/narutocv-blog. You can learn more about it there. 
+I wrote a quick blog post about the project on my website https://engineeringsapien.com/narutocv-blog. You can learn more about it there. Click on the image above to get a peak of the game.
 
 <p>&nbsp
 </p>
